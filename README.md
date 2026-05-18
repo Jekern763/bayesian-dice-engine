@@ -11,24 +11,6 @@ The codebase strictly adheres to clean Object-Oriented Programming (OOP) boundar
 1. **Physics Engine (`depleting_dice.py`)**: Manages the dynamic probability mechanics of the physical objects. The dice are stateful, non-repeating memory samplers where the distribution shifts conditionally after every execution roll.
 2. **State Container (`game_state.py`)**: A lightweight, mutable data container utilizing Python `dataclasses` and explicit typing via `enum` abstractions. It holds running tracking variables for the environment without embedded business logic.
 3. **Execution Machine (`game.py`)**: A stateless transaction matrix class. It acts as the system's supervisor, accepting input operations, executing logic against the physical objects, mutating the state container, and returning structural updates.
-
-   [ Interface / Simulation Loop / API Layer ]
-          │                           ▲
-Invokes  │                           │ 4. Returns Updated
-Action   ▼                           │    Data Class
-┌─────────────────────────────────────┐
-│            Game Engine              │
-│            (game.py)                │
-└────────┬───────────────────▲────────┘
-│                   │
-2. Alters  │                   │ 3. Mutates State
-Memory  ▼                   │    Properties
-┌──────────────────────┐  ┌───────┴──────────────┐
-│     Physics Core     │  │   State Container    │
-│ (depleting_dice.py)  │  │   (game_state.py)    │
-└──────────────────────┘  └──────────────────────┘
-
-
 ## Repository File Tree
 
 ```text
