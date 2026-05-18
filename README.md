@@ -13,6 +13,7 @@ The codebase strictly adheres to clean Object-Oriented Programming (OOP) boundar
 3. **Execution Machine (`game.py`)**: A stateless transaction matrix class. It acts as the system's supervisor, accepting input operations, executing logic against the physical objects, mutating the state container, and returning structural updates.
 ## Repository File Tree
 
+'''text
 bayesian-dice-engine/
 │
 ├── src/
@@ -25,3 +26,4 @@ bayesian-dice-engine/
 ├── .gitignore               # Automated exclusions for virtual environments and caches
 ├── LICENSE                  # Open-source MIT License configuration
 └── README.md                # Comprehensive documentation architecture
+'''
