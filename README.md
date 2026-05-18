@@ -13,17 +13,15 @@ The codebase strictly adheres to clean Object-Oriented Programming (OOP) boundar
 3. **Execution Machine (`game.py`)**: A stateless transaction matrix class. It acts as the system's supervisor, accepting input operations, executing logic against the physical objects, mutating the state container, and returning structural updates.
 ## Repository File Tree
 
-'''text
+``` text
 bayesian-dice-engine/
-│
 ├── src/
 │   ├── __init__.py
-│   ├── depleting_dice.py    # Non-repeating conditional probability dice logic
-│   ├── game_state.py        # Typed dataclasses and structural Status enums
-│   ├── game.py              # Main transaction matrix and payout algorithms
-│   └── simulator.py         # Chronological logging simulation script
+│   ├── depleting_dice.py
+│   ├── game_state.py
+│   ├── game.py
+│   └── simulator.py
 │
-├── .gitignore               # Automated exclusions for virtual environments and caches
-├── LICENSE                  # Open-source MIT License configuration
-└── README.md                # Comprehensive documentation architecture
-'''
+├── .gitignore
+├── LICENSE
+└── README.md
