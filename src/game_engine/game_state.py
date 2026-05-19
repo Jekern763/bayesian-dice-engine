@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Tuple, List
-from depleting_dice import DepletingDice
+from game_engine.depleting_dice import DepletingDice
 
 
 

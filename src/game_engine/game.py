@@ -1,5 +1,5 @@
-from game_state import GameState
-from depleting_dice import DepletingDice
+from game_engine.game_state import GameState
+from game_engine.depleting_dice import DepletingDice
 
 class Game:
     def __init__(self, num_peeks:int=4):
