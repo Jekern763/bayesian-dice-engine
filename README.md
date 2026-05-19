@@ -16,12 +16,16 @@ The codebase strictly adheres to clean Object-Oriented Programming (OOP) boundar
 ``` text
 bayesian-dice-engine/
 ├── src/
-│   ├── __init__.py
-│   ├── depleting_dice.py
-│   ├── game_state.py
-│   ├── game.py
-│   └── simulator.py
-│
+|   ├── game_engine/
+|   │   ├── __init__.py
+|   │   ├── depleting_dice.py
+|   │   ├── game_state.py
+|   │   ├── game.py
+|   |   └── simulator.py
+│   └──
+├── tests/
+|   ├── dice_test.py
+|   └── game_test.py
 ├── .gitignore
 ├── LICENSE
 └── README.md
