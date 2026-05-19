@@ -2,18 +2,18 @@ from game_engine.game_state import GameState
 from game_engine.depleting_dice import DepletingDice
 
 class Game:
-    def __init__(self, num_peeks:int=4):
+    def __init__(self, num_peeks:int=4) -> None:
         self.die1 = DepletingDice()
         self.die2 = DepletingDice()
         self.state = GameState(current_dice=(self.die1, self.die2))
         self.num_peeks = num_peeks
 
-    def reset(self):
+    def reset(self) -> None:
         self.die1.reset()
         self.die2.reset()
         self.state = GameState(current_dice=(self.die1, self.die2))
 
-    def peek(self):
+    def peek(self) -> int:
         roll = self.die1.roll() + self.die2.roll()
         self.state.past_rolls.append(roll)
         return roll
@@ -21,7 +21,7 @@ class Game:
     def calc_payout(self, guess:int, roll:int) -> float:
         return 0 #insert payout formula here
     
-    def guess(self, guess:int):
+    def guess(self, guess:int) -> float:
         roll = self.die1.roll() + self.die2.roll()
         payout = self.calc_payout(guess, roll)
         self.state.net_score += payout

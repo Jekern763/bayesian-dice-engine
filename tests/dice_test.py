@@ -21,3 +21,9 @@ def test_dice_reset(dice):
     dice.roll()
     dice.reset()
     assert len(dice) == 6 and all(side in dice.current_sides for side in range(1, 7))
+
+def test_dice_too_many_rolls(dice):
+    for _ in range(6):
+        dice.roll()
+    with pytest.raises(ValueError):
+        dice.roll()
