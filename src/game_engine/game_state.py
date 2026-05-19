@@ -1,13 +1,12 @@
-from dataclasses import dataclass
-from typing import Tuple, List
+from dataclasses import dataclass, field
 from game_engine.depleting_dice import DepletingDice
 
 
 
 @dataclass
 class GameState:
-    current_dice: Tuple[DepletingDice, DepletingDice]
+    current_dice: tuple
     net_score: float = 0
     current_round: int = 0
-    past_rolls: List[int] = []
+    past_rolls: list = field(default_factory=list)
 
