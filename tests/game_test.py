@@ -3,7 +3,7 @@ from game_engine.game import Game
 
 @pytest.fixture
 def game():
-    return Game()
+    return Game(10, 8) #basic values for now, will fine tune later
 
 def test_game_initialization(game):
     assert game.state.net_score == 0
@@ -32,15 +32,12 @@ def test_game_guess(game):
     assert game.state.past_rolls[-1] in range(2, 13)
 
 def test_game_payout(game):
-    # This test will depend on the payout formula implemented in calc_payout
-    # For now, we can just check that the net score is updated correctly
     assert game.calc_payout(7, 7) == 0
-    assert game.calc_payout(12, 12) == 0 #TODO: make payout formula and update this test accordingly
+    assert game.calc_payout(12, 12) == game.riskiness_multiplier * game.riskiness_multiplier * 5 * game.jackpot_multiplier
 
 def test_game_state_persistence(game):
     for i in range(4): 
         game.peek()
-    game.guess(7)
+    game.guess(9)
     assert len(game.state.past_rolls) == 5
-    # assert game.state.net_score != 0
-    # TODO: update this test once payout formula is implemented to check that net_score is updated correctly
+    assert game.state.net_score != 0 or game.state.past_rolls[-1] == 9 #payout should be nonzero unless the last roll was 9
