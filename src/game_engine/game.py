@@ -44,4 +44,4 @@ class Game:
         payout = self.calc_payout(guess, roll)
         self.state.net_score += payout
         self.state.past_rolls.append(roll)
-        return payout
+        return payout #TODO return actuall roll
