@@ -29,3 +29,16 @@ bayesian-dice-engine/
 ├── .gitignore
 ├── LICENSE
 └── README.md
+```
+
+## Game Engine
+The game engine is based on a simple dice game, using standard 6-sided die simulations. All game logic is found in `game.py`. The process is below
+1. **Peeks** (`Game.peek()`): A pseudo random number is rolled on two dice. The faces rolled are removed from the respective die, and the sum is returned
+2. **Guesses** (`Game.guess()`): The user/simulation/agent guesses a number. It is compared to an actual roll, and payout is calculated as below
+3. **Payout** (`Game.calculate_payout()`): Payout is based on three factors. Distance from actual roll (scales linearly), distance from original median 7 (scales quadratically), and two specific conditions. If the guess is exactly two away from the roll, payout=0. If the guess is seven, payout=0.
+
+Gameplay flow is as follows. 
+1. The user peeks four times, with persisting state of depleting die.
+2. The user guesses one time, still using the partially depleted die.
+3. The payout is returned.
+4. The simulation is reset.
