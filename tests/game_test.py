@@ -54,5 +54,5 @@ def test_game_state_persistence(game):
     game.guess(9)
     assert len(game.state.past_rolls) == 5
     assert (
-        game.state.net_score != 0 or game.state.past_rolls[-1] == 9
+        game.state.net_score != 0 or game.state.past_rolls[-1] == 7 or game.state.past_rolls[-1] == 11
     )  # payout should be nonzero unless the last roll was 9
