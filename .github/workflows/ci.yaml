@@ -38,7 +38,7 @@ jobs:
     - name: Check code formatting with Black
       run: |
         # This will fail the build if the code isn't formatted correctly
-        black --check .
+        black --check --fast .
 
     - name: Lint with flake8
       run: |
