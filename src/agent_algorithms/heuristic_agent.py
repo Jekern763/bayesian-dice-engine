@@ -10,8 +10,8 @@ Both agents will then make a guess based on their expected guess, weighted close
 """
 
 class ReflectionAgent(Agent):
-    def __init__(self, weights=[0.25, 0.5, 0.25]):
-        super().__init__()
+    def __init__(self, name:int, weights=[0.25, 0.5, 0.25]):
+        super().__init__(name)
         self.weights = weights
     def get_action(self, peeks):
         avg_peek = sum(peeks) / len(peeks)
@@ -21,8 +21,8 @@ class ReflectionAgent(Agent):
         return max(2, min(12, guess)) #bound guess between 2 and 12
     
 class InvariantAgent(Agent):
-    def __init__(self, weights=[0.25, 0.5, 0.25]):
-        super().__init__()
+    def __init__(self, name, weights=[0.25, 0.5, 0.25]):
+        super().__init__(name)
         self.weights = weights
     def get_action(self, peeks):
         remaining_peeks = 6 - len(peeks)
