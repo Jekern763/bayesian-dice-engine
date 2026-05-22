@@ -1,5 +1,5 @@
 from agent_algorithms.agent import Agent
-from random import choices
+from random import choices, choice
 
 """Two algorithms here: ReflectionAgent and InvariantAgent.
 1) ReflectionAgent takes the average of the peeks and reflects them across the mean roll of 7
@@ -30,3 +30,17 @@ class InvariantAgent(Agent):
         options = [expected_guess - 1, expected_guess, expected_guess + 1]
         guess = choices(options, weights=self.weights)[0]
         return max(2, min(12, guess)) #bound guess between 2 and 12
+    
+
+class GamblersFallacyAgent(Agent):
+    def get_action(self, peeks):
+        heuristic_agent = ReflectionAgent("Helper")
+        best_guess = heuristic_agent.get_action(peeks)
+        direction = choice([1, -1])
+        while best_guess in peeks:
+            if best_guess == 12 or best_guess == 2:
+                direction = direction * -1
+                
+            best_guess += 1 * direction
+
+        return best_guess
