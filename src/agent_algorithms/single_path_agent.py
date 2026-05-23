@@ -26,7 +26,7 @@ class SinglePathAgent(Agent):
                 ]
 
                 if not valid_pairs:
-                    # DEAD END! Our hallucination trapped us. 
+                    # hallucination trapped the algorithm. 
                     # Break the 'for' loop and let the 'while' loop restart.
                     timeline_valid = False
                     break

@@ -18,6 +18,7 @@ class ReflectionAgent(Agent):
         reflected_guess = 14 - avg_peek #reflect across 7
         options = [reflected_guess - 1, reflected_guess, reflected_guess + 1]
         guess = choices(options, weights=self.weights)[0]
+        guess = round(guess)
         return max(2, min(12, guess)) #bound guess between 2 and 12
     
 class InvariantAgent(Agent):
@@ -29,6 +30,7 @@ class InvariantAgent(Agent):
         expected_guess = (42 - sum(peeks)) / remaining_peeks
         options = [expected_guess - 1, expected_guess, expected_guess + 1]
         guess = choices(options, weights=self.weights)[0]
+        guess = round(guess, 0)
         return max(2, min(12, guess)) #bound guess between 2 and 12
     
 
@@ -40,7 +42,7 @@ class GamblersFallacyAgent(Agent):
         while best_guess in peeks:
             if best_guess == 12 or best_guess == 2:
                 direction = direction * -1
-                
-            best_guess += 1 * direction
 
+            best_guess += 1 * direction
+        best_guess = round(best_guess)
         return best_guess
