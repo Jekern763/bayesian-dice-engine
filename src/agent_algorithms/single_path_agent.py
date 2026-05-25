@@ -6,10 +6,12 @@ In practice, this means it will choose one belief of what sides were rolled, and
 Could be compared to a simplified Monte Carlo Tree Search that only explores one path, and doesn't backtrack."""
 
 class SinglePathAgent(Agent):
-    def get_action(self, peeks):
+    def get_action(self, peeks:list, max_search_rounds:int=20) -> int:
         # Wrap the entire hallucination in a retry loop.
         # If we hit a dead end, we restart the simulation from round 1.
-        while True:
+        round_counter = 0
+        while round_counter < max_search_rounds:
+            round_counter += 1
             # Fresh dice for a new timeline
             die1_belief = [1, 2, 3, 4, 5, 6]
             die2_belief = [1, 2, 3, 4, 5, 6]
