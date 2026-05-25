@@ -10,30 +10,34 @@ from random import choices, choice
 Both agents will then make a guess based on their expected guess, weighted closer to their expected, and bounded within 1 of the expected
 """
 
+
 class ReflectionAgent(Agent):
-    def __init__(self, name:int, weights=[0.25, 0.5, 0.25]):
+    def __init__(self, name: int, weights=[0.25, 0.5, 0.25]):
         super().__init__(name)
         self.weights = weights
+
     def get_action(self, peeks):
         avg_peek = sum(peeks) / len(peeks)
-        reflected_guess = 14 - avg_peek #reflect across 7
+        reflected_guess = 14 - avg_peek  # reflect across 7
         options = [reflected_guess - 1, reflected_guess, reflected_guess + 1]
         guess = choices(options, weights=self.weights)[0]
         guess = round(guess, 0)
-        return max(2, min(12, guess)) #bound guess between 2 and 12
-    
+        return max(2, min(12, guess))  # bound guess between 2 and 12
+
+
 class InvariantAgent(Agent):
     def __init__(self, name, weights=[0.25, 0.5, 0.25]):
         super().__init__(name)
         self.weights = weights
+
     def get_action(self, peeks):
         remaining_peeks = 6 - len(peeks)
         expected_guess = (42 - sum(peeks)) / remaining_peeks
         options = [expected_guess - 1, expected_guess, expected_guess + 1]
         guess = choices(options, weights=self.weights)[0]
         guess = round(guess, 0)
-        return max(2, min(12, guess)) #bound guess between 2 and 12
-    
+        return max(2, min(12, guess))  # bound guess between 2 and 12
+
 
 class GamblersFallacyAgent(Agent):
     def get_action(self, peeks):
