@@ -8,7 +8,7 @@ def agent():
 # 1. test return range
 
 def test_sim_round_range(agent):
-    return_range = list(range(1, 13))
+    return_range = list(range(2, 13))
     assert agent.simulate_round()["guess"] in return_range
 # 2. test get_face_combos
 
@@ -20,11 +20,12 @@ def test_get_face_combos(agent):
 
 # 3. test max_depth
 def test_max_depth_error(agent):
+    dice = list(range(1, 7))
     with pytest.raises(RuntimeError):
-        dice = list(range(1, 7))
         agent.get_all_possible_sums([7, 7, 7, 7], dice, dice, 3, 2)
-        agent.reset_session
-        agent.get_action([2, 3, 4, 5, 6, 7])
+    agent.reset_session()
+    with pytest.raises(RuntimeError): 
+        agent.get_all_possible_sums([7, 7, 7, 7, 7], dice, dice, 0, 3)
 
 # 4. test get_best_value (mock payout formula)
 

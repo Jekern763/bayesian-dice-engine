@@ -48,7 +48,7 @@ class ExpectimaxAgent(Agent):
             next_faces1 = [f for f in remaining_faces1 if f!= face1]
             next_faces2 = [f for f in remaining_faces2 if f!= face2]
 
-            returned_sums = self.get_all_possible_sums(peeks, next_faces1, next_faces2, current_depth + 1)
+            returned_sums = self.get_all_possible_sums(peeks, next_faces1, next_faces2, current_depth + 1, max_depth)
 
             master_list_for_this_node.extend(returned_sums)
         

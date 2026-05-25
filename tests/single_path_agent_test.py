@@ -6,7 +6,7 @@ def agent():
     return SinglePathAgent("Nathaniel")
 
 def test_guess_range(agent):
-    return_range = list(range(1,13))
+    return_range = list(range(2,13))
     assert agent.simulate_round()["guess"] in return_range
 
 def test_single_path_search(agent, mocker):
