@@ -1,8 +1,13 @@
 # Bayesian Dice Engine
 
-A stateful, parameter-driven stochastic game engine optimized for high-velocity simulation and real-time Bayesian probability modeling. 
+A simulation environment designed to test and compare human cognitive biases against mathematically optimal strategies under shifting probabilities. 
 
-The core game loop mechanics decouple state storage, physics engine parameters, and interface execution. This architecture allows the system to be run natively as a local CLI simulator, a mass parallel processing data collector, or a stateless backend API.
+The core game loop strictly decouples the state storage, the physics engine, and the interface execution. This clean Object-Oriented Architecture allows the system to be run natively as a local CLI simulator, a mass parallel-processing data collector, or a stateless backend API.
+
+## Abstract
+The goal is to create a unique, simple dice game, with a new twist. Every time a dice is rolled, that face is removed for the remainder of the round. It also incorporates the properties of two dice, to create a weighted probability curve which is the highest at 7. The player of the game has incomplete knowledge of what dice sides have been rolled, they only know the sum of the two dice.
+
+Using that simple game as a model, 6 different algorithsm were built to play the game, either as human approximations or as a floor/ceiling control. These agents are not artificial intelligence, but rather simple algorithms that play the game in a set way
 
 ## Repository File Tree
 
@@ -59,7 +64,10 @@ The payout formula is based on 2 different variables. The first is the distance 
 Each agent algorithm found under the `agent_algorithms` directory is meant to simulate either a floor, ceiling, or human playstyle.
 + `random_agent.py`: This agent simulates the worst possible way to play the game. It simply returns and random, unweighted value from the valid range 2-12
 
-+ `heuristic_agent.py`: This is actually a collection of 3 agents. The first agent, reflection agent, finds the average of all revelaed peeks, then reflects them across the median possible roll (7). This simulates a human sub-consciously guessing in the opposite "direction" of the rolls it saw. The invariant agent uses the fact that if 2 dice are rolled 6 times each, in the manner that removes a side each time, the sum must be 42. Extapolated from that it uses `sum_remaining_rolls = 42 - sum_previous_rolls`. Because there are two rolls remaining, it divides the sum of remaining rolls by two to get the average next roll. The gamblers fallacy agent is based completely on the reflection agent. The only difference is that it will not guess a sum that it saw in previous peeks, instead preferring to go in a random direction until it finds a new sum to guess.
++ `heuristic_agent.py`: This is actually a collection of 3 agents. 
+    1. The first agent, reflection agent, finds the average of all revelaed peeks, then reflects them across the median possible roll (7). This simulates a human sub-consciously guessing in the opposite "direction" of the rolls it saw. 
+    2. The invariant agent uses the fact that if 2 dice are rolled 6 times each, in the manner that removes a side each time, the sum must be 42. Extapolated from that it uses `sum_remaining_rolls = 42 - sum_previous_rolls`. Because there are two rolls remaining, it divides the sum of remaining rolls by two to get the average next roll. 
+    3. The gamblers fallacy agent is based completely on the reflection agent. The only difference is that it will not guess a sum that it saw in previous peeks, instead preferring to go in a random direction until it finds a new sum to guess.
 
 + `single_path_agent`: This agent will calculate out one specific belief of what sides were rolled on each die. It will randomly choose a belief state, and continue down that path until it finds what it believes to be the two remaining sides on each die. At that point it will iterate through all 4 possible combinations, and all 12 valid guesses, and see what guess on average will give it the best results.
 
