@@ -17,5 +17,6 @@ class Agent:
         duration = time() - start_time
         payout = self.session.guess(guess)
         return {"payout": payout, "guess": guess, "peeks": peeks, "duration": duration}
+    
     def get_action(self, peeks):
         raise NotImplementedError("This method should be implemented by subclasses")
