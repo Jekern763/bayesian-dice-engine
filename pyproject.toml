@@ -7,22 +7,20 @@ name = "bayesian-dice-engine"
 version = "0.1.0"
 description = "A Bayesian dice rolling and simulation engine"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-dependencies = [
-    # 'dataclasses' and 'random' are part of Python's standard library,
-    # so no external runtime dependencies are required here.
-    "pytest-mock>=3.15.1",
-]
+# Keep this empty until you need runtime packages (like numpy or scipy)
+dependencies = []
 
 [dependency-groups]
 dev = [
     "pytest>=8.0.0",
-    "ruff>=0.15.14",
+    "pytest-mock>=3.15.1",
+    "ruff",
 ]
 
 [tool.setuptools.packages.find]
