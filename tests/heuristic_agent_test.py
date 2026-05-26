@@ -1,9 +1,10 @@
-from agent_algorithms.heuristic_agent import (
-    ReflectionAgent,
-    InvariantAgent,
-    GamblersFallacyAgent,
-)
 import pytest
+
+from agent_algorithms.heuristic_agent import (
+    GamblersFallacyAgent,
+    InvariantAgent,
+    ReflectionAgent,
+)
 
 
 @pytest.fixture
@@ -50,7 +51,6 @@ def test_invariant_agent_guess_strategy(invariant_agent, mocker):
 
 def test_gamblers_fallacy_agent_no_repeat_guesses(gamblers_fallacy_agent, mocker):
     peeks = [7, 7, 7, 7]
-    avg = 7
     mock_random_direction = mocker.patch("agent_algorithms.heuristic_agent.choice")
     mock_weighted_guess = mocker.patch("agent_algorithms.heuristic_agent.choices")
     mock_random_direction.return_value = 1

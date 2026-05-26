@@ -1,4 +1,5 @@
 import pytest
+
 from game_engine.game import Game
 
 
@@ -33,7 +34,7 @@ def test_game_peek(game):
 
 
 def test_game_guess(game):
-    payout = game.guess(7)
+    game.guess(7)
     assert game.state.past_rolls[-1] in range(2, 13)
 
 
