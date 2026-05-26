@@ -43,7 +43,7 @@ bayesian-dice-engine/
 
 ## Architectural Paradigm
 
-The codebase strictly adheres to clean Object-Oriented Programming (OOP) boundaries and separation of concerns. Python code is divided into `src` and `tests` directories. `src` contains all programs that will run in the actual application, whereas `tests` contains the unit tests for every object 
+The codebase strictly adheres to clean Object-Oriented Programming (OOP) boundaries and separation of concerns. Python code is divided into `src` and `tests` directories. `src` contains all programs that will run in the actual application, whereas `tests` contains the unit tests for every object
 
 ## Game Engine
 
@@ -71,9 +71,9 @@ Each agent algorithm found under the `agent_algorithms` directory is meant to si
 
 + `random_agent.py`: This agent simulates the worst possible way to play the game. It simply returns and random, unweighted value from the valid range 2-12
 
-+ `heuristic_agent.py`: This is actually a collection of 3 agents. 
-    1. The first agent, reflection agent, finds the average of all revelaed peeks, then reflects them across the median possible roll (7). This simulates a human sub-consciously guessing in the opposite "direction" of the rolls it saw. 
-    2. The invariant agent uses the fact that if 2 dice are rolled 6 times each, in the manner that removes a side each time, the sum must be 42. Extapolated from that it uses `sum_remaining_rolls = 42 - sum_previous_rolls`. Because there are two rolls remaining, it divides the sum of remaining rolls by two to get the average next roll. 
++ `heuristic_agent.py`: This is actually a collection of 3 agents.
+    1. The first agent, reflection agent, finds the average of all revelaed peeks, then reflects them across the median possible roll (7). This simulates a human sub-consciously guessing in the opposite "direction" of the rolls it saw.
+    2. The invariant agent uses the fact that if 2 dice are rolled 6 times each, in the manner that removes a side each time, the sum must be 42. Extapolated from that it uses `sum_remaining_rolls = 42 - sum_previous_rolls`. Because there are two rolls remaining, it divides the sum of remaining rolls by two to get the average next roll.
     3. The gamblers fallacy agent is based completely on the reflection agent. The only difference is that it will not guess a sum that it saw in previous peeks, instead preferring to go in a random direction until it finds a new sum to guess.
 
 + `single_path_agent`: This agent will calculate out one specific belief of what sides were rolled on each die. It will randomly choose a belief state, and continue down that path until it finds what it believes to be the two remaining sides on each die. At that point it will iterate through all 4 possible combinations, and all 12 valid guesses, and see what guess on average will give it the best results.

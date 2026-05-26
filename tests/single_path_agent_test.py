@@ -16,7 +16,7 @@ def test_guess_range(agent):
 def test_single_path_search(agent, mocker):
 
     def mock_payout(guess, roll):
-        if roll == 10:
+        if guess == 10:
             return 1000
         return 0
 
@@ -25,4 +25,4 @@ def test_single_path_search(agent, mocker):
 
     mocker.patch.object(agent.session, "calc_payout", side_effect=mock_payout)
 
-    assert agent.get_action([2, 3, 4, 5]) == 10
+    assert agent.get_action([7, 7, 7, 7]) == 10
