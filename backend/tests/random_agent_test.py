@@ -1,6 +1,7 @@
-from agent_algorithms.random_agent import RandomAgent
-import pytest
 from random import seed
+
+import pytest
+from agent_algorithms.random_agent import RandomAgent
 
 
 @pytest.fixture

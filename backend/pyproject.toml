@@ -14,7 +14,10 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 # Keep this empty until you need runtime packages (like numpy or scipy)
-dependencies = []
+dependencies = [
+    "fastapi>=0.136.3",
+    "pydantic>=2.13.4",
+]
 
 [dependency-groups]
 dev = [
@@ -24,8 +27,8 @@ dev = [
 ]
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["backend"]
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
-testpaths = ["tests"]
+pythonpath = ["backend"]
+testpaths = ["backend/tests"]
