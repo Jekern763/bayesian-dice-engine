@@ -8,14 +8,14 @@ version = "0.1.0"
 description = "A Bayesian dice rolling and simulation engine"
 readme = "README.md"
 requires-python = ">=3.10"
+license = "MIT"
+
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-# Keep this empty until you need runtime packages (like numpy or scipy)
+
 dependencies = [
-    "fastapi>=0.136.3",
     "pydantic>=2.13.4",
 ]
 
@@ -27,8 +27,8 @@ dev = [
 ]
 
 [tool.setuptools.packages.find]
-where = ["backend"]
+where = ["."]
 
 [tool.pytest.ini_options]
-pythonpath = ["backend"]
-testpaths = ["backend/tests"]
+pythonpath = ["."]
+testpaths = ["tests"]
