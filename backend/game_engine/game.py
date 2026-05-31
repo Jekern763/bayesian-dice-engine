@@ -4,12 +4,16 @@ from game_engine.depleting_dice import DepletingDice
 
 class Game:
     def __init__(
-        self, riskiness_multiplier: float, jackpot_multiplier: float, num_peeks: int = 4
+        self, riskiness_multiplier: float,
+        jackpot_multiplier: float,
+        num_peeks: int = 4,
+        die1: DepletingDice = DepletingDice(),
+        die2: DepletingDice = DepletingDice()
     ) -> None:
         self.riskiness_multiplier = riskiness_multiplier
         self.jackpot_multiplier = jackpot_multiplier
-        self.die1 = DepletingDice()
-        self.die2 = DepletingDice()
+        self.die1 = die1
+        self.die2 = die2
         self.state = GameState(current_dice=(self.die1, self.die2))
         self.num_peeks = num_peeks
 
