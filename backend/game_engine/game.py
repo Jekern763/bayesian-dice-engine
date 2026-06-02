@@ -7,13 +7,13 @@ class Game:
         self, riskiness_multiplier: float,
         jackpot_multiplier: float,
         num_peeks: int = 4,
-        die1: DepletingDice = DepletingDice(),
-        die2: DepletingDice = DepletingDice()
+        die1: DepletingDice = None,
+        die2: DepletingDice = None
     ) -> None:
         self.riskiness_multiplier = riskiness_multiplier
         self.jackpot_multiplier = jackpot_multiplier
-        self.die1 = die1
-        self.die2 = die2
+        self.die1 = DepletingDice() if not die1 else die1
+        self.die2 = DepletingDice() if not die2 else die2
         self.state = GameState(current_dice=(self.die1, self.die2))
         self.num_peeks = num_peeks
 
@@ -48,4 +48,4 @@ class Game:
         payout = self.calc_payout(guess, roll)
         self.state.net_score += payout
         self.state.past_rolls.append(roll)
-        return payout  # TODO return actuall roll
+        return payout
