@@ -1,10 +1,14 @@
 from game_engine.game_state import GameState
 from game_engine.depleting_dice import DepletingDice
+from json import loads, dumps
+from dataclasses import asdict
 
 
 class Game:
+
     def __init__(
-        self, riskiness_multiplier: float,
+        self, 
+        riskiness_multiplier: float,
         jackpot_multiplier: float,
         num_peeks: int = 4,
         die1: DepletingDice = None,
@@ -49,3 +53,25 @@ class Game:
         self.state.net_score += payout
         self.state.past_rolls.append(roll)
         return payout
+
+    # Serialization
+    def to_json(self) -> str:
+        state_snapshot = {
+            "riskiness_multiplier": self.riskiness_multiplier,
+            "jackpot_multiplier": self.jackpot_multiplier,
+            "die1": self.die1.to_json(), #Implement to_json in die1
+            "die2": self.die2.to_json(),
+            "state": asdict(self.state),
+        }
+        return dumps(state_snapshot, indent=4)
+    
+    @classmethod
+    def from_json(cls, json_str:str) -> "Game":
+        state = loads(json_str)
+        instance = cls(
+            riskiness_multiplier=state["riskiness_multiplier"],
+            jackpot_multiplier=state["jackpot_multiplier"],
+            die1=DepletingDice.from_json(state["die1"]),
+            die2=DepletingDice.from_json(state["die2"])
+        )
+        instance.state = GameState(**state["state"])
