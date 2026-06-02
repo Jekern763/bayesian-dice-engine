@@ -18,13 +18,13 @@ class Game:
         self.jackpot_multiplier = jackpot_multiplier
         self.die1 = DepletingDice() if not die1 else die1
         self.die2 = DepletingDice() if not die2 else die2
-        self.state = GameState(current_dice=(self.die1, self.die2))
+        self.state = GameState()
         self.num_peeks = num_peeks
 
     def reset(self) -> None:
         self.die1.reset()
         self.die2.reset()
-        self.state = GameState(current_dice=(self.die1, self.die2))
+        self.state = GameState()
 
     def peek(self) -> int:
         roll = self.die1.roll() + self.die2.roll()
@@ -59,8 +59,8 @@ class Game:
         state_snapshot = {
             "riskiness_multiplier": self.riskiness_multiplier,
             "jackpot_multiplier": self.jackpot_multiplier,
-            "die1": self.die1.to_json(), #Implement to_json in die1
-            "die2": self.die2.to_json(),
+            "die1": self.die1.to_dict(),
+            "die2": self.die2.to_dict(),
             "state": asdict(self.state),
         }
         return dumps(state_snapshot, indent=4)
@@ -71,7 +71,8 @@ class Game:
         instance = cls(
             riskiness_multiplier=state["riskiness_multiplier"],
             jackpot_multiplier=state["jackpot_multiplier"],
-            die1=DepletingDice.from_json(state["die1"]),
-            die2=DepletingDice.from_json(state["die2"])
+            die1=DepletingDice.from_dict(state["die1"]),
+            die2=DepletingDice.from_dict(state["die2"])
         )
         instance.state = GameState(**state["state"])
+        return instance
