@@ -8,13 +8,20 @@ version = "0.1.0"
 description = "A Bayesian dice rolling and simulation engine"
 readme = "README.md"
 requires-python = ">=3.10"
+license = "MIT"
+
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-# Keep this empty until you need runtime packages (like numpy or scipy)
-dependencies = []
+
+dependencies = [
+    "aws-lambda-powertools>=3.29.0",
+    "aws-xray-sdk>=2.15.0",
+    "boto3>=1.43.19",
+    "moto[dynamodb]>=5.2.1",
+    "pydantic>=2.13.4",
+]
 
 [dependency-groups]
 dev = [
@@ -24,8 +31,8 @@ dev = [
 ]
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["."]
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+pythonpath = ["."]
 testpaths = ["tests"]
