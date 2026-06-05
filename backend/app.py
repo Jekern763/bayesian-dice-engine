@@ -83,7 +83,7 @@ def guess():
     game_json = item["game"] # old game data
     hydrated_game = Game.from_json(game_json)
 
-    payout = hydrated_game.guess(validated_data.user_guess)
+    payout = hydrated_game.guess(validated_data.guess)
     payout_decimal = Decimal(str(payout))
 
     database_gateway.commit_guess_transaction(str(validated_data.session_id), 
