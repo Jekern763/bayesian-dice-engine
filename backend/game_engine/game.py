@@ -5,14 +5,13 @@ from dataclasses import asdict
 
 
 class Game:
-
     def __init__(
-        self, 
+        self,
         riskiness_multiplier: float,
         jackpot_multiplier: float,
         num_peeks: int = 4,
         die1: DepletingDice = None,
-        die2: DepletingDice = None
+        die2: DepletingDice = None,
     ) -> None:
         self.riskiness_multiplier = riskiness_multiplier
         self.jackpot_multiplier = jackpot_multiplier
@@ -64,15 +63,15 @@ class Game:
             "state": asdict(self.state),
         }
         return dumps(state_snapshot, indent=4)
-    
+
     @classmethod
-    def from_json(cls, json_str:str) -> "Game":
+    def from_json(cls, json_str: str) -> "Game":
         state = loads(json_str)
         instance = cls(
             riskiness_multiplier=state["riskiness_multiplier"],
             jackpot_multiplier=state["jackpot_multiplier"],
             die1=DepletingDice.from_dict(state["die1"]),
-            die2=DepletingDice.from_dict(state["die2"])
+            die2=DepletingDice.from_dict(state["die2"]),
         )
         instance.state = GameState(**state["state"])
         return instance
