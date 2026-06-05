@@ -1,12 +1,13 @@
 from enum import StrEnum
-from pydantic import BaseModel, Field, UUID4, Literal, AfterValidator
+from pydantic import BaseModel, Field, UUID4, AfterValidator
 from decimal import Decimal
-from typing import Annotated
+from typing import Annotated, Literal
 
-StrUUID4 = Annotated[
-    UUID4, 
-    AfterValidator(str)
-]
+def validate_uuid4(v: str) -> str:
+    UUID4(v)
+    return v
+
+StrUUID4 = Annotated[str, AfterValidator(validate_uuid4)]
 
 # type of record for all database sort keys
 class RecordType(StrEnum):
@@ -19,7 +20,7 @@ class StartGameSchema(BaseModel):
     jackpot: float = Field(..., ge=1, description="Must be a float greater than or equal to 1")
 
 class GuessGameSchema(BaseModel):
-    session_id: UUID4 = Field(..., description="Current session id in UUID4 form")
+    session_id: StrUUID4 = Field(..., description="Current session id in UUID4 form")
     guess: int = Field(..., ge=2, le=12, description="The valid guess of the sum of two dice: an integer between 2 and 12")
 
 #schemas for database put requests

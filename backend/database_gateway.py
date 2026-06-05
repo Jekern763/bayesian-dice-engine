@@ -14,11 +14,19 @@ class DatabaseGateway:
         
         # initialize both the high-level resource and low-level client
         if is_local:
-            self.resource = boto3.resource('dynamodb', endpoint_url='http://127.0.0.1:8000', region_name='us-east-1')
-            self.client = boto3.client('dynamodb', endpoint_url='http://127.0.0.1:8000', region_name='us-east-1')
+            self.resource = boto3.resource('dynamodb', 
+                                           endpoint_url='http://127.0.0.1:8000', 
+                                           region_name='us-east-1',
+                                           aws_access_key_id="dummy",
+                                           aws_secret_access_key="dummy")
+            self.client = boto3.client('dynamodb',
+                                       endpoint_url='http://127.0.0.1:8000',
+                                       region_name='us-east-1',
+                                       aws_access_key_id="dummy",
+                                       aws_secret_access_key="dummy")
         else:
-            self.resource = boto3.resource('dynamodb')
-            self.client = boto3.client('dynamodb')
+            self.resource = boto3.resource('dynamodb', "us-east-1")
+            self.client = boto3.client('dynamodb', "us-east-1")
             
         self.table = self.resource.Table(table_name)
 

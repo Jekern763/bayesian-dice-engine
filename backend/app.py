@@ -38,9 +38,9 @@ def handle_generic_error(exception: Exception) -> Response:
 @app.exception_handler(ValidationError)
 def handle_validation_error(excpetion: ValidationError) -> Response:
     logger.exception("Invalid data input for post request")
-    return Response(status_code=400, 
+    return Response(status_code=422, 
         content_type="application/json",
-        body={"error": "Bad Request", "message": str(excpetion)})
+        body={"error": "Unprocessable Content", "message": str(excpetion)})
 
 @app.exception_handler(NotFoundError)
 def handle_not_found_error(exception: NotFoundError) -> Response:
@@ -51,7 +51,7 @@ def handle_not_found_error(exception: NotFoundError) -> Response:
 
 
 # request paths
-@app.post("/start-game/multipliers")
+@app.post("/start-game")
 @tracer.capture_method
 def start_game():
     validated_data = StartGameSchema(**app.current_event.json_body) #could raise ValidationError
@@ -98,4 +98,6 @@ def lambda_handler(event, context):
     raw_path = event.get("rawPath", "")
     if raw_path.startswith("/api"):
         event["rawPath"] = raw_path.replace("/api", "", 1)
+    if raw_path.startswith("api"):
+        event["rawPath"] = raw_path.replace("api", "", 1)
     return app.resolve(event, context)
