@@ -1,7 +1,6 @@
 from random import choice
 
 
-
 class DepletingDice:
     def __init__(self, num_sides: int = 6, current_sides: list = None):
         self.num_sides = num_sides
