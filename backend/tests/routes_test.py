@@ -1,4 +1,3 @@
-import pytest
 import json
 import app
 from uuid import uuid4
@@ -43,7 +42,7 @@ def test_start_game_success(mocker):
 
 
 def test_start_game_failiure(mocker):
-    mock_create = mocker.patch.object(app.database_gateway, "create_session")
+    mocker.patch.object(app.database_gateway, "create_session")
 
     mock_event = {
         "rawPath": "api/start-game",

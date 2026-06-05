@@ -24,7 +24,7 @@ def dump_table():
         print(f"\n[ROW {idx}]")
         print(f"  Partition Key (session_id): {item.get('session_id')}")
         print(f"  Sort Key (record_type):     {item.get('record_type')}")
-        print(f"  Attributes:")
+        print("Attributes:")
         for key, val in item.items():
             if key not in ["session_id", "record_type"]:
                 print(f"    - {key}: {val}")

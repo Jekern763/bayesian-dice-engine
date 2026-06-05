@@ -6,7 +6,6 @@ from uuid import uuid4
 from game_engine.game import Game
 from models import RecordType
 from decimal import Decimal
-import json
 
 TABLE_NAME = "dynamodb-test"
 SESSION_ID = str(uuid4())

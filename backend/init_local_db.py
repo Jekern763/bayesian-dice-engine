@@ -36,7 +36,7 @@ def setup_fresh_table():
     # --- STEP 2: CREATE FRESH TABLE WITH COMPOSITE KEY SCHEMA ---
     try:
         print(f"Carving out fresh layout for '{TABLE_NAME}'...")
-        new_table = dynamodb.create_table(
+        dynamodb.create_table(
             TableName=TABLE_NAME,
             KeySchema=[
                 {"AttributeName": "session_id", "KeyType": "HASH"},  # Partition Key

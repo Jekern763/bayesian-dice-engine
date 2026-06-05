@@ -3,7 +3,6 @@ from aws_lambda_powertools.event_handler import APIGatewayHttpResolver, Response
 from aws_lambda_powertools.event_handler.exceptions import NotFoundError
 from game_engine.game import Game
 from uuid import uuid4
-import boto3
 import os
 from models import RecordType, StartGameSchema, GuessGameSchema
 from decimal import Decimal

@@ -1,5 +1,5 @@
 from random import choice
-from json import dumps, loads
+
 
 
 class DepletingDice:
