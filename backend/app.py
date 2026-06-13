@@ -20,7 +20,7 @@ app = APIGatewayHttpResolver(enable_validation=True)
 IS_LOCAL = (
     os.environ.get("AWS_SAM_LOCAL") == "true" or os.environ.get("LOCAL_DEV") == "true"
 )
-TABLE_NAME = os.environ.get("DYNAMODB_TABLE", "BayesianDiceSessions")
+TABLE_NAME = os.environ.get("TABLE_NAME", "BayesianDiceSessions")
 
 database_gateway = DatabaseGateway(TABLE_NAME, IS_LOCAL)
 
@@ -69,6 +69,8 @@ def start_game():
     )  # could raise ValidationError
     session_id = str(uuid4())
     logger.append_keys(session_id=session_id)
+    logger.info(app.current_event.raw_event)
+    logger.info(app.current_event.json_body)
 
     new_game = Game(validated_data.riskiness, validated_data.jackpot)
     peeks = [new_game.peek() for _ in range(4)]
