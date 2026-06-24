@@ -1,58 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gamblint</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="game-container">
-        <div class="center-piece">
-            <div class="dice-container">
-                <div class="dice-wrapper">
-                    <div id="dice1" class="dice"></div>
-                    <div id="dice1-sides" class="sides-tracker">
-                        <span></span><span></span><span></span><span></span><span></span><span></span>
-                    </div>
-                </div>
-                <div class="dice-wrapper">
-                    <div id="dice2" class="dice"></div>
-                    <div id="dice2-sides" class="sides-tracker">
-                        <span></span><span></span><span></span><span></span><span></span><span></span>
-                    </div>
-                </div>
+      <div class="center-piece">
+        <div class="dice-container">
+          <div class="dice-wrapper">
+            <div id="dice1" class="dice"></div>
+            <div id="dice1-sides" class="sides-tracker">
+              <span></span><span></span><span></span><span></span><span></span
+              ><span></span>
             </div>
-            <div class="display-panel">
-                <h2>Sum: <span id="current-sum">-</span></h2>
+          </div>
+          <div class="dice-wrapper">
+            <div id="dice2" class="dice"></div>
+            <div id="dice2-sides" class="sides-tracker">
+              <span></span><span></span><span></span><span></span><span></span
+              ><span></span>
             </div>
+          </div>
         </div>
+        <div class="display-panel">
+          <h2>Sum: <span id="current-sum">-</span></h2>
+        </div>
+      </div>
 
-        <div class="guess-section">
-            <div class="input-group">
-                <input type="number" id="guess-input" placeholder="Guess next sum" min="2" max="12">
-                <button id="guess-btn" onclick="handleGuessSubmit()" disabled>Submit Guess</button>
-            </div>
-            <button id="roll-btn" onclick="handleDirectRoll()" class="roll-btn">Just Roll</button>
+      <div class="guess-section">
+        <div class="input-group">
+          <input
+            type="number"
+            id="guess-input"
+            placeholder="Guess next sum"
+            min="2"
+            max="12"
+          />
+          <button id="guess-btn" disabled>
+            Submit Guess
+          </button>
         </div>
+        <button id="roll-btn" class="roll-btn">
+          Roll
+        </button>
+      </div>
 
-        <div class="payout-section">
-            <h3>Total Payout</h3>
-            <div id="payout-amount">0</div>
-        </div>
+      <div class="payout-section">
+        <h3>Total Payout</h3>
+        <div id="payout-amount">0</div>
+      </div>
 
-        <div class="history-section">
-            <h3>Roll History</h3>
-            <ul id="history-list">
-                <li><small>1st</small><span id="slot-0">-</span></li>
-                <li><small>2nd</small><span id="slot-1">-</span></li>
-                <li><small>3rd</small><span id="slot-2">-</span></li>
-                <li><small>4th</small><span id="slot-3">-</span></li>
-            </ul>
-        </div>
+      <div class="history-section">
+        <h3>Roll History</h3>
+        <ul id="history-list">
+          <li><small>1st</small><span id="slot-0">-</span></li>
+          <li><small>2nd</small><span id="slot-1">-</span></li>
+          <li><small>3rd</small><span id="slot-2">-</span></li>
+          <li><small>4th</small><span id="slot-3">-</span></li>
+        </ul>
+      </div>
     </div>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

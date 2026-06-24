@@ -100,11 +100,13 @@ def guess():
     payout = hydrated_game.guess(validated_data.guess)
     payout_decimal = Decimal(str(payout))
 
+    roll = hydrated_game.state.past_rolls[-1]
+
     database_gateway.commit_guess_transaction(
         str(validated_data.session_id), hydrated_game.to_json(), payout_decimal
     )
 
-    return {"session_id": validated_data.session_id, "payout": payout_decimal}
+    return {"session_id": validated_data.session_id, "payout": payout_decimal, "roll": roll}
 
 
 @logger.inject_lambda_context(clear_state=True)
