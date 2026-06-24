@@ -54,9 +54,12 @@ def handle_validation_error(excpetion: ValidationError) -> Response:
 def handle_not_found_error(exception: NotFoundError) -> Response:
     logger.exception("Session not found in internal servers")
     return Response(
-        status_code=422,
+        status_code=404,
         content_type="application/json",
-        body={"error": "Unprocessable Content", "message": str(exception)},
+        body={
+            "error": "Not Found",
+            "message": str(exception),
+        },
     )
 
 
@@ -88,9 +91,7 @@ def guess():
     validated_data = GuessGameSchema(**app.current_event.json_body)
     logger.append_keys(session_id=validated_data.session_id)
 
-    # Pull envelope and check existence to avoid KeyErrors
     item = database_gateway.get_active_session(str(validated_data.session_id))
-
     if not item:
         raise NotFoundError("Active session not found or already completed.")
 
