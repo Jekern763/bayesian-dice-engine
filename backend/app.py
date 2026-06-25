@@ -107,7 +107,11 @@ def guess():
         str(validated_data.session_id), hydrated_game.to_json(), payout_decimal
     )
 
-    return {"session_id": validated_data.session_id, "payout": payout_decimal, "roll": roll}
+    return {
+        "session_id": validated_data.session_id,
+        "payout": payout_decimal,
+        "roll": roll,
+    }
 
 
 @logger.inject_lambda_context(clear_state=True)
