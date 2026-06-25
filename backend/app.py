@@ -20,7 +20,7 @@ app = APIGatewayHttpResolver(enable_validation=True)
 IS_LOCAL = (
     os.environ.get("AWS_SAM_LOCAL") == "true" or os.environ.get("LOCAL_DEV") == "true"
 )
-TABLE_NAME = os.environ.get("DYNAMODB_TABLE", "BayesianDiceSessions")
+TABLE_NAME = os.environ.get("TABLE_NAME", "BayesianDiceSessions")
 
 database_gateway = DatabaseGateway(TABLE_NAME, IS_LOCAL)
 
@@ -54,9 +54,12 @@ def handle_validation_error(excpetion: ValidationError) -> Response:
 def handle_not_found_error(exception: NotFoundError) -> Response:
     logger.exception("Session not found in internal servers")
     return Response(
-        status_code=422,
+        status_code=404,
         content_type="application/json",
-        body={"error": "Unprocessable Content", "message": str(exception)},
+        body={
+            "error": "Not Found",
+            "message": str(exception),
+        },
     )
 
 
@@ -69,6 +72,8 @@ def start_game():
     )  # could raise ValidationError
     session_id = str(uuid4())
     logger.append_keys(session_id=session_id)
+    logger.info(app.current_event.raw_event)
+    logger.info(app.current_event.json_body)
 
     new_game = Game(validated_data.riskiness, validated_data.jackpot)
     peeks = [new_game.peek() for _ in range(4)]
@@ -86,9 +91,7 @@ def guess():
     validated_data = GuessGameSchema(**app.current_event.json_body)
     logger.append_keys(session_id=validated_data.session_id)
 
-    # Pull envelope and check existence to avoid KeyErrors
     item = database_gateway.get_active_session(str(validated_data.session_id))
-
     if not item:
         raise NotFoundError("Active session not found or already completed.")
 
@@ -98,11 +101,17 @@ def guess():
     payout = hydrated_game.guess(validated_data.guess)
     payout_decimal = Decimal(str(payout))
 
+    roll = hydrated_game.state.past_rolls[-1]
+
     database_gateway.commit_guess_transaction(
         str(validated_data.session_id), hydrated_game.to_json(), payout_decimal
     )
 
-    return {"session_id": validated_data.session_id, "payout": payout_decimal}
+    return {
+        "session_id": validated_data.session_id,
+        "payout": payout_decimal,
+        "roll": roll,
+    }
 
 
 @logger.inject_lambda_context(clear_state=True)

@@ -1,0 +1,214 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.game-container {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  width: 350px;
+}
+
+.center-piece {
+  margin-bottom: 25px;
+}
+
+.dice-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.dice-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.dice {
+  width: 65px;
+  height: 65px;
+  background-color: #2b2d42;
+  border-radius: 12px;
+  transition: transform 0.1s ease;
+}
+
+.sides-tracker {
+  display: flex;
+  gap: 4px;
+}
+
+.sides-tracker span {
+  width: 6px;
+  height: 6px;
+  background-color: #3f37c9;
+  border-radius: 50%;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.sides-tracker span.removed {
+  background-color: #e0e0e0;
+  transform: scale(0.8);
+}
+
+.dice.rolling {
+  animation: shake 0.4s infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(2px, 1px) rotate(0deg);
+  }
+  20% {
+    transform: translate(-2px, -1px) rotate(-2deg);
+  }
+  40% {
+    transform: translate(-1px, 2px) rotate(1deg);
+  }
+  60% {
+    transform: translate(1px, -1px) rotate(2deg);
+  }
+  80% {
+    transform: translate(-2px, 1px) rotate(-1deg);
+  }
+  100% {
+    transform: translate(2px, -2px) rotate(0deg);
+  }
+}
+
+.display-panel h2 {
+  margin: 10px 0 5px 0;
+  font-size: 24px;
+}
+
+/* Action Elements */
+.guess-section {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input-group {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.guess-section input {
+  padding: 10px;
+  width: 130px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+}
+
+.guess-section button {
+  padding: 10px 16px;
+  font-size: 16px;
+  background-color: #3f37c9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.guess-section button:hover:not(:disabled) {
+  background-color: #4895ef;
+}
+
+.guess-section button:disabled {
+  background-color: #cccccc !important;
+  color: #888888;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.guess-section .roll-btn {
+  background-color: #4a4e69;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.guess-section .roll-btn:hover:not(:disabled) {
+  background-color: #9a8c98;
+}
+
+/* Payout Section Styles */
+.payout-section {
+  background-color: #edf2f4;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.payout-section h3 {
+  margin: 0 0 4px 0;
+  font-size: 12px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#payout-amount {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2b2d42;
+}
+
+/* History Ordered Slots */
+.history-section h3 {
+  font-size: 14px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+#history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+#history-list li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+  font-size: 16px;
+  font-weight: bold;
+  color: #4a4e69;
+}
+
+#history-list li small {
+  font-size: 11px;
+  color: #aaa;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
