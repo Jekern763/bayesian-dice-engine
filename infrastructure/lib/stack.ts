@@ -110,11 +110,10 @@ export class DiceEngineStack extends cdk.Stack {
 
     // S3 Bucket
     const siteBucket = new s3.Bucket(this, "DiceEngineFrontendBucket", {
-      // CDK will auto-generate a unique physical name to avoid collisions
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: s3.BucketEncryption.S3_MANAGED,
-      removalPolicy: cdk.RemovalPolicy.DESTROY, // Dev setup (use RETAIN for prod)
-      autoDeleteObjects: true, // Empties bucket when stack is destroyed
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
     });
 
     const distribution = new cloudfront.Distribution(
@@ -148,7 +147,11 @@ export class DiceEngineStack extends cdk.Stack {
     );
     // fill the s3
     new s3deploy.BucketDeployment(this, "DeployDiceEngineFrontend", {
-      sources: [s3deploy.Source.asset(path.join(__dirname, "../../frontend/"))],
+      sources: [
+        s3deploy.Source.asset(path.join(__dirname, "../../frontend/"), {
+          exclude: ["*", "!index.html", "!styles.css", "!script.js"],
+        }),
+      ],
       destinationBucket: siteBucket,
       distribution,
       distributionPaths: ["/*"], // Wipes the CDN edge cache on fresh deployments
