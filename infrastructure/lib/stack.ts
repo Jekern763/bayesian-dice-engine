@@ -96,7 +96,7 @@ export class DiceEngineStack extends cdk.Stack {
     );
 
     api.addRoutes({
-      path: "/api/{proxy+}",
+      path: "/{proxy+}",
       methods: [apigwv2.HttpMethod.ANY],
       integration,
     });

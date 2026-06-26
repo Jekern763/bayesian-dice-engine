@@ -31,7 +31,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@a20cf827fed7baafaae4bd5a5b13c4e01ec52d16
         with:
-          role-to-assume: PLACEHOLDER_ROLE_ARN
+          role-to-assume: PLACEHOLDER_ROLE_ARN #TODO find ARN
           aws-region: us-east-1
 
       # Placeholder deployment step
