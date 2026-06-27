@@ -3,9 +3,6 @@ name: Python CI
 on:
   pull_request:
     branches: ["main"]
-    paths:
-      - "backend/**"
-      - ".github/workflows/backend.yaml"
 
 permissions:
   contents: read

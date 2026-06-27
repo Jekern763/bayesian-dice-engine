@@ -3,10 +3,6 @@ name: Infrastructure CI
 on:
   pull_request:
     branches: ["main"]
-    paths:
-      - "infrastructure/**"
-      - "backend/**"
-      - ".github/workflows/infrastructure.yml"
 
 permissions:
   contents: read
