@@ -5,6 +5,7 @@ on:
     branches: ["main"]
 
 permissions:
+  id-token: write
   contents: read
 
 jobs:
@@ -27,6 +28,7 @@ jobs:
           cache-dependency-path: infrastructure/pnpm-lock.yaml
 
       - name: Install dependencies
+        working-directory: ./infrastructure
         run: pnpm install --frozen-lockfile
 
       - name: Configure AWS credentials
@@ -38,4 +40,5 @@ jobs:
 
       # Placeholder deployment step
       - name: Deploy
+        working-directory: ./infrastructure
         run: pnpm cdk deploy --require-approval never
