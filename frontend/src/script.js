@@ -2,25 +2,14 @@ const MAX_ROLLS = 4;
 const RISKINESS = 8;
 const JACKPOT = 10;
 
-/**
- * =========================
- * STATE
- * =========================
- */
 const state = {
   peeks: [],
   sessionId: null,
-  rollIndex: 0,
   netScore: 0,
   totalRounds: 0,
   perfectGuesses: 0,
 };
 
-/**
- * =========================
- * STORAGE HELPERS
- * =========================
- */
 const STORAGE_VERSION = "1.1";
 
 const currentVersion = localStorage.getItem("storage_version");
@@ -59,7 +48,9 @@ const storage = {
     const peeks = localStorage.getItem("current_peeks");
     const session = localStorage.getItem("session");
 
-    if (!peeks || !session) return false;
+    if (!peeks || !session) {
+      return false;
+    }
 
     state.peeks = JSON.parse(peeks);
     state.sessionId = session;
@@ -67,11 +58,6 @@ const storage = {
   },
 };
 
-/**
- * =========================
- * API
- * =========================
- */
 async function apiStartGame() {
   const res = await fetch("/api/start-game", {
     method: "POST",
@@ -94,11 +80,6 @@ async function apiGuess(guess, sessionId) {
   return res.json();
 }
 
-/**
- * =========================
- * DOM HELPERS
- * =========================
- */
 const ui = {
   el(id) {
     return document.getElementById(id);
@@ -122,11 +103,6 @@ const ui = {
   },
 };
 
-/**
- * =========================
- * GAME LOGIC
- * =========================
- */
 function isValidGuess(value) {
   return !isNaN(value) && value >= 2 && value <= 12;
 }
@@ -149,13 +125,8 @@ function updatePerfectGuesses(isCorrect) {
   }
 }
 
-/**
- * =========================
- * VISUALS
- * =========================
- */
 function roll(result, index, display = true) {
-  if (index >= MAX_ROLLS) return;
+  if (index > MAX_ROLLS) return;
 
   const dice1 = document.getElementById("dice1");
   const dice2 = document.getElementById("dice2");
@@ -183,11 +154,6 @@ function roll(result, index, display = true) {
   }, 500);
 }
 
-/**
- * =========================
- * FLOW
- * =========================
- */
 async function handleGuess() {
   const input = parseInt(ui.el("guess-input").value);
 
@@ -195,29 +161,28 @@ async function handleGuess() {
     ui.showAlert("Please enter a valid guess between 2 and 12");
     return false;
   }
+  try {
+    const result = await apiGuess(input, state.sessionId);
 
-  const result = await apiGuess(input, state.sessionId);
+    updatePerfectGuesses(input == result.best_guess);
 
-  updatePerfectGuesses(input === result.best_guess);
+    roll(result.roll, 4, false);
 
-  roll(result.roll, 3, false);
+    ui.setText("payout-amount", result.payout);
 
-  ui.setText("payout-amount", result.payout);
+    state.netScore += result.payout;
+    state.totalRounds++;
 
-  state.netScore += result.payout;
-  state.totalRounds++;
+    storage.save();
+    ui.updateScore();
 
-  storage.save();
-  ui.updateScore();
-
-  return true;
+    return true;
+  } catch (error) {
+    ui.showAlert("Network error. Please try guessing again.");
+    return false;
+  }
 }
 
-/**
- * =========================
- * LOOP
- * =========================
- */
 function waitForClick(el) {
   return new Promise((resolve) => {
     const handler = () => {
@@ -267,15 +232,9 @@ async function gameLoop() {
   storage.clearSession();
 }
 
-/**
- * =========================
- * RESET
- * =========================
- */
 function reset() {
-  state.rollIndex = 0;
-
   ui.setText("current-sum", "-");
+  ui.setText("roll-btn", "Roll");
 
   ui.setDisabled("roll-btn", false);
   ui.setDisabled("guess-btn", true);
@@ -291,11 +250,6 @@ function reset() {
   });
 }
 
-/**
- * =========================
- * INIT
- * =========================
- */
 document.getElementById("roll-btn").addEventListener("click", () => {
   if (ui.el("roll-btn").textContent === "Play Again") {
     reset();
