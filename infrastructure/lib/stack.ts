@@ -149,9 +149,7 @@ export class DiceEngineStack extends cdk.Stack {
     // fill the s3
     new s3deploy.BucketDeployment(this, "DeployDiceEngineFrontend", {
       sources: [
-        s3deploy.Source.asset(path.join(__dirname, "../../frontend/"), {
-          exclude: ["*", "!index.html", "!styles.css", "!script.js", "!images"],
-        }),
+        s3deploy.Source.asset(path.join(__dirname, "../../frontend/dist")),
       ],
       destinationBucket: siteBucket,
       distribution,

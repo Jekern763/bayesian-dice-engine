@@ -2,13 +2,9 @@
   "name": "frontend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
     "test": "jest --passWithNoTests",
-    "cdk": "cdk",
-    "typecheck": "tsc --noEmit",
     "synth": "cdk synth",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
