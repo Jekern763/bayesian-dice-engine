@@ -99,7 +99,6 @@ function roll(result, rollCount, display = true) {
  */
 async function guess(guess, session_id) {
   const api_return = await api_guess(guess, session_id);
-  console.log(api_return);
   const roll_return = api_return.roll;
   const payout = api_return.payout;
   roll(roll_return, 4, false);
@@ -161,7 +160,6 @@ function reset() {
   allRemovedDots.forEach((dot) => {
     dot.classList.remove("removed");
   });
-  console.log("[System] Game environment cleaned and reset.");
 }
 
 function waitForClick(buttonElement) {
@@ -186,7 +184,6 @@ async function game_loop() {
     peeks = start_game_response.peeks;
     session_id = start_game_response.session_id;
   } else {
-    console.log("Fetching current game data from local cache");
     peeks = localStorage.getItem("current_peeks").split(",");
     ession_id = localStorage.getItem("session");
   }
