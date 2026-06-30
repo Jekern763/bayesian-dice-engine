@@ -13,6 +13,7 @@ body {
 }
 
 .game-container {
+  position: relative; /* Added to anchor the net score in the corner */
   background: #ffffff;
   padding: 30px;
   border-radius: 16px;
@@ -21,7 +22,30 @@ body {
   width: 350px;
 }
 
+/* New Net Score Section (Top-Right Corner) */
+.net-score-section {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  text-align: right;
+}
+
+.net-score-section h3 {
+  margin: 0 0 2px 0;
+  font-size: 10px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#net-score-amount {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2b2d42;
+}
+
 .center-piece {
+  margin-top: 15px; /* Added slight top margin to clear space for the score */
   margin-bottom: 25px;
 }
 

@@ -67,7 +67,7 @@ function roll(result, rollCount, display = true) {
     dice2.classList.remove("rolling");
 
     // Reveal the final sum (but keep dice bodies blank)
-    document.getElementById("current-sum").innerText = result;
+    document.getElementById("current-sum").textContent = result;
 
     // Visually strip away one side element indicator from BOTH dice
     const d1Sides = document.querySelectorAll("#dice1-sides span");
@@ -79,7 +79,7 @@ function roll(result, rollCount, display = true) {
 
     // Place the result directly into its fixed chronological slot
     if (display) {
-      document.getElementById(`slot-${rollCount}`).innerText = result;
+      document.getElementById(`slot-${rollCount}`).textContent = result;
     }
   }, 500);
 }
@@ -95,8 +95,11 @@ async function guess(guess, session_id) {
   const roll_return = api_return.roll;
   const payout = api_return.payout;
   roll(roll_return, 4, false);
-  document.getElementById("payout-amount").innerText = String(payout);
+  document.getElementById("payout-amount").textContent = payout;
+  document.getElementById("net-score").textContent =
+    (parseInt(document.getElementById("net-score").textContent) || 0) + payout;
 }
+
 function ValidateGuessSubmit() {
   const inputElement = document.getElementById("guess-input");
   const value = parseInt(inputElement.value);
@@ -112,10 +115,10 @@ function reset() {
   // Reset trackers back to step zero
   rollCount = 0;
 
-  document.getElementById("roll-btn").innerText = "Roll";
+  document.getElementById("roll-btn").textContent = "Roll";
 
   // Clear main numerical displays
-  document.getElementById("current-sum").innerText = "-";
+  document.getElementById("current-sum").textContent = "-";
 
   // Enable/Disable control mechanisms back to standard start configuration
   document.getElementById("roll-btn").disabled = false;
@@ -127,7 +130,7 @@ function reset() {
 
   // Reconstruct history display fields back to default empty markers
   for (let i = 0; i < maxRolls; i++) {
-    document.getElementById(`slot-${i}`).innerText = "-";
+    document.getElementById(`slot-${i}`).textContent = "-";
   }
 
   // Un-dim all physical dice layout dot items
@@ -184,11 +187,11 @@ async function game_loop() {
   guess_btn.disabled = true;
   roll_btn.disabled = false;
 
-  roll_btn.innerText = "Play Again";
+  roll_btn.textContent = "Play Again";
 }
 
 document.getElementById("roll-btn").addEventListener("click", function () {
-  if (document.getElementById("roll-btn").innerText === "Play Again") {
+  if (document.getElementById("roll-btn").textContent === "Play Again") {
     reset();
     game_loop();
   }
