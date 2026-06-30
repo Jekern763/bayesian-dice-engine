@@ -2,6 +2,14 @@ const maxRolls = 4;
 let totalPayout = 0;
 const riskiness = 8;
 const jackpot = 10;
+let peeks;
+let session_id;
+
+// local storage values: current_peeks to prevent reloading
+// current score to show score over history of local storage
+// repeat for if it is the users first time
+// net_score for total score through sessions
+let repeat = localStorage.getItem("repeat") ? true : false;
 
 async function api_start_game() {
   const game_constants = { riskiness: riskiness, jackpot: jackpot };
@@ -96,9 +104,21 @@ async function guess(guess, session_id) {
   const payout = api_return.payout;
   roll(roll_return, 4, false);
   document.getElementById("payout-amount").textContent = payout;
-  document.getElementById("net-score").textContent =
-    (parseInt(document.getElementById("net-score").textContent) || 0) + payout;
   document.getElementById("current-sum").textContent = roll_return;
+
+  if (repeat) {
+    const current_total = Int(localStorage.getItem("net_score"));
+    localStorage.setItem("net_score", String(current_total + payout));
+  } else {
+    localStorage.setItem("net-score", String(payout));
+  }
+
+  document.getElementById("net-score").textContent =
+    localStorage.getItem("net_score");
+
+  localStorage.setItem("repeat", "true");
+
+  repeat = true;
 }
 
 function ValidateGuessSubmit() {
@@ -160,14 +180,16 @@ async function game_loop() {
   const roll_btn = document.getElementById("roll-btn");
   const guess_btn = document.getElementById("guess-btn");
   const guess_input = document.getElementById("guess-input");
+  if (!localStorage.getItem("current_peeks")) {
+    const start_game_response = await api_start_game();
 
-  const start_game_response = await api_start_game();
-
-  const peeks = start_game_response.peeks;
-  const session_id = start_game_response.session_id;
-
-  console.log(peeks);
-  console.log(session_id);
+    peeks = start_game_response.peeks;
+    session_id = start_game_response.session_id;
+  } else {
+    console.log("Fetching current game data from local cache");
+    peeks = localStorage.getItem("current_peeks").split(",");
+    ession_id = localStorage.getItem("session");
+  }
 
   for (let i = 0; i <= 3; i++) {
     await waitForClick(roll_btn);
@@ -189,8 +211,13 @@ async function game_loop() {
   roll_btn.disabled = false;
 
   roll_btn.textContent = "Play Again";
+
+  localStorage.removeItem("current_peeks");
+  localStorage.removeItem("session");
 }
 
+// localStorage.setItem("current_peeks", "");
+// localStorage.setItem("session", "");
 document.getElementById("roll-btn").addEventListener("click", function () {
   if (document.getElementById("roll-btn").textContent === "Play Again") {
     reset();
