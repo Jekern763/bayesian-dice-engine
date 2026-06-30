@@ -1,9 +1,11 @@
-import boto3
-from boto3.dynamodb.types import TypeSerializer
 from decimal import Decimal
-from typing import Optional, Dict, Any
+from time import time
+from typing import Any, Dict, Optional
+
+import boto3
 from aws_lambda_powertools import Logger
-from models import RecordType, GameTemporaryRow, GamePermanentDataRow
+from boto3.dynamodb.types import TypeSerializer
+from models import GamePermanentDataRow, GameTemporaryRow, RecordType
 
 logger = Logger(child=True)  # Inherits configuration from your main logger
 serializer = TypeSerializer()
@@ -37,7 +39,11 @@ class DatabaseGateway:
 
     def create_session(self, session_id: str, game_state: str) -> None:
         # Saves a new game session to the table.
-        row = GameTemporaryRow(session_id=session_id, game=game_state)
+        ten_days_in_seconds = 10 * 24 * 60 * 60
+        ttl_timestamp = int(time.time()) + ten_days_in_seconds
+        row = GameTemporaryRow(
+            session_id=session_id, game=game_state, ttl=str(ttl_timestamp)
+        )
         self.table.put_item(
             Item=row.model_dump(mode="python"),
             ConditionExpression="attribute_not_exists(session_id)",
