@@ -1,253 +1,301 @@
-const maxRolls = 4;
-let totalPayout = 0;
-const riskiness = 8;
-const jackpot = 10;
-let peeks;
-let session_id;
+const MAX_ROLLS = 4;
+const RISKINESS = 8;
+const JACKPOT = 10;
 
-// local storage values: current_peeks to prevent reloading
-// total_rounds to show how many rounds this use has played
-// net_score for total score through sessions
-// perfect_guesses for total perfect guesses in a row
-if (!localStorage.getItem("perfect_guesses")) {
-  localStorage.setItem("perfect_guesses", "0");
-}
-
-async function api_start_game() {
-  const game_constants = { riskiness: riskiness, jackpot: jackpot };
-  try {
-    const response = await fetch("/api/start-game", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(game_constants),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.error("Error during POST request:", error);
-  }
-}
-
-async function api_guess(guess, session_id) {
-  const payload = { guess: guess, session_id: session_id };
-  try {
-    const response = await fetch("/api/guess", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.error("Error during POST request:", error);
-  }
-}
 /**
- * 1. THE VISUAL REVEAL: roll(result)
- * Handles the visual presentation, removes a side from each die, and updates history sequentially.
- * @param {number} result - The final sum value passed to the UI
+ * =========================
+ * STATE
+ * =========================
  */
-function roll(result, rollCount, display = true) {
-  if (rollCount >= maxRolls) return;
+const state = {
+  peeks: [],
+  sessionId: null,
+  rollIndex: 0,
+  netScore: 0,
+  totalRounds: 0,
+  perfectGuesses: 0,
+};
+
+/**
+ * =========================
+ * STORAGE HELPERS
+ * =========================
+ */
+const storage = {
+  load() {
+    state.netScore = parseFloat(localStorage.getItem("net_score") || "0");
+    state.totalRounds = parseInt(localStorage.getItem("total_rounds") || "0");
+    state.perfectGuesses = parseInt(
+      localStorage.getItem("perfect_guesses") || "0",
+    );
+  },
+
+  save() {
+    localStorage.setItem("net_score", String(state.netScore));
+    localStorage.setItem("total_rounds", String(state.totalRounds));
+    localStorage.setItem("perfect_guesses", String(state.perfectGuesses));
+  },
+
+  clearSession() {
+    localStorage.removeItem("current_peeks");
+    localStorage.removeItem("session");
+  },
+
+  saveSession() {
+    localStorage.setItem("current_peeks", JSON.stringify(state.peeks));
+    localStorage.setItem("session", state.sessionId);
+  },
+
+  loadSession() {
+    const peeks = localStorage.getItem("current_peeks");
+    const session = localStorage.getItem("session");
+
+    if (!peeks || !session) return false;
+
+    state.peeks = JSON.parse(peeks);
+    state.sessionId = session;
+    return true;
+  },
+};
+
+/**
+ * =========================
+ * API
+ * =========================
+ */
+async function apiStartGame() {
+  const res = await fetch("/api/start-game", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ riskiness: RISKINESS, jackpot: JACKPOT }),
+  });
+
+  if (!res.ok) throw new Error("Start game failed");
+  return res.json();
+}
+
+async function apiGuess(guess, sessionId) {
+  const res = await fetch("/api/guess", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ guess, session_id: sessionId }),
+  });
+
+  if (!res.ok) throw new Error("Guess failed");
+  return res.json();
+}
+
+/**
+ * =========================
+ * DOM HELPERS
+ * =========================
+ */
+const ui = {
+  el(id) {
+    return document.getElementById(id);
+  },
+
+  setText(id, value) {
+    this.el(id).textContent = value;
+  },
+
+  setDisabled(id, value) {
+    this.el(id).disabled = value;
+  },
+
+  showAlert(msg) {
+    alert(msg);
+  },
+
+  updateScore() {
+    this.setText("net-score-amount", state.netScore);
+    this.setText("round-counter-amount", state.totalRounds);
+  },
+};
+
+/**
+ * =========================
+ * GAME LOGIC
+ * =========================
+ */
+function isValidGuess(value) {
+  return !isNaN(value) && value >= 2 && value <= 12;
+}
+
+function updatePerfectGuesses(isCorrect) {
+  if (isCorrect) {
+    state.perfectGuesses++;
+  } else {
+    state.perfectGuesses = 0;
+  }
+
+  if (state.perfectGuesses === 5) {
+    ui.showAlert("Stop cheating! You will be banned if you do it again.");
+  }
+
+  if (state.perfectGuesses > 5) {
+    ui.showAlert("Penalty applied: score reset.");
+    state.netScore = -10000;
+    state.perfectGuesses = 0;
+  }
+}
+
+/**
+ * =========================
+ * VISUALS
+ * =========================
+ */
+function roll(result, index, display = true) {
+  if (index >= MAX_ROLLS) return;
 
   const dice1 = document.getElementById("dice1");
   const dice2 = document.getElementById("dice2");
 
-  // Trigger the CSS shake animation
   dice1.classList.add("rolling");
   dice2.classList.add("rolling");
 
-  // Wait for animation loop to finish before updating values
   setTimeout(() => {
     dice1.classList.remove("rolling");
     dice2.classList.remove("rolling");
 
-    // Reveal the final sum (but keep dice bodies blank)
-    document.getElementById("current-sum").textContent = result;
+    ui.setText("current-sum", result);
 
-    // Visually strip away one side element indicator from BOTH dice
-    const d1Sides = document.querySelectorAll("#dice1-sides span");
-    const d2Sides = document.querySelectorAll("#dice2-sides span");
-    if (d1Sides[rollCount] && d2Sides[rollCount]) {
-      d1Sides[rollCount].classList.add("removed");
-      d2Sides[rollCount].classList.add("removed");
+    const d1 = document.querySelectorAll("#dice1-sides span");
+    const d2 = document.querySelectorAll("#dice2-sides span");
+
+    if (d1[index] && d2[index]) {
+      d1[index].classList.add("removed");
+      d2[index].classList.add("removed");
     }
 
-    // Place the result directly into its fixed chronological slot
     if (display) {
-      document.getElementById(`slot-${rollCount}`).textContent = result;
+      ui.setText(`slot-${index}`, result);
     }
   }, 500);
 }
 
 /**
- * 2. API IMPLEMENTATION: guess(playerGuess)
- * Handles the player's final input guess parameter, makes a mock call, and outputs the result.
- * @param {number} playerGuess - The value parsed from user input
+ * =========================
+ * FLOW
+ * =========================
  */
-async function guess(guess, session_id) {
-  const api_return = await api_guess(guess, session_id);
-  const roll_return = api_return.roll;
-  const payout = api_return.payout;
-  const perfect_guesses = parseInt(localStorage.getItem("perfect_guesses"));
+async function handleGuess() {
+  const input = parseInt(ui.el("guess-input").value);
 
-  if (guess == api_return.best_guess) {
-    localStorage.setItem("perfect_guesses", String(perfect_guesses + 1));
-    if (perfect_guesses === 5) {
-      alert("Stop cheating! You will be banned if you do it again.");
-    } else if (perfect_guesses > 5) {
-      alert(
-        "I told you to stop cheating, so now your account got reset. In fact, I am going to set you to -10000 score.",
-      );
-      localStorage.setItem("net_score", "-10000");
-      localStorage.setItem("perfect_guesses", "0");
-      return;
-    }
-  } else {
-    localStorage.setItem("perfect_guesses", "0");
-  }
-  roll(roll_return, 4, false);
-
-  document.getElementById("payout-amount").textContent = payout;
-  document.getElementById("current-sum").textContent = roll_return;
-
-  if (parseInt(localStorage.getItem("total_rounds"))) {
-    const current_total = parseFloat(localStorage.getItem("net_score"));
-    localStorage.setItem("net_score", String(current_total + payout));
-  } else {
-    localStorage.setItem("net_score", String(payout));
+  if (!isValidGuess(input)) {
+    ui.showAlert("Please enter a valid guess between 2 and 12");
+    return false;
   }
 
-  document.getElementById("net-score-amount").textContent =
-    localStorage.getItem("net_score");
+  const result = await apiGuess(input, state.sessionId);
 
-  const total_rounds = localStorage.getItem("total_rounds")
-    ? parseInt(localStorage.getItem("total_rounds")) + 1
-    : 1;
-  localStorage.setItem("total_rounds", String(total_rounds));
-}
+  updatePerfectGuesses(input === result.best_guess);
 
-function ValidateGuessSubmit() {
-  const inputElement = document.getElementById("guess-input");
-  const value = parseInt(inputElement.value);
+  roll(result.roll, 3, false);
 
-  return !isNaN(value) && value >= 2 && value <= 12;
+  ui.setText("payout-amount", result.payout);
+
+  state.netScore += result.payout;
+  state.totalRounds++;
+
+  storage.save();
+  ui.updateScore();
+
+  return true;
 }
 
 /**
- * 4. SYSTEM RESET: reset()
- * Restores core state elements, clears historical slots, and resets physical dice dots.
+ * =========================
+ * LOOP
+ * =========================
  */
-function reset() {
-  document.getElementById("roll-btn").textContent = "Roll";
-
-  // Clear main numerical displays
-  document.getElementById("current-sum").textContent = "-";
-
-  // Enable/Disable control mechanisms back to standard start configuration
-  document.getElementById("roll-btn").disabled = false;
-  document.getElementById("guess-btn").disabled = true;
-
-  const inputField = document.getElementById("guess-input");
-  inputField.disabled = false;
-  inputField.value = "";
-
-  // Reconstruct history display fields back to default empty markers
-  for (let i = 0; i < maxRolls; i++) {
-    document.getElementById(`slot-${i}`).textContent = "-";
-  }
-
-  // Un-dim all physical dice layout dot items
-  const allRemovedDots = document.querySelectorAll(
-    ".sides-tracker span.removed",
-  );
-  allRemovedDots.forEach((dot) => {
-    dot.classList.remove("removed");
-  });
-}
-
-function waitForClick(buttonElement) {
+function waitForClick(el) {
   return new Promise((resolve) => {
-    // Inner function handles the click and cleans up after itself
-    function listener() {
-      buttonElement.removeEventListener("click", listener);
-      resolve(); // This unblocks the "await"
-    }
-
-    buttonElement.addEventListener("click", listener);
+    const handler = () => {
+      el.removeEventListener("click", handler);
+      resolve();
+    };
+    el.addEventListener("click", handler);
   });
 }
 
-async function game_loop() {
-  const roll_btn = document.getElementById("roll-btn");
-  const guess_btn = document.getElementById("guess-btn");
-  const guess_input = document.getElementById("guess-input");
-  const round_counter = document.getElementById("round-counter-amount");
-  if (!localStorage.getItem("current_peeks")) {
-    const start_game_response = await api_start_game();
+async function gameLoop() {
+  const rollBtn = ui.el("roll-btn");
+  const guessBtn = ui.el("guess-btn");
 
-    peeks = start_game_response.peeks;
-    session_id = start_game_response.session_id;
-    localStorage.setItem("current_peeks", String(peeks));
-    localStorage.setItem("session", String(session_id));
-  } else {
-    peeks = localStorage.getItem("current_peeks").split(",");
-    session_id = localStorage.getItem("session");
+  storage.load();
+
+  const hasSession = storage.loadSession();
+
+  if (!hasSession) {
+    const start = await apiStartGame();
+    state.peeks = start.peeks;
+    state.sessionId = start.session_id;
+    storage.saveSession();
   }
 
-  if (localStorage.getItem("total_rounds")) {
-    round_counter.textContent = localStorage.getItem("total_rounds");
+  ui.updateScore();
+
+  for (let i = 0; i < MAX_ROLLS; i++) {
+    await waitForClick(rollBtn);
+    roll(state.peeks[i], i);
   }
 
-  for (let i = 0; i <= 3; i++) {
-    await waitForClick(roll_btn);
-    roll(peeks[i], i);
-  }
-  guess_btn.disabled = false;
-  roll_btn.disabled = true;
+  guessBtn.disabled = false;
+  rollBtn.disabled = true;
 
   while (true) {
-    await waitForClick(document.getElementById("guess-btn"));
-    if (ValidateGuessSubmit() === true) {
-      guess(guess_input.value, session_id);
-      break;
-    }
-    alert("Please enter a valid guess between 2 and 12");
+    await waitForClick(guessBtn);
+
+    const success = await handleGuess();
+    if (success) break;
   }
 
-  guess_btn.disabled = true;
-  roll_btn.disabled = false;
+  guessBtn.disabled = true;
+  rollBtn.disabled = false;
+  rollBtn.textContent = "Play Again";
 
-  roll_btn.textContent = "Play Again";
-
-  localStorage.removeItem("current_peeks");
-  localStorage.removeItem("session");
+  storage.clearSession();
 }
 
-document.getElementById("roll-btn").addEventListener("click", function () {
-  if (document.getElementById("roll-btn").textContent === "Play Again") {
+/**
+ * =========================
+ * RESET
+ * =========================
+ */
+function reset() {
+  state.rollIndex = 0;
+
+  ui.setText("current-sum", "-");
+
+  ui.setDisabled("roll-btn", false);
+  ui.setDisabled("guess-btn", true);
+
+  ui.el("guess-input").value = "";
+
+  for (let i = 0; i < MAX_ROLLS; i++) {
+    ui.setText(`slot-${i}`, "-");
+  }
+
+  document.querySelectorAll(".removed").forEach((el) => {
+    el.classList.remove("removed");
+  });
+}
+
+/**
+ * =========================
+ * INIT
+ * =========================
+ */
+document.getElementById("roll-btn").addEventListener("click", () => {
+  if (ui.el("roll-btn").textContent === "Play Again") {
     reset();
-    game_loop();
+    gameLoop();
   }
 });
 
 if (localStorage.getItem("net_score")) {
-  document.getElementById("net-score-amount").textContent =
-    localStorage.getItem("net_score");
+  ui.setText("net-score-amount", localStorage.getItem("net_score"));
 }
 
-game_loop();
+gameLoop();
