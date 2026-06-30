@@ -1,7 +1,8 @@
-from enum import StrEnum
-from pydantic import BaseModel, Field, UUID4, AfterValidator
 from decimal import Decimal
+from enum import StrEnum
 from typing import Annotated, Literal
+
+from pydantic import UUID4, AfterValidator, BaseModel, Field
 
 
 def validate_uuid4(v: str) -> str:
@@ -45,10 +46,20 @@ class GameTemporaryRow(BaseModel):
     game: str = Field(
         ..., description="The complete current game state in a dictionary state"
     )
+    ttl: str = Field(
+        ...,
+        description="The unix epch timestamp in seconds when this row will be deleted",
+    )
 
 
-class GamePermanentDataRow(GameTemporaryRow):
+class GamePermanentDataRow(BaseModel):
+    session_id: StrUUID4 = Field(..., description="Current session id in StrUUID4 form")
     record_type: Literal[RecordType.SESSION_LOG] = RecordType.SESSION_LOG
+
+    game: str = Field(
+        ..., description="The complete current game state in a dictionary state"
+    )
+
     payout: Decimal = Field(
         ..., description="Total payout for the session in decimal form (not float)"
     )

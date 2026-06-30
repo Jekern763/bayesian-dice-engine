@@ -25,6 +25,7 @@ export class DiceEngineStack extends cdk.Stack {
 
     const sessionTable = new dynamodb.Table(this, "DiceSessionsTable", {
       // Primary Key Configuration
+      tableName: "BayesianDiceSessions",
       partitionKey: {
         name: "session_id",
         type: dynamodb.AttributeType.STRING, // UUID4 strings
@@ -148,9 +149,7 @@ export class DiceEngineStack extends cdk.Stack {
     // fill the s3
     new s3deploy.BucketDeployment(this, "DeployDiceEngineFrontend", {
       sources: [
-        s3deploy.Source.asset(path.join(__dirname, "../../frontend/"), {
-          exclude: ["*", "!index.html", "!styles.css", "!script.js"],
-        }),
+        s3deploy.Source.asset(path.join(__dirname, "../../frontend/src")),
       ],
       destinationBucket: siteBucket,
       distribution,

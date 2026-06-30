@@ -8,17 +8,17 @@ from agent_algorithms.heuristic_agent import (
 
 @pytest.fixture
 def reflection_agent():
-    return ReflectionAgent("Paul")
+    return ReflectionAgent()
 
 
 @pytest.fixture
 def invariant_agent():
-    return InvariantAgent("Peter")
+    return InvariantAgent()
 
 
 @pytest.fixture
 def gamblers_fallacy_agent():
-    return GamblersFallacyAgent("Mickey")
+    return GamblersFallacyAgent()
 
 
 def test_all_heuristic_agents_guess_range(
