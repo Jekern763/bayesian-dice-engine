@@ -8,6 +8,10 @@ let session_id;
 // local storage values: current_peeks to prevent reloading
 // total_rounds to show how many rounds this use has played
 // net_score for total score through sessions
+// perfect_guesses for total perfect guesses in a row
+if (!localStorage.getItem("perfect_guesses")) {
+  localStorage.setItem("perfect_guesses", "0");
+}
 
 async function api_start_game() {
   const game_constants = { riskiness: riskiness, jackpot: jackpot };
@@ -99,7 +103,25 @@ async function guess(guess, session_id) {
   const api_return = await api_guess(guess, session_id);
   const roll_return = api_return.roll;
   const payout = api_return.payout;
+  const perfect_guesses = parseInt(localStorage.getItem("perfect_guesses"));
+
+  if (guess == api_return.best_guess) {
+    localStorage.setItem("perfect_guesses", String(perfect_guesses + 1));
+    if (perfect_guesses === 5) {
+      alert("Stop cheating! You will be banned if you do it again.");
+    } else if (perfect_guesses > 5) {
+      alert(
+        "I told you to stop cheating, so now your account got reset. In fact, I am going to set you to -10000 score.",
+      );
+      localStorage.setItem("net_score", "-10000");
+      localStorage.setItem("perfect_guesses", "0");
+      return;
+    }
+  } else {
+    localStorage.setItem("perfect_guesses", "0");
+  }
   roll(roll_return, 4, false);
+
   document.getElementById("payout-amount").textContent = payout;
   document.getElementById("current-sum").textContent = roll_return;
 
@@ -131,9 +153,6 @@ function ValidateGuessSubmit() {
  * Restores core state elements, clears historical slots, and resets physical dice dots.
  */
 function reset() {
-  // Reset trackers back to step zero
-  rollCount = 0;
-
   document.getElementById("roll-btn").textContent = "Roll";
 
   // Clear main numerical displays

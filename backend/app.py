@@ -2,6 +2,7 @@ import os
 from decimal import Decimal
 from uuid import uuid4
 
+from agent_algorithms.expectimax_agent import ExpectimaxAgent
 from aws_lambda_powertools import Logger, Tracer
 from aws_lambda_powertools.event_handler import APIGatewayHttpResolver, Response
 from aws_lambda_powertools.event_handler.exceptions import NotFoundError
@@ -108,10 +109,15 @@ def guess():
         str(validated_data.session_id), hydrated_game.to_json(), payout_decimal
     )
 
+    agent = ExpectimaxAgent()
+    best_guess = agent.get_action(
+        hydrated_game.state.past_rolls[:-1]
+    )  # gets the previous peeks, just not including the 5th roll
     return {
         "session_id": validated_data.session_id,
         "payout": payout_decimal,
         "roll": roll,
+        "best_guess": best_guess,
     }
 
 
