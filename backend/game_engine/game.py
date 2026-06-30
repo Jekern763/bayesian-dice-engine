@@ -1,7 +1,8 @@
-from game_engine.game_state import GameState
-from game_engine.depleting_dice import DepletingDice
-from json import loads, dumps
 from dataclasses import asdict
+from json import dumps, loads
+
+from game_engine.depleting_dice import DepletingDice
+from game_engine.game_state import GameState
 
 
 class Game:
@@ -31,20 +32,16 @@ class Game:
         return roll
 
     def calc_payout(self, guess: int, roll: int) -> float:
-        if guess == 7:
-            return 0.0
 
-        base_stake = (
-            self.riskiness_multiplier * self.riskiness_multiplier * abs(guess - 7)
-        )
+        base_stake = self.riskiness_multiplier * abs(guess - 7)
+
         distance = abs(roll - guess)
 
-        # The Piecewise Jackpot Exception
-        if distance == 0:
-            return base_stake * self.jackpot_multiplier
-        # The Smooth Parabolic Curve
+        payout = (2 - distance) * (base_stake)
 
-        return (base_stake / 3.0) * (4 - (distance**2))
+        payout = payout * self.jackpot_multiplier if guess == roll else payout
+
+        return payout
 
     def guess(self, guess: int) -> float:
         roll = self.die1.roll() + self.die2.roll()
