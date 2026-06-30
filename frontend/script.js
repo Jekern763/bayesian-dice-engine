@@ -109,7 +109,7 @@ async function guess(guess, session_id) {
     const current_total = Int(localStorage.getItem("net_score"));
     localStorage.setItem("net_score", String(current_total + payout));
   } else {
-    localStorage.setItem("net-score", String(payout));
+    localStorage.setItem("net_score", String(payout));
   }
 
   document.getElementById("net-score").textContent =
@@ -183,6 +183,7 @@ async function game_loop() {
 
     peeks = start_game_response.peeks;
     session_id = start_game_response.session_id;
+    localStorage.setItem("peeks", String(peeks));
   } else {
     peeks = localStorage.getItem("current_peeks").split(",");
     ession_id = localStorage.getItem("session");
@@ -213,8 +214,8 @@ async function game_loop() {
   localStorage.removeItem("session");
 }
 
-// localStorage.setItem("current_peeks", "");
-// localStorage.setItem("session", "");
+localStorage.setItem("current_peeks", "");
+localStorage.setItem("session", "");
 document.getElementById("roll-btn").addEventListener("click", function () {
   if (document.getElementById("roll-btn").textContent === "Play Again") {
     reset();

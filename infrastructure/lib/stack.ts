@@ -25,6 +25,7 @@ export class DiceEngineStack extends cdk.Stack {
 
     const sessionTable = new dynamodb.Table(this, "DiceSessionsTable", {
       // Primary Key Configuration
+      tableName: "BayesianDiceSessions",
       partitionKey: {
         name: "session_id",
         type: dynamodb.AttributeType.STRING, // UUID4 strings
