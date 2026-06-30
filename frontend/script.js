@@ -98,6 +98,7 @@ async function guess(guess, session_id) {
   document.getElementById("payout-amount").textContent = payout;
   document.getElementById("net-score").textContent =
     (parseInt(document.getElementById("net-score").textContent) || 0) + payout;
+  document.getElementById("current-sum").textContent = roll_return;
 }
 
 function ValidateGuessSubmit() {
