@@ -52,8 +52,14 @@ class GameTemporaryRow(BaseModel):
     )
 
 
-class GamePermanentDataRow(GameTemporaryRow):
+class GamePermanentDataRow(BaseModel):
+    session_id: StrUUID4 = Field(..., description="Current session id in StrUUID4 form")
     record_type: Literal[RecordType.SESSION_LOG] = RecordType.SESSION_LOG
+
+    game: str = Field(
+        ..., description="The complete current game state in a dictionary state"
+    )
+
     payout: Decimal = Field(
         ..., description="Total payout for the session in decimal form (not float)"
     )

@@ -40,7 +40,7 @@ class DatabaseGateway:
     def create_session(self, session_id: str, game_state: str) -> None:
         # Saves a new game session to the table.
         ten_days_in_seconds = 10 * 24 * 60 * 60
-        ttl_timestamp = int(time.time()) + ten_days_in_seconds
+        ttl_timestamp = int(time()) + ten_days_in_seconds
         row = GameTemporaryRow(
             session_id=session_id, game=game_state, ttl=str(ttl_timestamp)
         )

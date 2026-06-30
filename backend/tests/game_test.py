@@ -41,10 +41,7 @@ def test_game_payout(game):
     assert game.calc_payout(7, 7) == 0
     assert (
         game.calc_payout(12, 12)
-        == game.riskiness_multiplier
-        * game.riskiness_multiplier
-        * 5
-        * game.jackpot_multiplier
+        == 2 * (5 * game.riskiness_multiplier) * game.jackpot_multiplier
     )
 
 

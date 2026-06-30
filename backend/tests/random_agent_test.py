@@ -10,7 +10,6 @@ def random_agent():
 
 
 def test_random_agent_initialization(random_agent):
-    assert random_agent.name == "Nico"
     assert random_agent.session is not None
 
 

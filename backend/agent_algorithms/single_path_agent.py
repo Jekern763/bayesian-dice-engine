@@ -1,5 +1,6 @@
-from agent_algorithms.agent import Agent
 from random import choice
+
+from agent_algorithms.agent import Agent
 
 """ This agent will randomly select one path to follow.
 In practice, this means it will choose one belief of what sides were rolled, and continue down that path

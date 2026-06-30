@@ -1,6 +1,7 @@
 import json
-import app
 from uuid import uuid4
+
+import app
 from game_engine.game import Game
 
 
@@ -58,8 +59,10 @@ def test_start_game_failiure(mocker):
 def test_guess_success(mocker):
     mock_read = mocker.patch.object(app.database_gateway, "get_active_session")
     mocker.patch.object(app.database_gateway, "commit_guess_transaction")
-
-    mock_read.return_value = {"game": Game(8, 10).to_json()}
+    game = Game(8, 10)
+    for _ in range(4):
+        game.peek()
+    mock_read.return_value = {"game": game.to_json()}
 
     mock_event = {
         "rawPath": "api/guess",

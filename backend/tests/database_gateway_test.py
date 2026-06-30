@@ -1,11 +1,12 @@
-import pytest
-import boto3
-from moto import mock_aws
-from database_gateway import DatabaseGateway
+from decimal import Decimal
 from uuid import uuid4
+
+import boto3
+import pytest
+from database_gateway import DatabaseGateway
 from game_engine.game import Game
 from models import RecordType
-from decimal import Decimal
+from moto import mock_aws
 
 TABLE_NAME = "dynamodb-test"
 SESSION_ID = str(uuid4())

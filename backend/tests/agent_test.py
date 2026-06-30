@@ -9,7 +9,6 @@ def agent():
 
 
 def test_agent_initialization(agent):
-    assert agent.name == "Igor"
     assert agent.session is not None
     assert isinstance(agent.session, Game)
 
