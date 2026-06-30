@@ -1,13 +1,14 @@
+import os
+from decimal import Decimal
+from uuid import uuid4
+
 from aws_lambda_powertools import Logger, Tracer
 from aws_lambda_powertools.event_handler import APIGatewayHttpResolver, Response
 from aws_lambda_powertools.event_handler.exceptions import NotFoundError
-from game_engine.game import Game
-from uuid import uuid4
-import os
-from models import RecordType, StartGameSchema, GuessGameSchema
-from decimal import Decimal
-from pydantic import ValidationError
 from database_gateway import DatabaseGateway
+from game_engine.game import Game
+from models import GuessGameSchema, RecordType, StartGameSchema
+from pydantic import ValidationError
 
 MID_SESSION = RecordType.MID_SESSION
 SESSION_LOG = RecordType.SESSION_LOG

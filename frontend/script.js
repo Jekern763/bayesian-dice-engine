@@ -106,13 +106,13 @@ async function guess(guess, session_id) {
   document.getElementById("current-sum").textContent = roll_return;
 
   if (repeat) {
-    const current_total = Int(localStorage.getItem("net_score"));
+    const current_total = parseFloat(localStorage.getItem("net_score"));
     localStorage.setItem("net_score", String(current_total + payout));
   } else {
     localStorage.setItem("net_score", String(payout));
   }
 
-  document.getElementById("net-score").textContent =
+  document.getElementById("net-score-amount").textContent =
     localStorage.getItem("net_score");
 
   localStorage.setItem("repeat", "true");
@@ -183,10 +183,11 @@ async function game_loop() {
 
     peeks = start_game_response.peeks;
     session_id = start_game_response.session_id;
-    localStorage.setItem("peeks", String(peeks));
+    localStorage.setItem("current_peeks", String(peeks));
+    localStorage.setItem("session", String(session_id));
   } else {
     peeks = localStorage.getItem("current_peeks").split(",");
-    ession_id = localStorage.getItem("session");
+    session_id = localStorage.getItem("session");
   }
 
   for (let i = 0; i <= 3; i++) {
@@ -214,13 +215,16 @@ async function game_loop() {
   localStorage.removeItem("session");
 }
 
-localStorage.setItem("current_peeks", "");
-localStorage.setItem("session", "");
 document.getElementById("roll-btn").addEventListener("click", function () {
   if (document.getElementById("roll-btn").textContent === "Play Again") {
     reset();
     game_loop();
   }
 });
+
+if (localStorage.getItem("net_score")) {
+  document.getElementById("net-score-amount").textContent =
+    localStorage.getItem("net_score");
+}
 
 game_loop();
