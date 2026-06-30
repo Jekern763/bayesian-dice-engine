@@ -37,7 +37,8 @@ body {
   text-align: right;
 }
 
-.net-score-section h3, .round-counter-section h3 {
+.net-score-section h3,
+.round-counter-section h3 {
   margin: 0 0 2px 0;
   font-size: 10px;
   color: #888;
@@ -45,7 +46,8 @@ body {
   letter-spacing: 1px;
 }
 
-#net-score-amount, #round-counter-amount {
+#net-score-amount,
+#round-counter-amount {
   font-size: 18px;
   font-weight: bold;
   color: #2b2d42;
