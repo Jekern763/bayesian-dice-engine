@@ -6,7 +6,7 @@ from agent_algorithms.random_agent import RandomAgent
 
 @pytest.fixture
 def random_agent():
-    return RandomAgent("Nico")
+    return RandomAgent()
 
 
 def test_random_agent_initialization(random_agent):

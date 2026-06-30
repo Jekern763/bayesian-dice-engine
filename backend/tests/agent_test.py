@@ -5,7 +5,7 @@ from game_engine.game import Game
 
 @pytest.fixture
 def agent():
-    return Agent("Igor")
+    return Agent()
 
 
 def test_agent_initialization(agent):

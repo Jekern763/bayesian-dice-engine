@@ -4,7 +4,7 @@ from agent_algorithms.expectimax_agent import ExpectimaxAgent
 
 @pytest.fixture
 def agent():
-    return ExpectimaxAgent("Bruno")
+    return ExpectimaxAgent()
 
 
 # 1. test return range
