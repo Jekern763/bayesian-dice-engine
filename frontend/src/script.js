@@ -21,6 +21,15 @@ const state = {
  * STORAGE HELPERS
  * =========================
  */
+const STORAGE_VERSION = "1.1";
+
+const currentVersion = localStorage.getItem("storage_version");
+
+if (currentVersion !== STORAGE_VERSION) {
+  localStorage.clear(); // or remove only the keys you own
+  localStorage.setItem("storage_version", STORAGE_VERSION);
+}
+
 const storage = {
   load() {
     state.netScore = parseFloat(localStorage.getItem("net_score") || "0");
