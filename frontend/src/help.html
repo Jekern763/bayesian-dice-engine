@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gamblint - Help</title>
+    <link rel="stylesheet" href="help_styles.css" />
+    <link rel="icon" type="image/png" href="./images/gamblint_favicon.png" />
+  </head>
+  <body>
+    <div class="help-container">
+      <h1>How to Play</h1>
+
+      <p class="help-text">
+
+At the start of each round, two six-sided dice are rolled. You are shown only the sum of the two dice, not the individual values.
+<br>
+After each roll, the side that was rolled on each die is removed from that die for the rest of the round. For example, if one die rolls a 4, that die can no longer roll a 4 again during the current round. Each die loses sides independently.
+<br>
+This process repeats for four rolls. After the fourth roll, you predict the <b>sum</b> of the fifth and final roll.
+<br><br>
+Your payout depends on two factors:
+<br>
+Accuracy: The closer your guess is to the actual sum, the higher the payout. (Currently, guesses within 2 of the correct sum break even.)
+<br>
+Riskiness: Guesses farther from 7 have a larger payout multiplier, increasing both potential winnings and losses.
+<br><br>
+Game data is stored to support the project and analyze player behavior. No personal information is collected or stored.
+<br>
+Your Net Score and Total Rounds are stored locally in your browser using localStorage. These values are specific to the browser and device you are using, can be cleared at any time, and are not synchronized across devices.
+
+      </p>
+
+      <a href="index.html" class="back-btn">← Back to Game</a>
+    </div>
+  </body>
+</html>
