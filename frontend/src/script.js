@@ -235,6 +235,7 @@ async function gameLoop() {
 function reset() {
   ui.setText("current-sum", "-");
   ui.setText("roll-btn", "Roll");
+  ui.setText("payout-amount", "-");
 
   ui.setDisabled("roll-btn", false);
   ui.setDisabled("guess-btn", true);
