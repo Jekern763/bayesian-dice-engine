@@ -1,6 +1,6 @@
 const MAX_ROLLS = 4;
-const RISKINESS = 8;
-const JACKPOT = 10;
+const RISKINESS = 1;
+const JACKPOT = 1;
 
 const state = {
   peeks: [],
