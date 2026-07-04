@@ -9,7 +9,7 @@ The core game loop strictly decouples the state storage, the physics engine, and
 
 ## Abstract
 
-Bayesian Dice Engine is a probability-based game and simulation framework designed to study decision making under uncertainty. The project combines game design, probability theory, statistical analysis, and cloud engineering to compare human play against mathematically optimal strategies.
+Gamblint (Gamble + Integer) is a probability-based game and simulation framework designed to study decision making under uncertainty. The project combines game design, probability theory, statistical analysis, and cloud engineering to compare human play against mathematically optimal strategies.
 
 The goal is to create a unique, simple dice game, with a new twist. Every time a dice is rolled, that face is removed for the remainder of the round. It also incorporates the properties of two dice, to create a weighted probability curve which is the highest at 7. The player of the game has incomplete knowledge of what dice sides have been rolled, they only know the sum of the two dice.
 

@@ -263,3 +263,14 @@ if (localStorage.getItem("net_score")) {
 }
 
 gameLoop();
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === " " || event.key === "Spacebar" || event.key === "Enter") {
+    event.preventDefault();
+
+    // Ignore the event if the key is just being held down
+    if (event.repeat) return;
+  } else {
+    ui.el("roll-btn").click();
+  }
+});
