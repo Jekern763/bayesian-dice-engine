@@ -37,6 +37,10 @@ class GuessGameSchema(BaseModel):
         le=12,
         description="The valid guess of the sum of two dice: an integer between 2 and 12",
     )
+    other_data: dict[str, Decimal] = Field(
+        ...,
+        description="All other supplemetary data",
+    )
 
 
 # schemas for database put requests
@@ -62,4 +66,8 @@ class GamePermanentDataRow(BaseModel):
 
     payout: Decimal = Field(
         ..., description="Total payout for the session in decimal form (not float)"
+    )
+
+    other_data: dict[str, Decimal] = Field(
+        ..., description="All other supplemetary data"
     )

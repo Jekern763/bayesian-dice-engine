@@ -107,7 +107,9 @@ def test_commit_guess_transaction(mock_dynamodb, gateway):
         }
     )
 
-    gateway.commit_guess_transaction(str(SESSION_ID), game.to_json(), Decimal(payout))
+    gateway.commit_guess_transaction(
+        str(SESSION_ID), game.to_json(), Decimal(payout), other_data={}
+    )
 
     response = mock_dynamodb.get_item(
         Key={"session_id": SESSION_ID, "record_type": str(RecordType.SESSION_LOG)}

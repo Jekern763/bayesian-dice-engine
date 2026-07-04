@@ -67,7 +67,7 @@ def test_guess_success(mocker):
     mock_event = {
         "rawPath": "api/guess",
         "requestContext": {"stage": "$default", "http": {"method": "post"}},
-        "body": json.dumps({"session_id": str(uuid4()), "guess": 7}),
+        "body": json.dumps({"session_id": str(uuid4()), "guess": 7, "other_data": {}}),
     }
 
     response = app.lambda_handler(mock_event, MockContext())

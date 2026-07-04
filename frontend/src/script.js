@@ -8,6 +8,8 @@ const state = {
   netScore: 0,
   totalRounds: 0,
   perfectGuesses: 0,
+  think_start_time: null,
+  think_end_time: null,
 };
 
 const STORAGE_VERSION = "1.1";
@@ -69,11 +71,15 @@ async function apiStartGame() {
   return res.json();
 }
 
-async function apiGuess(guess, sessionId) {
+async function apiGuess(guess, sessionId, data) {
   const res = await fetch("/api/guess", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ guess, session_id: sessionId }),
+    body: JSON.stringify({
+      guess: guess,
+      session_id: sessionId,
+      additional_data: data,
+    }),
   });
 
   if (!res.ok) throw new Error("Guess failed");
@@ -162,7 +168,10 @@ async function handleGuess() {
     return false;
   }
   try {
-    const result = await apiGuess(input, state.sessionId);
+    const result = await apiGuess(input, state.sessionId, {
+      time_to_respond: state.think_start_time - state.think_end_time,
+      first_time: not(state.totalRounds > 0),
+    });
 
     updatePerfectGuesses(input == result.best_guess);
 
@@ -214,13 +223,14 @@ async function gameLoop() {
     await waitForClick(rollBtn);
     roll(state.peeks[i], i);
   }
+  state.think_start_time = Date.now();
 
   guessBtn.disabled = false;
   rollBtn.disabled = true;
 
   while (true) {
     await waitForClick(guessBtn);
-
+    state.think_end_time = Date.now();
     const success = await handleGuess();
     if (success) break;
   }

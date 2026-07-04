@@ -57,11 +57,11 @@ class DatabaseGateway:
         return response.get("Item")
 
     def commit_guess_transaction(
-        self, session_id: str, game_state: str, payout: Decimal
+        self, session_id: str, game_state: str, payout: Decimal, other_data
     ) -> None:
         # excutes an atomic  write and delete operation.
         row = GamePermanentDataRow(
-            session_id=session_id, game=game_state, payout=payout
+            session_id=session_id, game=game_state, payout=payout, other_data=other_data
         )
         self.client.transact_write_items(
             TransactItems=[
