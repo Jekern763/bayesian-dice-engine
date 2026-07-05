@@ -38,4 +38,4 @@ jobs:
         run: pnpm run format:check
 
       - name: Run Jest tests
-        run: pnpm test -- --ci --watchAll=false
+        run: pnpm test -- tests/ --ci --watchAll=false

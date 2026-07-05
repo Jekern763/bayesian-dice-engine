@@ -16,8 +16,8 @@ class Game:
     ) -> None:
         self.riskiness_multiplier = riskiness_multiplier
         self.jackpot_multiplier = jackpot_multiplier
-        self.die1 = DepletingDice() if not die1 else die1
-        self.die2 = DepletingDice() if not die2 else die2
+        self.die1 = DepletingDice() if (not die1 or die1 == []) else die1
+        self.die2 = DepletingDice() if (not die2 or die2 == []) else die2
         self.state = GameState()
         self.num_peeks = num_peeks
 

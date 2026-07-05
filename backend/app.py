@@ -106,7 +106,10 @@ def guess():
     roll = hydrated_game.state.past_rolls[-1]
 
     database_gateway.commit_guess_transaction(
-        str(validated_data.session_id), hydrated_game.to_json(), payout_decimal
+        str(validated_data.session_id),
+        hydrated_game.to_json(),
+        payout_decimal,
+        validated_data.other_data,
     )
 
     agent = ExpectimaxAgent()

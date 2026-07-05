@@ -4,8 +4,10 @@ from game_engine.game import Game
 
 
 class Agent:
-    def __init__(self):
-        self.session = Game(8, 10)  # default values for now, will fine tune later
+    def __init__(self, riskiness=8, jackpot=10):
+        self.session = Game(
+            riskiness_multiplier=riskiness, jackpot_multiplier=jackpot
+        )  # default values for now, will fine tune later
 
     def reset_session(self) -> None:
         self.session.reset()

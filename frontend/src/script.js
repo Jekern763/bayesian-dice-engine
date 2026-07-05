@@ -1,6 +1,6 @@
 const MAX_ROLLS = 4;
-const RISKINESS = 8;
-const JACKPOT = 10;
+const RISKINESS = 1;
+const JACKPOT = 1;
 
 const state = {
   peeks: [],
@@ -8,6 +8,8 @@ const state = {
   netScore: 0,
   totalRounds: 0,
   perfectGuesses: 0,
+  think_start_time: null,
+  think_end_time: null,
 };
 
 const STORAGE_VERSION = "1.1";
@@ -69,11 +71,15 @@ async function apiStartGame() {
   return res.json();
 }
 
-async function apiGuess(guess, sessionId) {
+async function apiGuess(guess, sessionId, data) {
   const res = await fetch("/api/guess", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ guess, session_id: sessionId }),
+    body: JSON.stringify({
+      guess: guess,
+      session_id: sessionId,
+      additional_data: data,
+    }),
   });
 
   if (!res.ok) throw new Error("Guess failed");
@@ -162,7 +168,10 @@ async function handleGuess() {
     return false;
   }
   try {
-    const result = await apiGuess(input, state.sessionId);
+    const result = await apiGuess(input, state.sessionId, {
+      time_to_respond: state.think_start_time - state.think_end_time,
+      first_time: state.totalRounds === 0,
+    });
 
     updatePerfectGuesses(input == result.best_guess);
 
@@ -214,13 +223,14 @@ async function gameLoop() {
     await waitForClick(rollBtn);
     roll(state.peeks[i], i);
   }
+  state.think_start_time = Date.now();
 
   guessBtn.disabled = false;
   rollBtn.disabled = true;
 
   while (true) {
     await waitForClick(guessBtn);
-
+    state.think_end_time = Date.now();
     const success = await handleGuess();
     if (success) break;
   }
@@ -235,6 +245,7 @@ async function gameLoop() {
 function reset() {
   ui.setText("current-sum", "-");
   ui.setText("roll-btn", "Roll");
+  ui.setText("payout-amount", "-");
 
   ui.setDisabled("roll-btn", false);
   ui.setDisabled("guess-btn", true);
@@ -262,3 +273,26 @@ if (localStorage.getItem("net_score")) {
 }
 
 gameLoop();
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === " " || event.key === "Spacebar" || event.key === "Enter") {
+    event.preventDefault();
+
+    // Ignore the event if the key is just being held down
+    if (event.repeat) return;
+  } else {
+    ui.el("roll-btn").click();
+  }
+});
+
+// just for jest testing
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    isValidGuess,
+    updatePerfectGuesses,
+    state,
+    apiStartGame,
+    apiGuess,
+    handleGuess,
+  };
+}
