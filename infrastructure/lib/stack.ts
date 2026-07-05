@@ -13,7 +13,7 @@ import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
 import * as logs from "aws-cdk-lib/aws-logs";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
 
-export class DiceEngineStack extends cdk.Stack {
+export class GamblintStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
