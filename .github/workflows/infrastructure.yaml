@@ -42,3 +42,6 @@ jobs:
 
       - name: CDK Synth
         run: pnpm run synth
+
+      - name: Run Jest tests
+        run: pnpm test -- test/ --ci --watchAll=false
