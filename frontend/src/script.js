@@ -169,6 +169,7 @@ async function handleGuess() {
   }
   try {
     const result = await apiGuess(input, state.sessionId, {
+      date: date.Date(),
       time_to_respond: state.think_start_time - state.think_end_time,
       first_time: state.totalRounds === 0,
       total_rounds: state.totalRounds,
