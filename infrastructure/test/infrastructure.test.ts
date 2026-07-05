@@ -32,7 +32,7 @@ describe("Gamblint Stack Infrastructure Tests", () => {
     });
   });
 
-  // --- 2. LAMBDA BACKEND TESTS ---
+  // LAMBDA BACKEND TESTS
   describe("Lambda Backend Configuration", () => {
     it("should provision the python lambda with correct runtime, timeout, and env variables", () => {
       template.hasResourceProperties("AWS::Lambda::Function", {
@@ -42,14 +42,14 @@ describe("Gamblint Stack Infrastructure Tests", () => {
         ReservedConcurrentExecutions: 20,
         Environment: {
           Variables: {
-            TABLE_NAME: Match.anyValue(), // Ensures the variable exists; linked to the DynamoDB table
+            TABLE_NAME: Match.anyValue(),
           },
         },
       });
     });
   });
 
-  // --- 3. SECURITY & S3 TESTS ---
+  // SECURITY & S3 TESTS
   describe("S3 Frontend Bucket Security", () => {
     it("should strictly block all public access and enable server-side encryption", () => {
       template.hasResourceProperties("AWS::S3::Bucket", {
@@ -72,7 +72,7 @@ describe("Gamblint Stack Infrastructure Tests", () => {
     });
   });
 
-  // --- 4. API GATEWAY TESTS ---
+  // API GATEWAY TESTS
   describe("API Gateway Routing & Throttling", () => {
     it("should configure custom throttling limits on the default stage", () => {
       template.hasResourceProperties("AWS::ApiGatewayV2::Stage", {
@@ -86,7 +86,7 @@ describe("Gamblint Stack Infrastructure Tests", () => {
     });
   });
 
-  // --- 5. CLOUDFRONT DISTRIBUTION TESTS ---
+  // CLOUDFRONT DISTRIBUTION TESTS
   describe("CloudFront CDN Configuration", () => {
     it("should use the custom domain name and redirect viewers to HTTPS", () => {
       template.hasResourceProperties("AWS::CloudFront::Distribution", {
@@ -106,8 +106,7 @@ describe("Gamblint Stack Infrastructure Tests", () => {
     });
   });
 
-  // --- 6. IAM PERMISSIONS TESTS ---
-  // --- 6. IAM PERMISSIONS TESTS ---
+  // IAM PERMISSIONS TESTS
   describe("IAM Permissions", () => {
     it("should grant the Lambda function policy permissions to access DynamoDB", () => {
       template.hasResourceProperties("AWS::IAM::Policy", {

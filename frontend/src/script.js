@@ -170,7 +170,7 @@ async function handleGuess() {
   try {
     const result = await apiGuess(input, state.sessionId, {
       time_to_respond: state.think_start_time - state.think_end_time,
-      first_time: not(state.totalRounds > 0),
+      first_time: state.totalRounds === 0,
     });
 
     updatePerfectGuesses(input == result.best_guess);
@@ -284,3 +284,15 @@ window.addEventListener("keydown", (event) => {
     ui.el("roll-btn").click();
   }
 });
+
+// just for jest testing
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    isValidGuess,
+    updatePerfectGuesses,
+    state,
+    apiStartGame,
+    apiGuess,
+    handleGuess,
+  };
+}
