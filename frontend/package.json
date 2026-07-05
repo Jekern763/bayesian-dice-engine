@@ -27,10 +27,10 @@
     "prettier": "^3.8.4"
   },
   "jest": {
-  "testEnvironment": "jsdom",
-  "roots": [
-    "<rootDir>/src",
-    "<rootDir>/tests"
-  ]
-}
+    "testEnvironment": "jsdom",
+    "roots": [
+      "<rootDir>/src",
+      "<rootDir>/tests"
+    ]
+  }
 }
