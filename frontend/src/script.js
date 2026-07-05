@@ -12,7 +12,7 @@ const state = {
   think_end_time: null,
 };
 
-const STORAGE_VERSION = "1.1";
+const STORAGE_VERSION = "1.2";
 
 const currentVersion = localStorage.getItem("storage_version");
 
@@ -169,8 +169,10 @@ async function handleGuess() {
   }
   try {
     const result = await apiGuess(input, state.sessionId, {
-      time_to_respond: state.think_start_time - state.think_end_time,
+      date: new Date().toISOString(),
+      time_to_respond: state.think_end_time - state.think_start_time,
       first_time: state.totalRounds === 0,
+      total_rounds: state.totalRounds,
     });
 
     updatePerfectGuesses(input == result.best_guess);
