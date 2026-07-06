@@ -1,6 +1,6 @@
 from decimal import Decimal
 from enum import StrEnum
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 
 from pydantic import UUID4, AfterValidator, BaseModel, Field
 
@@ -37,7 +37,7 @@ class GuessGameSchema(BaseModel):
         le=12,
         description="The valid guess of the sum of two dice: an integer between 2 and 12",
     )
-    other_data: dict[str, Decimal] = Field(
+    other_data: dict[str, Any] = Field(
         ...,
         description="All other supplemetary data",
     )
@@ -68,6 +68,4 @@ class GamePermanentDataRow(BaseModel):
         ..., description="Total payout for the session in decimal form (not float)"
     )
 
-    other_data: dict[str, Decimal] = Field(
-        ..., description="All other supplemetary data"
-    )
+    other_data: dict[str, Any] = Field(..., description="All other supplemetary data")
