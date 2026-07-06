@@ -71,14 +71,14 @@ async function apiStartGame() {
   return res.json();
 }
 
-async function apiGuess(guess, sessionId, data) {
+async function apiGuess(guess, sessionId, other_data) {
   const res = await fetch("/api/guess", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       guess: guess,
       session_id: sessionId,
-      additional_data: data,
+      other_data: other_data,
     }),
   });
 
