@@ -27,3 +27,11 @@ any simulations or graphing done
 ## definitions
 
 Defining the state space of the model, giving everything a name
+
+## derivations
+
+Any formulas or variables derived from definitions
+
+## reference
+
+A quick reference table for all defined notations

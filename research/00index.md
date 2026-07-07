@@ -6,7 +6,7 @@
 
 ## Current Focus
 
--
+- Payout formula modeling
 
 ## Open Conjectures
 
