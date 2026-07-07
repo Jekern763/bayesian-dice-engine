@@ -192,3 +192,5 @@ G(r)=
     \frac{r+9}{2}  & r \in [7, 9]
 \end{cases}
 $$
+
+For a graph of this function see `figures/optimum_guess`
