@@ -164,10 +164,6 @@ Let $B_t$ denote the player's belief state after turn $t$.
 
 Then
 
-$
-B_t
-=
-\{\,S\in\mathcal S \mid O(S)=P_t\,\},
-$
+$B_t=\{\,S\in\mathcal S \mid O(S)=P_t\,\}$,
 
 that is, the set of all game states consistent with the player's observation history.
