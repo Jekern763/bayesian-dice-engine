@@ -14,7 +14,7 @@ Serves as the base of operations, compiling all current, upcoming, and recent wo
 
 ## conjectures
 
-ANy completely unproven ideas
+Any completely unproven ideas
 
 ## proofs
 
@@ -22,7 +22,7 @@ Formalized proofs of any given conjecture
 
 ## simulations
 
-any simulations or graphing done
+any agent simulations or graphing done
 
 ## definitions
 
@@ -35,3 +35,7 @@ Any formulas or variables derived from definitions
 ## reference
 
 A quick reference table for all defined notations
+
+## figures
+
+Simple images of any figures generated.
