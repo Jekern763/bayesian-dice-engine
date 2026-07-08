@@ -20,4 +20,4 @@
 | $B_t$ | Belief state after turn $t$ |
 | $p(g,r)$ | Payout function |
 | $M(r)$ | Maximum payout function |
-| $G(r)$ | Optimal guess functtion |
+| $G(r)$ | Optimum guess functtion |

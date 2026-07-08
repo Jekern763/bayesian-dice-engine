@@ -2,7 +2,7 @@
 
 ## Maximum Payout Function
 
-Let $G(r)$ be the best guess given r.
+Let $G(r)$ be the best guess given $r$.
 
 $$
 G(r)=
@@ -16,3 +16,17 @@ $$
 See `proofs/p1_optimum_guess_function`
 
 ## Optimum Guess Function
+
+Let $M(r)$ be the maximum payout for any $r$
+
+$$
+M(r) =
+\begin{cases}
+14-2r & r \le 5 \\[1em]
+\frac{(9-r)^2}{4} & 5 \le r \le 7 \\[1em]
+\frac{(r-5)^2}{4} & 7 \le r \le 9 \\[1em]
+2r-14 & r \ge 9
+\end{cases}
+$$
+
+See `proofs/p2_maximum_payout_function`

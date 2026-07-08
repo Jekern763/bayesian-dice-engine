@@ -53,6 +53,7 @@ is the complete observation history available to the player before making a gues
 $
 p(g,r)=(2-|g-r|)|g-7|
 $
+See `figures/payout.html` for a graph
 
 ### Accuracy Section
 
