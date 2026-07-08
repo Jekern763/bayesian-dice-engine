@@ -9,7 +9,8 @@ import plotly.graph_objects as go
 
 
 def payout(g, R):
-    return (2 - np.abs(R - g)) * np.abs(7 - g)
+    payout = (2 - np.abs(R - g)) * np.abs(7 - g)
+    return np.where(g == R, payout * 1, payout)
 
 
 # ==========================================================
