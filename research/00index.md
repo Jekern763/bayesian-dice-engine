@@ -2,22 +2,18 @@
 
 ## Todo
 
-- reserach payout
-- Graphs for optimum guess and payout function
+- Invariant Formula, possibly rename some variables to make it more natural
 
 ## Current Focus
 
-- making maximum payout function based on optimum guess function
+- properties about current functions
+- Invariant Formula
 
 ## Open Conjectures
 
-- c2
+- c3, c4
 
 ## Recent Work
 
 - Proved optimum guess function
-- Made all definitions
-
-## Figures
-
--
+- Derived maximum payout function

@@ -1,6 +1,6 @@
 # Derivations
 
-## Maximum Payout Function
+## Optimum Guess Function
 
 Let $G(r)$ be the best guess given $r$.
 
@@ -15,7 +15,7 @@ $$
 
 See `proofs/p1_optimum_guess_function`
 
-## Optimum Guess Function
+## Maximum Payout Function
 
 Let $M(r)$ be the maximum payout for any $r$
 

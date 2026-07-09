@@ -28,9 +28,9 @@ any agent simulations or graphing done
 
 Defining the state space of the model, giving everything a name
 
-## derivations
+## results
 
-Any formulas or variables derived from definitions
+Any formulas or variables derived and proved in proofs
 
 ## reference
 

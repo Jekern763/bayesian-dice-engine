@@ -105,6 +105,7 @@ $$
 ## p2.5 $M(r)$ for all intervals
 
 $$
+\boxed{
 M(r) =
 \begin{cases}
 14-2r & r \le 5 \\[1em]
@@ -112,6 +113,91 @@ M(r) =
 \frac{(r-5)^2}{4} & 7 \le r \le 9 \\[1em]
 2r-14 & r \ge 9
 \end{cases}
+}
 $$
 
 See `figures/maximum_payout` for graph
+
+## p1.6 Properties
+
+Determing certain properties for this function: funciton validity, continuity, differentiability, injectivity
+
+### p1.6.1 function validity
+
+Does each input produce only on output?
+
+We already know that each of the parts of the piecewise formula are functions themeselves, so we only need to check 
+
+$$
+\lim _{r \rightarrow x^-}(M(r)) = \lim _{r \rightarrow x^+}(M(r))
+$$
+
+At the handoff points
+
+$$
+x=5\\
+x=7\\
+x=9\\
+$$
+
+And not $x=9$, becauase it will be proven by the reflection property
+
+For $x=5$
+
+$$
+14 - 2(5) = \frac{(9-5)^2}{4} \\[1em]
+4 = \frac{16}{4} = 4
+$$
+
+For $x = 7$
+
+$$
+\frac{(9-7)^2}{4} = \frac{(7-5)^2}{4} \\[1em]
+\frac{(2)^2}{2} = \frac{(2)^2}{2}
+$$
+
+Therefore for all $r$, $G(r)$ produces only one output.
+
+Because $G(r)$ is proven to be a proper function, $G(r)$ is also continuus for all $r \in \mathbb{R}$
+
+### p1.6.3 differentiability
+
+For $G(r)$ to be differentiable
+
+$$
+G'_-(r) = G'_+(r)
+$$
+
+for all $r$, but because each piece of the function is proven to be differentiable, we need only test at the same values of $r$ as in `p1.6.1`
+
+For $r=5$
+
+$$
+-2 = \frac{(9-r)}{2}(-1) \\[1em]
+-2 = -2
+$$
+
+For $r=7$
+
+$$
+\frac{(9-r)}{2}(-1) = \frac{(r-5)}{2}(1) \\[1em]
+-1 \not = 1
+$$
+
+Therefore for all $r \not = 7$, $G(r)$ is diferentiable
+
+### p1.6.4 injectivity
+
+Because $G(r)$ is reflected across 7, we know that
+
+$$
+G(r) = G(14-r)
+$$
+
+And because
+
+$$
+r \not = 14-r; \space r \in \mathbb{R}
+$$
+
+then $G(r)$ is not 1-to-1
