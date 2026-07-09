@@ -32,7 +32,7 @@ $
 
 ## Peeks
 
-Let $p_t$ denote the observed sum revealed on turn $t$, such that $p_1$ is the first observed peek.
+Let $p_t$ denote the observed sum revealed on turn $t$, such that $p_1$ is the first observed peek. Any peeks where $t \ge m$ are future sums, currently unobserved.
 
 Let
 

@@ -185,12 +185,87 @@ $$
 Therefore
 
 $$
+\boxed{
 G(r)=
 \begin{cases}
     r & r \in (-\infty, 5] \cup [9, \infty) \\[1em]
     \frac{r+5}{2}  & r \in [5, 7] \\[1em]
     \frac{r+9}{2}  & r \in [7, 9]
 \end{cases}
+}
 $$
 
 For a graph of this function see `figures/optimum_guess`
+
+## p1.5 Properties
+
+Determing certain properties for this function: funciton validity, continuity, differentiability, injectivity
+
+### p1.5.1 function validity
+
+Does each input produce only on output?
+
+We already know that each of the parts of the piecewise formula are functions themeselves, so we only need to check the hand off points:
+
+$$
+r = 5 \\
+r= 7 \\
+r=9
+$$
+
+For $r=5$ and $G(r)$ to be a function
+$$
+r = \frac{r+5}{2} \\[1em]
+5 = \frac{5+5}{2} \\[1em]
+5 = 5
+$$
+
+For $r=7$
+
+$$
+\frac{r+5}{2} = \frac{r+9}{2} \\[1em]
+\frac{7+5}{2} = \frac{7+9}{2} \\[1em]
+6 \not = 8 \\[1em]
+$$
+
+Therefore $G(r)$ is not strictly a function.
+
+### p1.5.2 continuity
+
+For $G(r)$ to be continuous, at every break point $b$
+
+$$
+\lim _{r \rightarrow b^+}(G(r)) = \lim _{r \rightarrow b^-}(G(r))
+$$
+
+But as shown in `p1.5.1`, that is not true for $b=7$. But also as shown, $G(r)$ is continous $r \not = 7$, by the reflection property of `p1.5.1` at $r=5$.
+
+### p1.5.3 differentiability
+
+Because $G(r)$ is not continuus at $r=7$ it is not differentiable at $r=7$. So instead testing for $r=5$ (and using the reflection property)
+
+For $G(r)$ to be differentiable at $r=5$
+$$
+G'_-(5) = G'_+(5) \\[1em]
+1 = \frac{1}{2} + \frac{3}{2} \\[1em]
+1 \not = 2 \\[1em]
+$$
+
+Therefore $G(r)$ is not differentiable at any breakpoint:
+
+$$
+r=5 \\
+r=7 \\
+r=9
+$$
+
+### p1.5.4 injectivity
+
+For $G(r)$ to be 1-to-1, no inputs must yield the same output, but by the reflection property:
+
+$$
+G(r) = G(14-r) \\
+r \not = 14-r
+$$
+
+Therefore $G(r)$ is not 1-to-1
