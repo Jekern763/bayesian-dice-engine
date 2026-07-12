@@ -1,6 +1,6 @@
 # p1: Optimal Guess Function
 
-See `c2`
+See `c2`, `c3`
 
 ## p1.1 Reflection Property
 

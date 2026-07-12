@@ -1,6 +1,6 @@
 # p2: maximum payout function
 
-See `c1`
+See `c1`, `c3`
 
 See `p1` for proof of $G(r)$
 
@@ -126,7 +126,7 @@ Determing certain properties for this function: funciton validity, continuity, d
 
 Does each input produce only on output?
 
-We already know that each of the parts of the piecewise formula are functions themeselves, so we only need to check 
+We already know that each of the parts of the piecewise formula are functions themeselves, so we only need to check
 
 $$
 \lim _{r \rightarrow x^-}(M(r)) = \lim _{r \rightarrow x^+}(M(r))
