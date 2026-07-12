@@ -67,3 +67,9 @@ $$
 $$
 
 but because each sum is adding up the sum of two die faces, it is essentially multiplied by 2, canceling out the $/2$. The only reason I split it up is to show that you can know exactly what the sum of the remaining faces is after any number of peeks.
+
+After updating definitions, the formula becomes much easier
+
+$$
+\Sigma_{P_t} + \Sigma_{H_t} = (n+1)(n) = 42
+$$

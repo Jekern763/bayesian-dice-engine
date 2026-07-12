@@ -32,7 +32,7 @@ $
 
 ## Peeks
 
-Let $p_t$ denote the observed sum revealed on turn $t$, such that $p_1$ is the first observed peek. Any peeks where $t \ge m$ are future sums, currently unobserved.
+Let $p_t$ denote the last observed sum, such that $p_1$ is the first observed peek. When
 
 Let
 
@@ -40,14 +40,27 @@ $
 P_t = (p_1,p_2,\ldots,p_t)
 $
 
-denote the ordered observation history.
+denote the ordered observation history available to the player at time t
 
-For the standard game,
+Let $m$ be the turn on which the player observes $p_t$ and then guesses.
 
-$P_{m-1}=(p_1,p_2,\ldots,p_{m-1})$
+Let
 
-is the complete observation history available to the player before making a guess.
+$$
+H_t = (p_{t+1}, p_{t+2}, \ldots,p_n)
+$$
 
+Be the future peeks, not observed after turn $t$
+
+Also, let
+
+$$
+r_t^{(\mathcal{D_1})} + r_t^{(\mathcal{D}_2)} = p_t
+$$
+
+Where $r_t^{(\mathcal{D}_x)}$ is the specific side rolled on depeleting die $x$.
+
+$r$ is completely unobservable to the player, and should not be confused with $r$ in **payout formula**, which is actually a sum. $r$ remains in use this way, because that is how the game engine utilizes it.
 ## Payout Formula
 
 $
@@ -119,10 +132,18 @@ $
 
 Thus every face may be rolled at most once.
 
+It can then be derived that the set of all sides rolled on a single die, after $n$ rolls will form a permutation of $\set{1, 2, ..., n}$
+
 For the standard game,
 
 $
 n=6.
+$
+
+Also
+
+$
+t_{max} = n
 $
 
 ## Game State
@@ -168,3 +189,22 @@ Then
 $B_t=\{\,S\in\mathcal S \mid O(S)=P_t\,\}$,
 
 that is, the set of all game states consistent with the player's observation history.
+
+## Observed and Future Sums
+
+Let
+
+$$
+\Sigma_{P_t} = \Sigma_{O(t)} = \sum_{i=1}^{t} p_i
+$$
+
+Be the sum of observed peeks after turn $t$
+
+Let
+
+$$
+\Sigma_{H_t} = \sum_{i=t+1}^n{p_i}
+$$
+
+Be the sum of all future peks after turn $t$
+

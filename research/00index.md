@@ -6,12 +6,11 @@
 
 ## Current Focus
 
-- properties about current functions
 - Invariant Formula
 
 ## Open Conjectures
 
-- c3, c4
+- c4
 
 ## Recent Work
 
