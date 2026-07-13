@@ -2,7 +2,7 @@
 
 See `c6`
 
-Recall 
+Recall
 $$
 S_t = (A_t^{(1)}, A_t^{(2)})
 $$
@@ -68,7 +68,7 @@ Therefore every successor state is equally likely.
 Let
 
 $$
-P(S_{t+1} | S_t) = 
+P(S_{t+1} | S_t) =
 \begin{cases}
 \frac{1}{|\mathcal{T}(S_t)|}, & S_{t+1}\in \mathcal{T}(S_t) \\[1em]
 0, & S_{t+1} \not \in \mathcal{T}(S_t)
@@ -78,7 +78,7 @@ $$
 Substituting in the cardinality function `p4.2`
 
 $$
-P(S_{t+1} | S_t) = 
+P(S_{t+1} | S_t) =
 \begin{cases}
 \frac{1}{(n-t)^2}, & S_{t+1}\in \mathcal{T}(S_t) \\[1em]
 0, & S_{t+1} \not \in \mathcal{T}(S_t)
@@ -89,7 +89,7 @@ Or for this game specifically
 
 $$
 \boxed{
-P(S_{t+1} | S_t) = 
+P(S_{t+1} | S_t) =
 \begin{cases}
 \frac{1}{(6-t)^2}, & S_{t+1}\in \mathcal{T}(S_t) \\[1em]
 0, & S_{t+1} \not \in \mathcal{T}(S_t)

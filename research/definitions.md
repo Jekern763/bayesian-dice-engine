@@ -181,5 +181,4 @@ $$
 \Sigma_{F_t} = \sum_{i=t+1}^n{p_i}
 $$
 
-Be the sum of all future peks after turn $t$
-
+Be the sum of all future peeks after turn $t$

@@ -20,6 +20,6 @@
 | $S_t$ | Complete game state after turn $t$ |
 | $p(g,r)$ | Payout function |
 | $M(r)$ | Maximum payout function |
-| $G(r)$ | Optimum guess functtion |
+| $G(r)$ | Optimum guess function |
 | $\Sigma_{P_t}$ | The sum of all observed peeks |
 | $\Sigma_{F_t}$ | The sum of all future peeks |
