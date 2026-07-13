@@ -2,7 +2,7 @@
 
 ## Todo
 
-- Invariant Formula, possibly rename some variables to make it more natural
+- Update reference.md for all variable changes
 
 ## Current Focus
 
@@ -10,7 +10,7 @@
 
 ## Open Conjectures
 
-- c4
+  
 
 ## Recent Work
 

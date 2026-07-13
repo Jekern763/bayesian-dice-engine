@@ -73,3 +73,17 @@ After updating definitions, the formula becomes much easier
 $$
 \Sigma_{P_t} + \Sigma_{H_t} = (n+1)(n) = 42
 $$
+
+## c5: Observation Likelihood
+
+How likely is the next peek, if you know which sides are left on each dice?
+
+$$
+P(p_t | X_t)
+$$
+
+Recalling that
+
+$$
+X_t = (A_t^{(1)}, A_t^{(2)}) \\[1em]
+$$
