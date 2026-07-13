@@ -5,7 +5,7 @@ See `c4`
 Trying to prove
 
 $$
-\Sigma_{P_t} + \Sigma_{H_t} = (n+1)(n)
+\Sigma_{P_t} + \Sigma_{F_t} = (n+1)(n)
 $$
 
 First defining some variables:
@@ -21,13 +21,13 @@ Where $m$ is the number of turns after the player guesses and $p_i$ is the $i$th
 Let
 
 $$
-\Sigma_{H_t} = \sum_{i=t+1}^np_i
+\Sigma_{F_t} = \sum_{i=t+1}^np_i
 $$
 
 ## p3.1 In General
 
 $$
-\Sigma_{P_t} + \Sigma_{H_t} = \sum_{i=1}^tp_i + \sum_{i=t+1}^np_i \\[1em]
+\Sigma_{P_t} + \Sigma_{F_t} = \sum_{i=1}^tp_i + \sum_{i=t+1}^np_i \\[1em]
 = \sum_{i=1}^np_i \\[1em]
 = \sum_{i=1}^n(r_i^{(\mathcal{D}_1)}+r_i^{(\mathcal{D}_2)})
 $$
@@ -45,15 +45,15 @@ $$
 Plugging into the formula for $n=6$
 
 $$
-\Sigma_{P_t} + \Sigma_{H_t} = (n+1)(n) = 42
+\Sigma_{P_t} + \Sigma_{F_t} = (n+1)(n) = 42
 $$
 
 Follwing, with $m=4$, and at $t=m$
 
 $$
-\Sigma_{P_4} + \Sigma_{H_4} = 42 \\[1em]
-\Sigma_{H_4} = 42 - \Sigma_{P_4} \\[1em]
-avg(H_4) = \frac{42 - \Sigma_{P_4}}{4}
+\Sigma_{P_4} + \Sigma_{F_4} = 42 \\[1em]
+\Sigma_{F_4} = 42 - \Sigma_{P_4} \\[1em]
+avg(F_4) = \frac{42 - \Sigma_{P_4}}{2}
 $$
 
 Thus, after the fourth observed sum, the average value of the four remaining sums is completely determined by the first four observations:

@@ -156,16 +156,16 @@ $$
 \frac{(2)^2}{2} = \frac{(2)^2}{2}
 $$
 
-Therefore for all $r$, $G(r)$ produces only one output.
+Therefore for all $r$, $M(r)$ produces only one output.
 
-Because $G(r)$ is proven to be a proper function, $G(r)$ is also continuus for all $r \in \mathbb{R}$
+Because $M(r)$ is proven to be a proper function, $M(r)$ is also continuus for all $r \in \mathbb{R}$
 
 ### p1.6.3 differentiability
 
-For $G(r)$ to be differentiable
+For $M(r)$ to be differentiable
 
 $$
-G'_-(r) = G'_+(r)
+M'_-(r) = M'_+(r)
 $$
 
 for all $r$, but because each piece of the function is proven to be differentiable, we need only test at the same values of $r$ as in `p1.6.1`
@@ -184,14 +184,14 @@ $$
 -1 \not = 1
 $$
 
-Therefore for all $r \not = 7$, $G(r)$ is diferentiable
+Therefore for all $r \not = 7$, $M(r)$ is diferentiable
 
 ### p1.6.4 injectivity
 
-Because $G(r)$ is reflected across 7, we know that
+Because $M(r)$ is reflected across 7, we know that
 
 $$
-G(r) = G(14-r)
+M(r) = M(14-r)
 $$
 
 And because
@@ -200,4 +200,4 @@ $$
 r \not = 14-r; \space r \in \mathbb{R}
 $$
 
-then $G(r)$ is not 1-to-1
+then $M(r)$ is not 1-to-1
