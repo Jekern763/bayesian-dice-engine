@@ -34,10 +34,10 @@ See `proofs/p2_maximum_payout_function`
 ## Invariant Sum Formula
 
 For any game state at turn $t$:
-$$\Sigma_{P_t} + \Sigma_{H_t} = n(n+1)$$
+$$\Sigma_{P_t} + \Sigma_{F_t} = n(n+1)$$
 
 For the standard game ($n=6$):
-$$\Sigma_{P_t} + \Sigma_{H_t} = 42$$
+$$\Sigma_{P_t} + \Sigma_{F_t} = 42$$
 
 See `proofs/p3_invariant_sum`
 
@@ -55,7 +55,7 @@ S_{t+1}:
 $$
 
 $$
-P(S_{t+1} | S_t) = 
+P(S_{t+1} | S_t) =
 \begin{cases}
 \frac{1}{(6-t)^2}, & S_{t+1}\in \mathcal{T}(S_t) \\[1em]
 0, & S_{t+1} \not \in \mathcal{T}(S_t)

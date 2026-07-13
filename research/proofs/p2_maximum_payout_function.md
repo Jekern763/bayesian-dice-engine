@@ -140,7 +140,7 @@ x=7\\
 x=9\\
 $$
 
-And not $x=9$, becauase it will be proven by the reflection property
+And not $x=9$, because it will be proven by the reflection property
 
 For $x=5$
 
@@ -160,7 +160,7 @@ Therefore for all $r$, $M(r)$ produces only one output.
 
 Because $M(r)$ is proven to be a proper function, $M(r)$ is also continuus for all $r \in \mathbb{R}$
 
-### p1.6.3 differentiability
+### p1.6.2 differentiability
 
 For $M(r)$ to be differentiable
 
@@ -184,9 +184,9 @@ $$
 -1 \not = 1
 $$
 
-Therefore for all $r \not = 7$, $M(r)$ is diferentiable
+Therefore for all $r \not = 7$, $M(r)$ is differentiable
 
-### p1.6.4 injectivity
+### p1.6.3 injectivity
 
 Because $M(r)$ is reflected across 7, we know that
 

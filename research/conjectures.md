@@ -85,8 +85,10 @@ $$
 Recalling that
 
 $$
-S_t = (A_t^{(1)}, A_t^{(2)}) \\[1em]
+S_t = (A_t^{(1)}, A_t^{(2)})
 $$
+
+Cancelled — this will be brought back in a different conjecture.
 
 ## c6: State Transition
 
