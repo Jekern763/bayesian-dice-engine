@@ -15,9 +15,7 @@
 | $A_t^{(2)}$ | Available faces on the second die |
 | $\mathcal{D}$ | A depleting die |
 | $S_t$ | Complete game state after turn $t$ |
-| $\mathcal{S}$ | Set of all valid game states |
 | $O$ | Observation function |
-| $B_t$ | Belief state after turn $t$ |
 | $p(g,r)$ | Payout function |
 | $M(r)$ | Maximum payout function |
 | $G(r)$ | Optimum guess functtion |

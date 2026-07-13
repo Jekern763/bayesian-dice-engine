@@ -47,20 +47,15 @@ Let $m$ be the turn on which the player observes $p_t$ and then guesses.
 Let
 
 $$
-H_t = (p_{t+1}, p_{t+2}, \ldots,p_n)
+F_t = (p_{t+1}, p_{t+2}, \ldots,p_n)
 $$
 
 Be the future peeks, not observed after turn $t$
 
-Also, let
+Also, let $x_t$ be the roll on $\mathcal{D}_1$ at turn $t$
 
-$$
-r_t^{(\mathcal{D_1})} + r_t^{(\mathcal{D}_2)} = p_t
-$$
+Similarly, let $y_t$ be the roll on $\mathcal{D}_2$ at turn $t$
 
-Where $r_t^{(\mathcal{D}_x)}$ is the specific side rolled on depeleting die $x$.
-
-$r$ is completely unobservable to the player, and should not be confused with $r$ in **payout formula**, which is actually a sum. $r$ remains in use this way, because that is how the game engine utilizes it.
 ## Payout Formula
 
 $
@@ -148,47 +143,33 @@ $
 
 ## Game State
 
-Let
-
-$
-S_t=(A_t^{(1)},A_t^{(2)},P_t)
-$
-
-denote the complete game state after turn $t$, where
-
 - $A_t^{(1)}$ is the set of available faces on the first die,
 - $A_t^{(2)}$ is the set of available faces on the second die,
 - $P_t$ is the ordered observation history.
 
-Initially,
 
 $
-S_0=(D_n,D_n,()).
+S_t = (A_t^{(1)},A_t^{(2)})
 $
 
-## Observation Function
-
-Let $O$ denote the observation function.
-
-Given a game state $S_t$, the player observes only the ordered sequence of revealed peeks.
 
 $
-O(S_t)=P_t.
+S_0=(D_n,D_n).
 $
 
-The remaining faces on each die are hidden.
+Also, let
 
-## Belief State
+$
+R_t^{(1)} = (r_1^{(1)}, r_2^{(1)}, ..., r_t^{(1)})
+$
 
-Let $\mathcal{S}$ denote the set of all valid game states.
+be the ordered rolls on $\mathcal{D}_1$. Similarly
 
-Let $B_t$ denote the player's belief state after turn $t$.
+$
+R_t^{(2)}
+$
 
-Then
-
-$B_t=\{\,S\in\mathcal S \mid O(S)=P_t\,\}$,
-
-that is, the set of all game states consistent with the player's observation history.
+is the ordered rolls on $\mathcal{D}_2$
 
 ## Observed and Future Sums
 
