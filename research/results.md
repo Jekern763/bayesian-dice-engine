@@ -30,3 +30,36 @@ M(r) =
 $$
 
 See `proofs/p2_maximum_payout_function`
+
+## Invariant Sum Formula
+
+For any game state at turn $t$:
+$$\Sigma_{P_t} + \Sigma_{H_t} = n(n+1)$$
+
+For the standard game ($n=6$):
+$$\Sigma_{P_t} + \Sigma_{H_t} = 42$$
+
+See `proofs/p3_invariant_sum`
+
+## Game State Transition
+
+$$
+\mathcal{T}(S_t) = \left\{
+S_{t+1}:
+    \begin{array}{l}
+        A_{t+1}^{(1)} = A_t^{(1)} \backslash \set{r^{(1)}} \\[1em]
+        A_{t+1}^{(2)} = A_t^{(2)} \backslash \set{r^{(2)}} \\[1em]
+        r^{(1)} \in A_t^{(1)}, r^{(2)} \in A_t^{(2)}
+    \end{array}
+\right\}
+$$
+
+$$
+P(S_{t+1} | S_t) = 
+\begin{cases}
+\frac{1}{(6-t)^2}, & S_{t+1}\in \mathcal{T}(S_t) \\[1em]
+0, & S_{t+1} \not \in \mathcal{T}(S_t)
+\end{cases}
+$$
+
+See `proofs/p_4_game_state_transition`

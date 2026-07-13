@@ -50,7 +50,7 @@ Put these in p1 and p2, as an extension. Maybe slope lines up for some jumps in 
 For the any game state $G_t$:
 
 $$
-\sum _{i=1}^{m-1} p_t+ \sum_{i=m}^n p_t
+\sum _{i=1}^{m-1} p_i+ \sum_{i=m}^n p_i
 = n(n+1)
 $$
 
@@ -71,7 +71,7 @@ but because each sum is adding up the sum of two die faces, it is essentially mu
 After updating definitions, the formula becomes much easier
 
 $$
-\Sigma_{P_t} + \Sigma_{H_t} = (n+1)(n) = 42
+\Sigma_{P_t} + \Sigma_{F_t} = (n+1)(n) = 42
 $$
 
 ## c5: Observation Likelihood
@@ -79,11 +79,43 @@ $$
 How likely is the next peek, if you know which sides are left on each dice?
 
 $$
-P(p_t | X_t)
+P(p_t | S_t)
 $$
 
 Recalling that
 
 $$
-X_t = (A_t^{(1)}, A_t^{(2)}) \\[1em]
+S_t = (A_t^{(1)}, A_t^{(2)}) \\[1em]
+$$
+
+## c6: State Transition
+
+What is the probability of the next game state given the current state?
+
+$$
+P(S_{t+1} | S_{t})
+$$
+
+## c7: Next Sum Given Complete State
+
+What is the probability of the next sum given the current game state?
+
+$$
+P(p_{t+1} | S_{t})
+$$
+
+## c8: Next State Given Peeks
+
+What is the probability of the next state given an ordered list of peeks?
+
+$$
+P(S_{t+1} | P_t)
+$$
+
+## c9: Next Sum Probability
+
+What is the probability of the next sum given an ordered list of peeks? This is what the player needs to figure out, so this is the games probability completely
+
+$$
+P(p_{t+1} | P_t) = P(p_{t+1} | (p_1, p_2, ..., p_t))
 $$

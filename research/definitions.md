@@ -32,7 +32,7 @@ $
 
 ## Peeks
 
-Let $p_t$ denote the last observed sum, such that $p_1$ is the first observed peek. When
+Let $p_t$ denote the last observed sum, such that $p_1$ is the first observed peek.
 
 Let
 
@@ -41,8 +41,6 @@ P_t = (p_1,p_2,\ldots,p_t)
 $
 
 denote the ordered observation history available to the player at time t
-
-Let $m$ be the turn on which the player observes $p_t$ and then guesses.
 
 Let
 
@@ -55,6 +53,18 @@ Be the future peeks, not observed after turn $t$
 Also, let $x_t$ be the roll on $\mathcal{D}_1$ at turn $t$
 
 Similarly, let $y_t$ be the roll on $\mathcal{D}_2$ at turn $t$
+
+Then let
+
+$$
+X_t = \set{x_1, x_2, ..., x_t}
+$$
+
+Similarly
+
+$$
+Y_t = \set{y_1, y_2, ..., y_t}
+$$
 
 ## Payout Formula
 
@@ -147,36 +157,20 @@ $
 - $A_t^{(2)}$ is the set of available faces on the second die,
 - $P_t$ is the ordered observation history.
 
-
 $
 S_t = (A_t^{(1)},A_t^{(2)})
 $
 
-
 $
 S_0=(D_n,D_n).
 $
-
-Also, let
-
-$
-R_t^{(1)} = (r_1^{(1)}, r_2^{(1)}, ..., r_t^{(1)})
-$
-
-be the ordered rolls on $\mathcal{D}_1$. Similarly
-
-$
-R_t^{(2)}
-$
-
-is the ordered rolls on $\mathcal{D}_2$
 
 ## Observed and Future Sums
 
 Let
 
 $$
-\Sigma_{P_t} = \Sigma_{O(t)} = \sum_{i=1}^{t} p_i
+\Sigma_{P_t}  = \sum_{i=1}^{t} p_i
 $$
 
 Be the sum of observed peeks after turn $t$
@@ -184,7 +178,7 @@ Be the sum of observed peeks after turn $t$
 Let
 
 $$
-\Sigma_{H_t} = \sum_{i=t+1}^n{p_i}
+\Sigma_{F_t} = \sum_{i=t+1}^n{p_i}
 $$
 
 Be the sum of all future peks after turn $t$
