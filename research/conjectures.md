@@ -108,10 +108,10 @@ $$
 
 ## c8: Next State Given Peeks
 
-What is the probability of the next state given an ordered list of peeks?
+What is the probability of the current state given an ordered list of peeks?
 
 $$
-P(S_{t+1} | P_t)
+P(S_{t} | P_t)
 $$
 
 ## c9: Next Sum Probability
