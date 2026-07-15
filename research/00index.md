@@ -2,17 +2,15 @@
 
 ## Todo
 
-- Update reference.md for all variable changes
+- Make average algorithm guesser
+- Prove c7
+- Start thinking about EV
+- Start thinking about series, like branching factor and collasping state spaces
 
 ## Current Focus
 
-- Invariant Formula
+- game state probability
 
 ## Open Conjectures
 
-- c5, 
-
-## Recent Work
-
-- Proved optimum guess function
-- Derived maximum payout function
+- c8, c9

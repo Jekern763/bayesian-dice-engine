@@ -62,4 +62,24 @@ P(S_{t+1} | S_t) =
 \end{cases}
 $$
 
-See `proofs/p_4_game_state_transition`
+See `proofs/p4_game_state_transition`
+
+## Next Peek Given Game State
+
+$$
+N(p, S) = \left|
+    \left\{
+        \begin{array}{l}
+            (x, y) \in A^{(1)} \times A^{(2)} : x+y=S
+        \end{array}
+    \right\}
+\right|  
+$$
+
+$$
+P(p_{t+1} | S_t) = \frac{N(p_{t+1}, S_t)}{4}
+$$
+
+\*$t=4$
+
+See `proofs/p5_peek_liklihood_given_state`
