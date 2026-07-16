@@ -121,3 +121,22 @@ What is the probability of the next sum given an ordered list of peeks? This is 
 $$
 P(p_{t+1} | P_t) = P(p_{t+1} | (p_1, p_2, ..., p_t))
 $$
+
+### I have come to the conlusion that we must first define c10 and c11 before doing c8 and c9
+
+## c10: State Probability
+
+What is the probability of any given state. basically how many states are there, and how many times does this one state occur
+
+Possibly all states are equally likely?
+$$
+P(S_t)
+$$
+
+## c11: Observation History Liklihood
+
+Need this one to use Bayes Theorem. It asks, what is the liklihood of using this sequence of peeks to get to this game state
+
+$$
+P(P_t | S_t)
+$$
