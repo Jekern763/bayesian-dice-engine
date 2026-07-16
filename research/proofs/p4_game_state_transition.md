@@ -96,3 +96,66 @@ P(S_{t+1} | S_t) =
 \end{cases}
 }
 $$
+
+## p4.4: Probability of Transition, given Peek
+
+Proving
+
+$$
+P(S_{t+1} | S_t, p_{t+1}) \\[1em]
+= \frac{
+    \left|\left\{
+        (x_{t+1}, y_{t+1}) :
+        \begin{array}{l}
+            x_{t+1} + y_{t+1} = p_{t+1}\\[1em]
+            A_{t+1}^{(1)} = A_t^{(1)}\backslash\set{x_{t+1}}\\[1em]
+            A_{t+1}^{(2)} = A_t^{(2)}\backslash\set{y_{t+1}}
+        \end{array}
+    \right\}\right|
+}{
+    \left|\left\{
+        (x_{t+1}, y_{t+1}): 
+        \begin{array}{l}
+            x_{t+1} \in A_t^{(1)} \\
+            y_{t+1} \in A_t^{(2)} \\
+            x_{t+1} + y_{t+1} = p_{t+1}
+        \end{array}
+    \right\}\right|}
+$$
+
+In words:
+
+$$
+= \frac{
+    \text{possible rolls consistent with the peek and the state}
+}{
+    \text{possible rolls consitent with the peek}
+}
+$$
+
+And in order to use in context let
+
+$$
+\mathcal{N}_{S_t, p_t}(t)=
+\left|\left\{
+        (x_{t+1}, y_{t+1}) :
+        \begin{array}{l}
+            x_{t+1} + y_{t+1} = p_{t+1}\\[1em]
+            A_{t+1}^{(1)} = A_t^{(1)}\backslash\set{x_{t+1}}\\[1em]
+            A_{t+1}^{(2)} = A_t^{(2)}\backslash\set{y_{t+1}}
+        \end{array}
+    \right\}\right|
+$$
+
+and
+
+$$
+\mathcal{N}_{p_t}(t)= \left|\left\{
+        (x_{t+1}, y_{t+1}): 
+        \begin{array}{l}
+            x_{t+1} \in A_t^{(1)} \\
+            y_{t+1} \in A_t^{(2)} \\
+            x_{t+1} + y_{t+1} = p_{t+1}
+        \end{array}
+    \right\}\right|
+$$
