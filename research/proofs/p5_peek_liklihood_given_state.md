@@ -39,7 +39,7 @@ $$
 
 Let
 
-$$N(p, S) \\
+$$\mathcal{N}_{p_{t}}(t) \\
 p \in \mathbb{Z}$$
 
 be the number of ways $p$ can be made from the current state $S$
@@ -47,10 +47,10 @@ be the number of ways $p$ can be made from the current state $S$
 So
 
 $$
-N(p, S) = \left|
+\mathcal{N}_{p_{t}}(t) = \left|
     \left\{
         \begin{array}{l}
-            (x, y) \in A^{(1)} \times A^{(2)} : x+y=S
+            (x_{t+1,} y_{t+1}) \in A^{(1)} \times A^{(2)} : x_{t+1}+y_{t+1}=p_{t+1}
         \end{array}
     \right\}
 \right|  
@@ -59,7 +59,8 @@ $$
 ## p5.2: $P(p_{t+1} | S_t)$ in general
 
 $$
-P(p_{t+1} | S_t) = \frac{N(p_{t+1}, S_t)}{|A^{(1)} \times A^{(2)}|}
+P(p_{t+1} | S_t) = \frac{\mathcal{N}_{p_{t+1}}(t+1)}{|A_t^{(1)} \times A_t^{(2)}|} \\[1em]
+P(p_{t+1}|S_t) = \frac{\mathcal{N}_{p_{t+1}}(t+1)}{(n-t)^2}
 $$
 
 ## p5.3: $P(P_{t+1}| S_t)$ for $t=4$
@@ -71,6 +72,6 @@ $$
 |A^{(1)} \times A^{(2)}| = 4 \\[1em]
 \therefore \\[1em]
 \boxed{
-    P(p_{t+1} | S_t) = \frac{N(p_{t+1}, S_t)}{4}
+    P(p_{t+1} | S_t) = \frac{\mathcal{N}_{p_{t+1}}(t+1)}{4}
 }
 $$

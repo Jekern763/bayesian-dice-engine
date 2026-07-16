@@ -2,10 +2,7 @@
 
 ## Todo
 
-- Make average algorithm guesser
-- Prove c7
-- Start thinking about EV
-- Start thinking about series, like branching factor and collasping state spaces
+Working on $P(P_t, S_t)$, for other formula. Need $P(S_{t+1} | S_t, p_{t+1})$
 
 ## Current Focus
 
