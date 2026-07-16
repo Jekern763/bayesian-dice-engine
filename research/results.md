@@ -83,3 +83,11 @@ $$
 \*$t=4$
 
 See `proofs/p5_peek_liklihood_given_state`
+
+## Probability of Game State
+
+$$
+P(S_t)=\frac{1}{\binom{6}{t}^2}
+$$
+
+See `proofs/p6_state_liklihood`

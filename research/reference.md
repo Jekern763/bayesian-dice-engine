@@ -28,4 +28,5 @@
 | $\mathcal{T}(S_t)$ | The set of all possible game states after given state $S_t$ |
 | $P(S_{t+1} \| S_t)$ | The probaility of the next state of the game |
 | $N(p, S)$ | The number of ways a peek $p$ can be made with state $S$ |
-| $P(p_{t+1} \| S_t)$ | The probability of the next peek given the state|
+| $P(p_{t+1} \| S_t)$ | The probability of the next peek given the state |
+| $P(S_t)$ | The probability of getting to any game state |
