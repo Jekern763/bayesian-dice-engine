@@ -62,7 +62,7 @@ Using the properties of the game:
 - The probability of $S_{t}$ depends only on $S_{t-1}$ and $p_{t-1}$
 
 $$
-P(P_{t-1}​,S_{t−1}​)⋅P(p_t​∣P_{t−1​},S_{t−1}​)⋅P(S_t​∣P_{t−1}​,S_{t−1}​,p_t​)\\ 
+P(P_{t-1}​,S_{t−1}​)⋅P(p_t​∣P_{t−1​},S_{t−1}​)⋅P(S_t​∣P_{t−1}​,S_{t−1}​,p_t​)\\
 =P(P_{t-1}​,S_{t−1}​)⋅P(p_t​∣S_{t−1}​)⋅P(S_t​∣​S_{t−1}, p_{t}​​)\\[1em]
 $$
 Substituting
@@ -96,7 +96,7 @@ $$
 So
 
 $$
-P(P_t, S_t) = 
+P(P_t, S_t) =
 \sum_{S_{t-1}}P(P_{t-1}​,S_{t−1}​)
 \cdot
 \frac{\mathcal{N}_{p_t}(t)}{(6-(t-1))^2}
