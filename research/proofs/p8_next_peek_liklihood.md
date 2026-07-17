@@ -1,4 +1,5 @@
 # p8: Next Peek Liklihood
+
 Proving
 
 $$
@@ -29,15 +30,16 @@ $$
 = \sum_{S_t}P(p_{t+1}|S_t) \cdot P(S_t|P_t)\\[1.5em]
 
 = \sum_{S_t} \frac{\mathcal{N}_{p_{t+1}}(t+1)}{(6-t)^2} \cdot P(S_t|P_t) \\[1.5em]
-
+\boxed{
 =\sum_{S_t} \frac{\mathcal{N}_{p_{t+1}}(t+1)}{(6-t)^2} \cdot \frac{
     \alpha_t(S_t)
 }{
     \sum_{S_t}\alpha_t(S_t)
 }
+}
 $$
 
-Now expanding everything
+Now expanding everything (for fun)
 
 $$
 = \sum_{S_t}

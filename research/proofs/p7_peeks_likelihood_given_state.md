@@ -32,7 +32,7 @@ Since we know that $S_t$ is possible and $n=6$
 Let us also define (using `p5`)
 
 $$
-P(p_t, S_{t-1}) = \frac{\mathcal{N}_{p_t}(t)}{4}
+P(p_t | S_{t-1}) = \frac{\mathcal{N}_{p_t}(t)}{(6-t)^2}
 $$
 
 Just to combine everything we have
@@ -90,7 +90,7 @@ This the recursive step. Defining end points:
 $$
 S_0 = (\set{1,2,3,4,5,6}, \set{1,2,3,4,5,6}) \\
 P_0 = \set{} \\
-P(S_t, P_0) = 1
+P(S_0, P_0) = 1
 $$
 
 So
