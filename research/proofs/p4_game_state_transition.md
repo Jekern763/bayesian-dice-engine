@@ -114,7 +114,7 @@ P(S_{t+1} | S_t, p_{t+1}) \\[1em]
     \right\}\right|
 }{
     \left|\left\{
-        (x_{t+1}, y_{t+1}): 
+        (x_{t+1}, y_{t+1}):
         \begin{array}{l}
             x_{t+1} \in A_t^{(1)} \\
             y_{t+1} \in A_t^{(2)} \\
@@ -151,7 +151,7 @@ and
 
 $$
 \mathcal{N}_{p_t}(t)= \left|\left\{
-        (x_{t+1}, y_{t+1}): 
+        (x_{t+1}, y_{t+1}):
         \begin{array}{l}
             x_{t+1} \in A_t^{(1)} \\
             y_{t+1} \in A_t^{(2)} \\
