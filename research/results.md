@@ -1,4 +1,4 @@
-# Derivations
+# Results
 
 ## Optimum Guess Function
 
@@ -91,3 +91,22 @@ P(S_t)=\frac{1}{\binom{6}{t}^2}
 $$
 
 See `proofs/p6_state_liklihood`
+
+## Next Peek Given Peek History
+
+$$
+P(p_{t+1} | P_t) =
+\sum_{S_t} \frac{\mathcal{N}_{p_{t+1}}(t+1)}{(6-t)^2} \cdot \frac{
+    \alpha_t(S_t)
+}{
+    \sum_{S_t}\alpha_t(S_t)
+}
+$$
+
+## Expected Value
+
+$$
+EV(g|P_t)=|g-7| \cdot (2-\sum_{r=2}^{12}|g-r| \cdot P(r|P_t)) \\[1em]
+
+E[maxEV]=\sum_{P_t}\max_g(EV(g|P_t)) \cdot \sum_{S_t}\alpha(S_t)
+$$
