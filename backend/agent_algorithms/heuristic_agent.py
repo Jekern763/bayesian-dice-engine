@@ -13,8 +13,8 @@ Both agents will then make a guess based on their expected guess, weighted close
 
 
 class ReflectionAgent(Agent):
-    def __init__(self, weights=[0.25, 0.5, 0.25]):
-        super().__init__()
+    def __init__(self, weights=[0.25, 0.5, 0.25], riskiness=8, jackpot=10):
+        super().__init__(riskiness=riskiness, jackpot=jackpot)
         self.weights = weights
 
     def get_action(self, peeks):
@@ -27,8 +27,8 @@ class ReflectionAgent(Agent):
 
 
 class InvariantAgent(Agent):
-    def __init__(self, weights=[0.25, 0.5, 0.25]):
-        super().__init__()
+    def __init__(self, weights=[0.25, 0.5, 0.25], riskiness=8, jackpot=10):
+        super().__init__(riskiness=riskiness, jackpot=jackpot)
         self.weights = weights
 
     def get_action(self, peeks):
