@@ -31,7 +31,6 @@ def benchmark(
         output = Path(
             f"~/pythonProjects/gamblint/research/data/{run_name}_{num_runs}.parquet"
         )
-        output.parent.mkdir(parents=True, exist_ok=True)
 
         df.to_parquet(output)
 
