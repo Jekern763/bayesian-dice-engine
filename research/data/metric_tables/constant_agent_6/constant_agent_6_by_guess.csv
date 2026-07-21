@@ -1,2 +1,2 @@
-guess,exact_hit_rate,mean_absolute_error,mean_squared_error,guess_frequency,average_deviation_guess,average_operations,maximum_operations,average_payout,median_payout,standard_deviation_payout,minimum_payout,maximum_payout
-6,0.1367,2.1168,6.846,"{'2': 0, '3': 0, '4': 0, '5': 0, '6': 1, '7': 0, '8': 0, '9': 0, '10': 0, '11': 0, '12': 0}",1,126.5468,148,-0.1168,0.0,1.5379838423825989,-4,2
+guess,times_appeared,exact_hit_rate,mean_absolute_error,mean_squared_error,guess_frequency,average_deviation_guess,average_operations,maximum_operations,average_payout,median_payout,standard_deviation_payout,minimum_payout,maximum_payout
+6,10000,0.1367,2.1168,6.846,"{'2': 0.0, '3': 0.0, '4': 0.0, '5': 0.0, '6': 1.0, '7': 0.0, '8': 0.0, '9': 0.0, '10': 0.0, '11': 0.0, '12': 0.0}",1.0,126.5468,148,-0.1168,0.0,1.5379838423825989,-4,2
