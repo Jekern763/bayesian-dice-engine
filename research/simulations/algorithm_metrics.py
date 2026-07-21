@@ -33,11 +33,11 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 @dataclass
 class PerformanceMetrics:
-    average: float
-    median: float
-    standard_deviation: float
-    minimum: int
-    maximum: int
+    average_payout: float
+    median_payout: float
+    standard_deviation_payout: float
+    minimum_payout: int
+    maximum_payout: int
 
 
 @dataclass
@@ -50,13 +50,13 @@ class AccuracyMetrics:
 @dataclass
 class BehaviorMetrics:
     guess_frequency: dict
-    average_deviation: float
+    average_deviation_guess: float
 
 
 @dataclass
 class OperationMetrics:
-    average: float
-    maximum: int
+    average_operations: float
+    maximum_operations: int
 
 
 class AlgorithmMetrics:
@@ -86,11 +86,11 @@ class AlgorithmMetrics:
         max_payout = max(self.df["payout"])
 
         return PerformanceMetrics(
-            average=avg_payout,
-            median=median_payout,
-            standard_deviation=std_dev_payout,
-            minimum=min_payout,
-            maximum=max_payout,
+            average_payout=avg_payout,
+            median_payout=median_payout,
+            standard_deviation_payout=std_dev_payout,
+            minimum_payout=min_payout,
+            maximum_payout=max_payout,
         )
 
     def accuracy(self) -> AccuracyMetrics:
@@ -116,14 +116,16 @@ class AlgorithmMetrics:
         avg_deviation = int((self.df["guess"] - 7).abs().mean())
 
         return BehaviorMetrics(
-            guess_frequency=guess_frequency, average_deviation=avg_deviation
+            guess_frequency=guess_frequency, average_deviation_guess=avg_deviation
         )
 
     def operation_complexity(self) -> OperationMetrics:
         average_ops = mean(self.df["total_operations"])
         maximum_ops = max(self.df["total_operations"])
 
-        return OperationMetrics(average=average_ops, maximum=maximum_ops)
+        return OperationMetrics(
+            average_operations=average_ops, maximum_operations=maximum_ops
+        )
 
     def all(self):
         exclude = {"filtered", "all", "__init__"}
