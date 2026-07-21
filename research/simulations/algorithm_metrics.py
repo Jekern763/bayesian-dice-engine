@@ -73,7 +73,11 @@ class AlgorithmMetrics:
             metrics = metric_method()
             metrics[filter] = group
             filtered_data.append(
-                {filter: metrics.pop(filter), **metrics}
+                {
+                    filter: metrics.pop(filter),
+                    "times_appeared": len(data),
+                    **metrics,
+                }
             )  # make sure filter is first index
             self.df = saved_df
         return filtered_data
@@ -111,9 +115,11 @@ class AlgorithmMetrics:
         guess_frequency = {}
 
         for i in range(2, 13):
-            guess_frequency[str(i)] = int((self.df["guess"] == i).sum() / len(self.df))
+            guess_frequency[str(i)] = float(
+                (self.df["guess"] == i).sum() / len(self.df)
+            )
 
-        avg_deviation = int((self.df["guess"] - 7).abs().mean())
+        avg_deviation = float((self.df["guess"] - 7).abs().mean())
 
         return BehaviorMetrics(
             guess_frequency=guess_frequency, average_deviation_guess=avg_deviation
