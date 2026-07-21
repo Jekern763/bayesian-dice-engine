@@ -24,8 +24,8 @@ Things to condition on
 - actual roll
 """
 
-from dataclasses import asdict, dataclass
-from statistics import mean, median, stdev
+from dataclasses import asdict, dataclass, is_dataclass
+from statistics import mean, median, stdev, variance
 
 import pandas as pd
 from sklearn.metrics import mean_absolute_error, mean_squared_error
@@ -64,13 +64,46 @@ class AlgorithmMetrics:
         self.df = pd.read_parquet(path)
         self.name = self.df["algorithm"].iloc[0]
         self.as_dict = self.df.to_dict(orient="records")
+        self._compute_derived_columns()
+
+    def _compute_derived_columns(self):
+        # 1. Define a helper function to process a single row
+        def calculate_metrics(row):
+            peeks = row["peeks"]
+
+            peek_count = len(peeks)
+            peek_sum = sum(peeks)
+            peek_average = peek_sum / peek_count
+            peek_min = min(peeks)
+            peek_max = max(peeks)
+
+            # Calculate variance safely
+            peek_variance = variance(peeks) if peek_count > 1 else 0.0
+
+            return pd.Series(
+                [peek_count, peek_sum, peek_average, peek_min, peek_max, peek_variance]
+            )
+
+        # 2. Apply the function across rows and assign to new columns
+        new_cols = [
+            "peek_count",
+            "peek_sum",
+            "peek_average",
+            "peek_min",
+            "peek_max",
+            "peek_variance",
+        ]
+        self.df[new_cols] = self.df.apply(calculate_metrics, axis=1)
 
     def filtered(self, filter: str, metric_method) -> dict:
         saved_df = self.df
+
         filtered_data = []
         for group, data in self.df.groupby(filter):
             self.df = data
             metrics = metric_method()
+            if is_dataclass(metrics):
+                metrics = asdict(metrics)
             metrics[filter] = group
             filtered_data.append(
                 {
@@ -141,6 +174,7 @@ class AlgorithmMetrics:
             for attr in dir(self)
             if callable(getattr(self, attr))
             and not attr.startswith("__")
+            and not attr.startswith("_")
             and attr not in exclude
         ]
 

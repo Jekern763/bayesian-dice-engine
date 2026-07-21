@@ -70,3 +70,10 @@ for raw_data_path in Path(f"{base_path}raw").iterdir():
         f"{base_path}metric_tables/{algorithm_name}/{algorithm_name}_by_guess.csv",
         algorithm_metrics.filtered("guess", algorithm_metrics.all),
     )
+
+    # generate grouped by peeks
+
+    write_csv(
+        f"{base_path}metric_tables/{algorithm_name}/{algorithm_name}_by_peeks.csv",
+        algorithm_metrics.filtered("peek_average", algorithm_metrics.all),
+    )
