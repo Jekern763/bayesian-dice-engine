@@ -29,7 +29,7 @@ def benchmark(
         df = pd.DataFrame(results)
 
         output = Path(
-            f"~/pythonProjects/gamblint/research/data/{run_name}_{num_runs}.parquet"
+            f"~/pythonProjects/gamblint/research/data/raw/{run_name}_{num_runs}.parquet"
         )
 
         df.to_parquet(output)
