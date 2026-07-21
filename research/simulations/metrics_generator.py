@@ -49,6 +49,9 @@ TODO for each algoirthm: generate basic data. Group by guess. Group by roll.
 for raw_data_path in Path(f"{base_path}raw").iterdir():
     file_name = raw_data_path.name
     algorithm_name = file_name.replace("10000.parquet", "")
+    algorithm_name = (
+        algorithm_name[:-1] if algorithm_name[-1] == "_" else algorithm_name
+    )
     # generate csv of basic data
     algorithm_metrics = AlgorithmMetrics(raw_data_path)
     write_csv(
