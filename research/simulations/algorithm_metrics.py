@@ -24,7 +24,7 @@ Things to condition on
 - actual roll
 """
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from statistics import mean, median, stdev
 
 import pandas as pd
@@ -65,8 +65,20 @@ class AlgorithmMetrics:
         self.name = self.df["algorithm"].iloc[0]
         self.as_dict = self.df.to_dict(orient="records")
 
-    def performance(self) -> PerformanceMetrics:
+    def filtered(self, filter: str, metric_method) -> dict:
+        saved_df = self.df
+        filtered_data = []
+        for group, data in self.df.groupby(filter):
+            self.df = data
+            metrics = metric_method()
+            metrics[filter] = group
+            filtered_data.append(
+                {filter: metrics.pop(filter), **metrics}
+            )  # make sure filter is first index
+            self.df = saved_df
+        return filtered_data
 
+    def performance(self) -> PerformanceMetrics:
         avg_payout = mean(self.df["payout"])
         median_payout = median(self.df["payout"])
         std_dev_payout = stdev(self.df["payout"])
@@ -112,3 +124,21 @@ class AlgorithmMetrics:
         maximum_ops = max(self.df["total_operations"])
 
         return OperationMetrics(average=average_ops, maximum=maximum_ops)
+
+    def all(self):
+        exclude = {"filtered", "all", "__init__"}
+
+        method_names = [
+            attr
+            for attr in dir(self)
+            if callable(getattr(self, attr))
+            and not attr.startswith("__")
+            and attr not in exclude
+        ]
+
+        combined_results = {}
+        for name in method_names:
+            method = getattr(self, name)
+            combined_results |= asdict(method())
+
+        return combined_results
