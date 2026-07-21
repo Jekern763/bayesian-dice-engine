@@ -20,7 +20,13 @@ class Agent:
         guess = self.get_action(peeks)
         duration = time() - start_time
         payout = self.session.guess(guess)
-        return {"payout": payout, "guess": guess, "peeks": peeks, "duration": duration}
+        return {
+            "payout": payout,
+            "guess": guess,
+            "peeks": peeks,
+            "duration": duration,
+            "roll": self.session.state.past_rolls[-1],
+        }
 
     def get_action(self, peeks) -> int:
         raise NotImplementedError("This method should be implemented by subclasses")
