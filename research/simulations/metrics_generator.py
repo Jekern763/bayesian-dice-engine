@@ -17,19 +17,53 @@ metrics = AlgorithmMetrics(path=f"{base_path}raw/random_agent_10000.parquet")
 
 
 def write_csv(path: str, data: list):
-    if type(data) is dict:
+    if isinstance(data, dict):
         data = [data]
-    file_path = Path(path)
 
+    if not data:
+        return  # Prevent errors if the list is empty
+
+    file_path = Path(path)
     file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Collect all unique keys from all dictionaries in the list
+    all_keys = []
+    for item in data:
+        for key in item.keys():
+            if key not in all_keys:
+                all_keys.append(key)
+
     with open(file_path, "w", newline="") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=list(data[0].keys()))
+        writer = csv.DictWriter(csvfile, fieldnames=all_keys)
         writer.writeheader()
         writer.writerows(data)
 
 
-## testing one out here, lets just get the basic metrics for the random algorithm
+"""
+TODO for each algoirthm: generate basic data. Group by guess. Group by roll.
 
-write_csv(
-    path=f"{base_path}metric_tables/random_agent/random_agent.csv", data=metrics.all()
-)
+"""
+
+# First, loop through each file in raw.
+
+for raw_data_path in Path(f"{base_path}raw").iterdir():
+    file_name = raw_data_path.name
+    algorithm_name = file_name.replace("10000.parquet", "")
+    # generate csv of basic data
+    algorithm_metrics = AlgorithmMetrics(raw_data_path)
+    write_csv(
+        f"{base_path}metric_tables/{algorithm_name}/{algorithm_name}.csv",
+        algorithm_metrics.all(),
+    )
+
+    # generate grouped by roll
+    write_csv(
+        f"{base_path}metric_tables/{algorithm_name}/{algorithm_name}_by_roll.csv",
+        algorithm_metrics.filtered("roll", algorithm_metrics.all),
+    )
+
+    # generate grouped by guess
+    write_csv(
+        f"{base_path}metric_tables/{algorithm_name}/{algorithm_name}_by_guess.csv",
+        algorithm_metrics.filtered("guess", algorithm_metrics.all),
+    )
