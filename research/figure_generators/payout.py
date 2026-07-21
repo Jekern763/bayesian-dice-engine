@@ -84,5 +84,5 @@ fig.update_layout(
 
 script_dir = Path(__file__).resolve().parent
 
-output_path = script_dir.parent / "figures" / "payout.html"
-fig.write_html(output_path)
+output_path = script_dir.parent / "figures" / "payout.png"
+fig.write_image(output_path)
