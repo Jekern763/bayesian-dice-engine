@@ -46,3 +46,54 @@ def save_line(
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
     fig.write_image(output_path)
+
+
+def save_bar(
+    df,
+    x,
+    y,
+    title,
+    x_label,
+    y_label,
+    output_path,
+    color=None,
+):
+    fig = px.bar(
+        df,
+        x=x,
+        y=y,
+        color=color,
+        title=title,
+        text_auto=".3f",
+    )
+
+    # Place labels outside the bars so zeros still show
+    fig.update_traces(
+        textposition="outside",
+        cliponaxis=False,
+    )
+
+    fig.update_layout(
+        width=graph_config.WIDTH,
+        height=graph_config.HEIGHT,
+        template="simple_white",
+        font=dict(size=18),
+        title_font_size=24,
+        xaxis_title=x_label,
+        yaxis_title=y_label,
+        legend_title_text="",
+    )
+
+    fig.update_xaxes(type="category")
+    fig.update_yaxes(showgrid=True)
+
+    # Draw the x-axis (y = 0) explicitly
+    fig.add_hline(
+        y=0,
+        line_width=2,
+        line_color="black",
+    )
+
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+
+    fig.write_image(output_path)

@@ -44,7 +44,7 @@ for metric, title, ylabel in GRAPHS:
         constant_df,
         x="constant",
         y=metric,
-        output_path=f"{AGENT_COMPARIONS_FIG_DIR}/baseline_{metric}.png",
+        output_path=f"{AGENT_COMPARIONS_FIG_DIR}/baseline/baseline_{metric}.png",
         title=title,
         x_label="Constant Guess",
         y_label=ylabel,

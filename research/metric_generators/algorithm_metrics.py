@@ -36,8 +36,8 @@ class PerformanceMetrics:
     average_payout: float
     median_payout: float
     standard_deviation_payout: float
-    minimum_payout: int
-    maximum_payout: int
+    minimum_payout: float
+    maximum_payout: float
 
 
 @dataclass
@@ -56,7 +56,7 @@ class BehaviorMetrics:
 @dataclass
 class OperationMetrics:
     average_operations: float
-    maximum_operations: int
+    maximum_operations: float
 
 
 class AlgorithmMetrics:

@@ -8,15 +8,14 @@ Find EV formulas using payout formula and probability of next peek
 
 ### GRAPHING
 
-- Average payout by algorithm
-- Median payout by algorithm
-- Standard deviation of payout by algorithm
-- Minimum payout by algorithm
-- Maximum payout by algorithm
-- Positive payout rate by algorithm
-- Exact hit rate by algorithm
-- Average absolute error by algorithm
-- Average computation count by algorithm
+- Average payout by algorithm √
+- Median payout by algorithm √
+- Standard deviation of payout by algorithm √
+- Minimum payout by algorithm √
+- Maximum payout by algorithm √
+- Exact hit rate by algorithm √
+- Average absolute error by algorithm √
+- Average computation count by algorithm √
 
 - Average payout vs. computation count (scatter)
 - Exact hit rate vs. computation count (scatter)
@@ -90,9 +89,9 @@ Find EV formulas using payout formula and probability of next peek
 - Exact hit rate improvement over Random
 - Computation efficiency (average payout per operation)
 
-- Constant guess (x-axis) vs. average payout (y-axis)
-- Constant guess (x-axis) vs. exact hit rate (y-axis)
-- Constant guess (x-axis) vs. average absolute error (y-axis)
+- Constant guess (x-axis) vs. average payout (y-axis) √
+- Constant guess (x-axis) vs. exact hit rate (y-axis) √
+- Constant guess (x-axis) vs. average absolute error (y-axis) √
 
 ## Future Focuses
 
