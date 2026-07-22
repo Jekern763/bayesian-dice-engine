@@ -17,11 +17,9 @@ Find EV formulas using payout formula and probability of next peek
 - Average absolute error by algorithm √
 - Average computation count by algorithm √
 
-- Average payout vs. computation count (scatter)
-- Exact hit rate vs. computation count (scatter)
-- Average absolute error vs. computation count (scatter)
-- Positive payout rate vs. computation count (scatter)
-- Pareto frontier (computation count vs. average payout)
+- Average payout vs. computation count (scatter) √
+- Exact hit rate vs. computation count (scatter) √
+- Average absolute error vs. computation count (scatter) √
 
 - Guess frequency by algorithm
 - Guess vs. average payout

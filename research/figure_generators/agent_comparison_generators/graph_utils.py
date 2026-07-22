@@ -97,3 +97,60 @@ def save_bar(
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
     fig.write_image(output_path)
+
+
+def save_scatter(
+    df,
+    x,
+    y,
+    label,
+    title,
+    x_label,
+    y_label,
+    output_path,
+    color=None,
+    x_axis_type="-",
+    y_axis_type="-",
+    textposition="top right",
+):
+    plot_df = df.copy()
+
+    plot_df[label] = (
+        plot_df[label]
+        .str.replace("_agent", "", regex=False)
+        .str.replace("_", " ")
+        .str.title()
+    )
+    fig = px.scatter(
+        plot_df,
+        x=x,
+        y=y,
+        text=label,
+        color=color,
+        title=title,
+    )
+
+    fig.update_traces(
+        mode="markers+text",
+        textposition=textposition,
+        marker=dict(size=10),
+    )
+
+    fig.update_layout(
+        width=graph_config.WIDTH,
+        height=graph_config.HEIGHT,
+        template="simple_white",
+        font=dict(size=graph_config.FONT_SIZE),
+        title_font_size=24,
+        xaxis_title=x_label,
+        yaxis_title=y_label,
+        legend_title_text="",
+    )
+
+    fig.update_xaxes(showgrid=True, type=x_axis_type, autorange=True)
+    fig.update_yaxes(showgrid=True, type=y_axis_type, autorange=True)
+    fig.update_traces(cliponaxis=False)
+
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+
+    fig.write_image(output_path)
