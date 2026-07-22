@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pandas as pd
+
 FIG_DIR = Path("/Users/jamesekern/pythonProjects/gamblint/research/figures")
 AGENT_COMPARIONS_FIG_DIR = Path(
     "/Users/jamesekern/pythonProjects/gamblint/research/figures/agent_comparisons"
@@ -15,6 +17,12 @@ ALGORITHMS = [
     "average_agent",
 ]
 
+ALGORITHM_DFS = {
+    algorithm: pd.read_csv(
+        f"/Users/jamesekern/pythonProjects/gamblint/research/data/metric_tables/{algorithm}/{algorithm}.csv"
+    )
+    for algorithm in ALGORITHMS
+}
 CONSTANT_ALGORITHMS = [f"constant_agent_{i}" for i in range(2, 13)]
 
 WIDTH = 900
