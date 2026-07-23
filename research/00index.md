@@ -21,23 +21,23 @@ Find EV formulas using payout formula and probability of next peek
 - Exact hit rate vs. computation count (scatter) √
 - Average absolute error vs. computation count (scatter) √
 
-- Guess frequency by algorithm
-- Guess vs. average payout
-- Guess vs. exact hit rate
-- Guess vs. average absolute error
-- Guess vs. average computation count
+- Guess frequency by algorithm √
+- Guess vs. average payout √
+- Guess vs. exact hit rate √
+- Guess vs. average absolute error √
+- Guess vs. average computation count √
 - Guess distribution histogram
 - Guess bias (guess − actual roll)
 
-- Actual roll vs. average payout
-- Actual roll vs. exact hit rate
-- Actual roll vs. average absolute error
-- Actual roll vs. average computation count
+- Actual roll vs. average payout √
+- Actual roll vs. exact hit rate √
+- Actual roll vs. average absolute error √
+- Actual roll vs. average computation count √
 
-- Peek average vs. average payout
-- Peek average vs. exact hit rate
-- Peek average vs. average absolute error
-- Peek average vs. average computation count
+- Peek average vs. average payout √
+- Peek average vs. exact hit rate √
+- Peek average vs. average absolute error √
+- Peek average vs. average computation count √
 - Peek average vs. average guess
 
 - Peek variance vs. average payout

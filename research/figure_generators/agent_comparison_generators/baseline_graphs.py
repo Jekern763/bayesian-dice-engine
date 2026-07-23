@@ -1,7 +1,8 @@
 # graphs for baseline constant algorithms, 2-12
+import camel_converter
 import pandas as pd
 from graph_config import AGENT_COMPARIONS_FIG_DIR, CONSTANT_ALGORITHMS
-from graph_utils import save_line
+from graph_utils import save_line, save_multi_line
 
 GRAPHS = [
     (
@@ -49,3 +50,40 @@ for metric, title, ylabel in GRAPHS:
         x_label="Constant Guess",
         y_label=ylabel,
     )
+
+# ========== GRAPHING BASIC METRICS BY ROLL, PEEKS ==========
+CONSTANT_ALGORITHM_DFS_BY_ROLL = {
+    algorithm: pd.read_csv(
+        f"/Users/jamesekern/pythonProjects/gamblint/research/data/metric_tables/{algorithm}/{algorithm}_by_roll.csv"
+    )
+    for algorithm in CONSTANT_ALGORITHMS
+}
+
+CONSTANT_ALGORITHM_DFS_BY_PEEKS = {
+    algorithm: pd.read_csv(
+        f"/Users/jamesekern/pythonProjects/gamblint/research/data/metric_tables/{algorithm}/{algorithm}_by_peeks.csv"
+    )
+    for algorithm in CONSTANT_ALGORITHMS
+}
+condition_dfs = {
+    "peek_average": CONSTANT_ALGORITHM_DFS_BY_PEEKS,
+}
+for condition, dfs in condition_dfs.items():
+    graphs = [
+        # y_values, graph title)
+        "average_payout",
+        "exact_hit_rate",
+        "mean_absolute_error",
+    ]
+
+    for y_value in graphs:
+        title = f"{y_value.replace('_', ' ').title()} per {condition.title()}"
+        save_multi_line(
+            dfs,
+            condition,
+            y_value,
+            title,
+            condition.replace("_", " ").title(),
+            y_value.replace("_", " ").title(),
+            f"{AGENT_COMPARIONS_FIG_DIR}/baseline/baseline_{camel_converter.to_snake(title)}.png",
+        )
