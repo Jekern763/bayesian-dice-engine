@@ -3,6 +3,7 @@ from pathlib import Path
 
 import graph_config
 import plotly.express as px
+import plotly.graph_objects as go
 
 
 def save_line(
@@ -153,4 +154,47 @@ def save_scatter(
 
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
+    fig.write_image(output_path)
+
+
+# a function to graph all algorithms on one graph
+
+
+def save_multi_line(
+    dfs,
+    x,
+    y,
+    title,
+    x_label,
+    y_label,
+    output_path,
+):
+    fig = go.Figure()
+
+    for name, df in dfs.items():
+        fig.add_trace(
+            go.Scatter(
+                x=df[x],
+                y=df[y],
+                mode="lines+markers",
+                name=(name.replace("_agent", "").replace("_", " ").title()),
+            )
+        )
+
+    fig.update_layout(
+        width=graph_config.WIDTH,
+        height=graph_config.HEIGHT,
+        template="simple_white",
+        font=dict(size=graph_config.FONT_SIZE),
+        title=title,
+        title_font_size=24,
+        xaxis_title=x_label,
+        yaxis_title=y_label,
+        legend_title_text="Algorithm",
+    )
+
+    fig.update_xaxes(showgrid=True)
+    fig.update_yaxes(showgrid=True, rangemode="tozero")
+
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     fig.write_image(output_path)

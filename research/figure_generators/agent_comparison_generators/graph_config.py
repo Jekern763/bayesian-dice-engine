@@ -23,6 +23,28 @@ ALGORITHM_DFS = {
     )
     for algorithm in ALGORITHMS
 }
+
+ALGORITHM_DFS_BY_GUESS = {
+    algorithm: pd.read_csv(
+        f"/Users/jamesekern/pythonProjects/gamblint/research/data/metric_tables/{algorithm}/{algorithm}_by_guess.csv"
+    )
+    for algorithm in ALGORITHMS
+}
+
+ALGORITHM_DFS_BY_ROLL = {
+    algorithm: pd.read_csv(
+        f"/Users/jamesekern/pythonProjects/gamblint/research/data/metric_tables/{algorithm}/{algorithm}_by_roll.csv"
+    )
+    for algorithm in ALGORITHMS
+}
+
+ALGORITHM_DFS_BY_PEEKS = {
+    algorithm: pd.read_csv(
+        f"/Users/jamesekern/pythonProjects/gamblint/research/data/metric_tables/{algorithm}/{algorithm}_by_peeks.csv"
+    )
+    for algorithm in ALGORITHMS
+}
+
 CONSTANT_ALGORITHMS = [f"constant_agent_{i}" for i in range(2, 13)]
 
 WIDTH = 900

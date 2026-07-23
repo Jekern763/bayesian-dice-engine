@@ -1,6 +1,17 @@
 # any graphs that compare different algorithms
+import ast
+from pathlib import Path
+
 import pandas as pd
-from graph_config import AGENT_COMPARIONS_FIG_DIR, ALGORITHM_DFS, ALGORITHMS
+import plotly.graph_objects as go
+from graph_config import (
+    AGENT_COMPARIONS_FIG_DIR,
+    ALGORITHM_DFS,
+    ALGORITHMS,
+    FONT_SIZE,
+    HEIGHT,
+    WIDTH,
+)
 from graph_utils import save_bar, save_scatter
 
 GRAPHS = [
@@ -119,3 +130,58 @@ for metric_x, metric_y, title in GRAPHS:
         y_axis_type="log" if "operation" in metric_y else "-",
         textposition="bottom left" if metric_x == "exact_hit_rate" else "top right",
     )
+
+# ========== TRANISTIONING INTO PER ALGORITHM, HERE WE HAVE A LINE GRAPH OF GUESS DISTRIBUTION PER ALGORITHM ==========
+
+fig = go.Figure()
+
+for algorithm in ALGORITHMS:
+    df = pd.read_csv(
+        f"/Users/jamesekern/pythonProjects/gamblint/research/data/metric_tables/{algorithm}/{algorithm}.csv"
+    )
+
+    distribution = ast.literal_eval(df.loc[0, "guess_frequency"])
+
+    guesses = sorted(int(g) for g in distribution.keys())
+    frequencies = [
+        distribution[str(g)] if str(g) in distribution else distribution[g]
+        for g in guesses
+    ]
+
+    fig.add_trace(
+        go.Scatter(
+            x=guesses,
+            y=frequencies,
+            mode="lines+markers",
+            name=(algorithm.replace("_agent", "").replace("_", " ").title()),
+        )
+    )
+
+fig.update_layout(
+    title="Guess Distribution by Algorithm",
+    width=WIDTH,
+    height=HEIGHT,
+    template="simple_white",
+    font=dict(size=FONT_SIZE),
+    title_font_size=24,
+    xaxis_title="Guess",
+    yaxis_title="Guess Distribution",
+    legend_title_text="Algorithm",
+)
+
+fig.update_xaxes(
+    dtick=1,
+    showgrid=True,
+)
+
+fig.update_yaxes(
+    showgrid=True,
+    rangemode="tozero",
+)
+
+output_path = (
+    f"{AGENT_COMPARIONS_FIG_DIR}/per_algorithm/guess_distribution_by_algorithm.png"
+)
+
+Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+fig.write_image(output_path)
