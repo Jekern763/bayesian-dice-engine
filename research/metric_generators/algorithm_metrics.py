@@ -31,6 +31,15 @@ import pandas as pd
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 
+def round_sig_figs(num, sig_figs):
+    if num == 0:
+        return 0.0
+    if type(num) is not (int or float):
+        return num
+    # format to the required sig figs (.1g, .2g, etc.) and convert back to float
+    return float(f"{num:.{sig_figs}g}")
+
+
 @dataclass
 class PerformanceMetrics:
     average_payout: float
@@ -73,12 +82,14 @@ class AlgorithmMetrics:
 
             peek_count = len(peeks)
             peek_sum = sum(peeks)
-            peek_average = peek_sum / peek_count
+            peek_average = round(peek_sum / peek_count, 1)
             peek_min = min(peeks)
             peek_max = max(peeks)
 
             # Calculate variance safely
-            peek_variance = variance(peeks) if peek_count > 1 else 0.0
+            peek_variance = peek_variance = (
+                round(variance(peeks), 1) if peek_count > 1 else 0.0
+            )
 
             return pd.Series(
                 [peek_count, peek_sum, peek_average, peek_min, peek_max, peek_variance]
@@ -95,15 +106,19 @@ class AlgorithmMetrics:
         ]
         self.df[new_cols] = self.df.apply(calculate_metrics, axis=1)
 
-    def filtered(self, filter: str, metric_method) -> dict:
+    def filtered(self, filter: str, metric_method, precision: int = 2) -> dict:
         saved_df = self.df
-
         filtered_data = []
+        self.df.map(lambda x: round_sig_figs(x, precision))
         for group, data in self.df.groupby(filter):
+            if len(data) < 3:
+                continue
+
             self.df = data
             metrics = metric_method()
             if is_dataclass(metrics):
                 metrics = asdict(metrics)
+
             metrics[filter] = group
             filtered_data.append(
                 {
@@ -111,8 +126,10 @@ class AlgorithmMetrics:
                     "times_appeared": len(data),
                     **metrics,
                 }
-            )  # make sure filter is first index
+            )
+
             self.df = saved_df
+
         return filtered_data
 
     def performance(self) -> PerformanceMetrics:
