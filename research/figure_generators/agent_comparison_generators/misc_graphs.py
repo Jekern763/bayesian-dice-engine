@@ -65,17 +65,15 @@ for algorithm in ALGORITHMS:
     #
     # One row per (roll, guess) pair
     #
-    heatmap_df = (
-        df.groupby(["roll", "guess"])
-        .agg(
-            frequency=("guess", "size"),
-            average_operations=("total_operations", "mean"),
-        )
-        .reset_index()
+    heatmap_df = df.groupby(["roll", "guess"]).agg(
+        frequency=("guess", "size"),
+        average_payout=("payout", "mean"),
+        average_operations=("total_operations", "mean"),
     )
 
-    # Convert counts to probabilities
-    heatmap_df["frequency"] /= len(df)
+    heatmap_df["frequency"] /= heatmap_df.groupby(level=0)["frequency"].transform("sum")
+
+    heatmap_df = heatmap_df.reset_index()
 
     save_heatmap(
         heatmap_df,
