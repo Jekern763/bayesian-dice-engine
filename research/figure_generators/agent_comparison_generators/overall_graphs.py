@@ -3,6 +3,7 @@ import ast
 from pathlib import Path
 
 import pandas as pd
+import plotly.express as px
 import plotly.graph_objects as go
 from graph_config import (
     AGENT_COMPARIONS_FIG_DIR,
@@ -131,6 +132,50 @@ for metric_x, metric_y, title in GRAPHS:
         textposition="bottom left" if metric_x == "exact_hit_rate" else "top right",
     )
 
+# adding pareto frontier
+
+df = pd.DataFrame(rows)
+
+# Keep only non-dominated algorithms
+frontier = []
+
+for i, row in df.iterrows():
+    dominated = False
+
+    for j, other in df.iterrows():
+        if i == j:
+            continue
+
+        if (
+            other["average_operations"] <= row["average_operations"]
+            and other["average_payout"] >= row["average_payout"]
+            and (
+                other["average_operations"] < row["average_operations"]
+                or other["average_payout"] > row["average_payout"]
+            )
+        ):
+            dominated = True
+            break
+
+    if not dominated:
+        frontier.append(row)
+
+frontier = pd.DataFrame(frontier).sort_values("average_operations")
+
+fig = px.scatter(
+    frontier,
+    x="average_operations",
+    y="average_payout",
+    text="algorithm",
+    log_x=True,
+    title="Pareto-Optimal Algorithms",
+)
+
+fig.update_traces(textposition="top right")
+
+fig.write_image(
+    "/Users/jamesekern/pythonProjects/gamblint/research/figures/agent_comparisons/overall/pareto_frontier.png"
+)
 # ========== TRANISTIONING INTO PER ALGORITHM, HERE WE HAVE A LINE GRAPH OF GUESS DISTRIBUTION PER ALGORITHM ==========
 
 fig = go.Figure()
@@ -142,7 +187,7 @@ for algorithm in ALGORITHMS:
 
     distribution = ast.literal_eval(df.loc[0, "guess_frequency"])
 
-    guesses = sorted(int(g) for g in distribution.keys())
+    guesses = sorted(int(g) for g in distribution)
     frequencies = [
         distribution[str(g)] if str(g) in distribution else distribution[g]
         for g in guesses
@@ -162,7 +207,7 @@ fig.update_layout(
     width=WIDTH,
     height=HEIGHT,
     template="simple_white",
-    font=dict(size=FONT_SIZE),
+    font={"size": FONT_SIZE},
     title_font_size=24,
     xaxis_title="Guess",
     yaxis_title="Guess Distribution",

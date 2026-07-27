@@ -1,10 +1,10 @@
-# any graphs that are the same for every algorithm, but do not combine
-
 import ast
 import sys
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
+
+# isort: split
 
 import camel_converter
 import pandas as pd
@@ -21,6 +21,8 @@ from graph_config import (
 )
 from graph_utils import save_multi_line
 
+# isort: split
+
 from metric_generators.algorithm_metrics import AlgorithmMetrics
 
 # ========== GRAPHING GUESS FREQUENCY BY GUESS ========== #
@@ -34,7 +36,7 @@ for algorithm in ALGORITHMS:
 
     distribution = ast.literal_eval(df.loc[0, "guess_frequency"])
 
-    guesses = sorted(int(g) for g in distribution.keys())
+    guesses = sorted(int(g) for g in distribution)
     frequencies = [
         distribution[str(g)] if str(g) in distribution else distribution[g]
         for g in guesses
@@ -54,7 +56,7 @@ fig.update_layout(
     width=WIDTH,
     height=HEIGHT,
     template="simple_white",
-    font=dict(size=FONT_SIZE),
+    font={"size": FONT_SIZE},
     title_font_size=24,
     xaxis_title="Guess",
     yaxis_title="Guess Frequency",

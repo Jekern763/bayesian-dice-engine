@@ -35,7 +35,7 @@ heatmap = go.Heatmap(
     y=g_vals,
     z=Z,
     colorscale="Plasma",
-    colorbar=dict(title="Payout"),
+    colorbar={"title": "Payout"},
     visible=True,
 )
 
@@ -47,8 +47,8 @@ contour = go.Contour(
     x=R_vals,
     y=g_vals,
     z=Z,
-    contours=dict(showlabels=True),
-    colorbar=dict(title="Payout"),
+    contours={"showlabels": True},
+    colorbar={"title": "Payout"},
     visible=False,
 )
 
@@ -60,16 +60,16 @@ fig = go.Figure(data=[heatmap, contour])
 # ==========================================================
 
 plot_buttons = [
-    dict(
-        label="Heatmap",
-        method="update",
-        args=[{"visible": [True, False, heatmap.visible, contour.visible]}],
-    ),
-    dict(
-        label="Contour",
-        method="update",
-        args=[{"visible": [False, True, heatmap.visible, contour.visible]}],
-    ),
+    {
+        "label": "Heatmap",
+        "method": "update",
+        "args": [{"visible": [True, False, heatmap.visible, contour.visible]}],
+    },
+    {
+        "label": "Contour",
+        "method": "update",
+        "args": [{"visible": [False, True, heatmap.visible, contour.visible]}],
+    },
 ]
 
 
@@ -79,7 +79,7 @@ fig.update_layout(
     yaxis_title="Guess (g)",
     width=900,
     height=700,
-    updatemenus=[dict(buttons=plot_buttons, direction="down", x=0.02, y=1.12)],
+    updatemenus=[{"buttons": plot_buttons, "direction": "down", "x": 0.02, "y": 1.12}],
 )
 
 script_dir = Path(__file__).resolve().parent
