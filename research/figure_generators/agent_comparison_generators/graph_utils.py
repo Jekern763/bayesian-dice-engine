@@ -34,7 +34,7 @@ def save_line(
         width=graph_config.WIDTH,
         height=graph_config.HEIGHT,
         template="simple_white",
-        font=dict(size=graph_config.FONT_SIZE),
+        font={"size": graph_config.FONT_SIZE},
         title_font_size=24,
         xaxis_title=x_label,
         yaxis_title=y_label,
@@ -78,7 +78,7 @@ def save_bar(
         width=graph_config.WIDTH,
         height=graph_config.HEIGHT,
         template="simple_white",
-        font=dict(size=18),
+        font={"size": 18},
         title_font_size=24,
         xaxis_title=x_label,
         yaxis_title=y_label,
@@ -134,14 +134,14 @@ def save_scatter(
     fig.update_traces(
         mode="markers+text",
         textposition=textposition,
-        marker=dict(size=10),
+        marker={"size": 10},
     )
 
     fig.update_layout(
         width=graph_config.WIDTH,
         height=graph_config.HEIGHT,
         template="simple_white",
-        font=dict(size=graph_config.FONT_SIZE),
+        font={"size": graph_config.FONT_SIZE},
         title_font_size=24,
         xaxis_title=x_label,
         yaxis_title=y_label,
@@ -185,7 +185,7 @@ def save_multi_line(
         width=graph_config.WIDTH,
         height=graph_config.HEIGHT,
         template="simple_white",
-        font=dict(size=graph_config.FONT_SIZE),
+        font={"size": graph_config.FONT_SIZE},
         title=title,
         title_font_size=24,
         xaxis_title=x_label,
