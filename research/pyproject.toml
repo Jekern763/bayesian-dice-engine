@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "camel-converter>=5.1.0",
+    "dataframe-image>=0.2.7",
     "fastparquet>=2026.5.0",
     "kaleido>=1.3.0",
     "numpy>=2.5.1",
@@ -13,6 +14,7 @@ dependencies = [
     "plotly>=6.8.0",
     "sci-learn>=0.1.4",
     "scikit-learn>=1.9.0",
+    "tabulate>=0.10.0",
 ]
 
 [dependency-groups]
