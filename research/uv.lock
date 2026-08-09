@@ -2172,6 +2172,7 @@ dependencies = [
     { name = "plotly" },
     { name = "sci-learn" },
     { name = "scikit-learn" },
+    { name = "scipy" },
     { name = "tabulate" },
 ]
 
@@ -2194,6 +2195,7 @@ requires-dist = [
     { name = "plotly", specifier = ">=6.8.0" },
     { name = "sci-learn", specifier = ">=0.1.4" },
     { name = "scikit-learn", specifier = ">=1.9.0" },
+    { name = "scipy", specifier = ">=1.18.0" },
     { name = "tabulate", specifier = ">=0.10.0" },
 ]
 
