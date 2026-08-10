@@ -1,8 +1,9 @@
 # ==========================================
 # JavaScript / TypeScript / Node.js Additions
 # ==========================================
+*.zip
 
-# Dependencies (Never commit these!)
+# Dependencies
 node_modules/
 .pnpm-store/
 
