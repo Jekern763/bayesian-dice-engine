@@ -14,7 +14,7 @@ class GraphAnalysis:
     states_by_history: dict[int, dict[History, Counter[GameState]]]
     histories: set[tuple[int, ...]]
     histories_by_depth: Histories
-    history_probabilities: dict[History, float]
+    history_probabilities: dict[int, dict[History, float]]
     histories_by_state: dict[int, dict[GameState, Counter[History]]]
     history_path_counts: dict[History, int]
 
@@ -33,7 +33,9 @@ def analyze_state_graph(
     histories_by_depth: Histories = defaultdict(set)
 
     # history -> probability of observing that history
-    history_probabilities: dict[History, float] = defaultdict(float)
+    history_probabilities: dict[int, dict[History, float]] = defaultdict(
+        lambda: defaultdict(float)
+    )
 
     # depth -> state -> possible histories and path counts
     histories_by_state: dict[int, dict[GameState, Counter[History]]] = defaultdict(
@@ -79,14 +81,14 @@ def analyze_state_graph(
     # ============================================================
     # Build history probabilities
     # ============================================================
-
+    history_probabilities[0][()] = 1.0
     for depth, histories in states_by_history.items():
         total_paths = sum(
             count for states in histories.values() for count in states.values()
         )
 
         for history, states in histories.items():
-            history_probabilities[history] = sum(states.values()) / total_paths
+            history_probabilities[depth][history] = sum(states.values()) / total_paths
 
     return GraphAnalysis(
         states_by_history,

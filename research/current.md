@@ -4,24 +4,24 @@
 
 ### Total State Space
 
-- [ ] Count total possible hidden states
+- [√] Count total possible hidden states
   - Number of unique GameStates at each depth
   - Total reachable states across all depths
   - Compare against theoretical maximum
 
-- [ ] State space growth curve
+- [] State space growth curve
   - Plot:
     - x = number of peeks
     - y = number of possible hidden states
 
 ### States By Depth
 
-- [ ] Number of unique states after each peek
-- [ ] Minimum states possible after each depth
-- [ ] Maximum states possible after each depth
-- [ ] Mean states possible after each depth
-- [ ] Median states possible after each depth
-- [ ] Variance / standard deviation of states by depth
+- [√] Number of unique states after each peek
+- [√] Minimum states possible after each depth
+- [√] Maximum states possible after each depth
+- [√] Mean states possible after each depth
+- [√] Median states possible after each depth
+- [Do it later in overall metrics] Variance / standard deviation of states by depth
 
 ### State Distribution
 
@@ -34,10 +34,6 @@
 
 ### State Structure
 
-- [ ] Analyze remaining dice sizes
-  - Number of faces remaining per die
-  - Distribution of remaining face counts
-
 - [ ] Analyze symmetry
   - How often do different histories lead to identical state sets?
   - How often are states distinguishable?
@@ -48,8 +44,8 @@
 
 ## Total Histories
 
-- [ ] Count possible histories at each depth
-- [ ] Compare:
+- [√] Count possible histories at each depth
+- [√] Compare:
   - Number of histories
   - Number of hidden states
 
@@ -57,15 +53,9 @@
 
 ## History Frequency
 
-- [ ] Probability of each history occurring
-- [ ] Most common histories
-- [ ] Least common histories
-
-Analyze:
-
-- [ ] Most likely 1-peek histories
-- [ ] Most likely 2-peek histories
-- [ ] Most likely full histories
+- [√] Probability of each history occurring
+- [√] Most common histories
+- [√] Least common histories
 
 ## History Information Content
 
@@ -73,6 +63,7 @@ Analyze:
 - [ ] Find:
   - Most informative histories
   - Least informative histories
+  - Graph mad of peeks with information gain for history
 
 Compare:
 
@@ -95,8 +86,8 @@ Analyze:
 
 P(State | History)
 
-- [ ] Most likely hidden state
-- [ ] Probability of most likely state
+- [√] Most likely hidden state
+- [√] Probability of most likely state
 - [ ] Number of states above:
   - 1%
   - 5%
@@ -106,8 +97,8 @@ P(State | History)
 
 Measure:
 
-- [ ] Probability that the true state is the most likely state
-- [ ] Probability contained in top N states
+- [√] Probability that the true state is the most likely state
+- [√] Probability contained in top N states
 
 Examples:
 
@@ -126,10 +117,10 @@ H(State | History)
 
 Analyze:
 
-- [ ] Average entropy by depth
-- [ ] Median entropy by depth
-- [ ] Maximum entropy by depth
-- [ ] Minimum entropy by depth
+- [√] Average entropy by depth
+- [√] Median entropy by depth
+- [√] Maximum entropy by depth
+- [√] Minimum entropy by depth
 
 Compare:
 
