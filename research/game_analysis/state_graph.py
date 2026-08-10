@@ -31,7 +31,7 @@ def get_transitions(state: GameState) -> list[Transition]:
 
     # Build the final unique transitions with their weights
     return [
-        Transition(roll=roll_sum, next_state=next_state, weight=count)
+        Transition(roll=roll_sum, next_state=GameState(dice=next_state), count=count)
         for (roll_sum, next_state), count in transition_counts.items()
     ]
 
