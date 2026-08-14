@@ -21,7 +21,7 @@
 - [√] Maximum states possible after each depth
 - [√] Mean states possible after each depth
 - [√] Median states possible after each depth
-- [Do it later in overall metrics] Variance / standard deviation of states by depth
+- [√] Variance / standard deviation of states by depth
 
 ### State Distribution
 
@@ -121,15 +121,6 @@ Analyze:
 - [√] Median entropy by depth
 - [√] Maximum entropy by depth
 - [√] Minimum entropy by depth
-
-Compare:
-
-- [ ] Entropy vs number of possible states
-
-Questions:
-
-- Do fewer states always mean less uncertainty?
-- Are some states much more probable than others?
 
 ---
 
