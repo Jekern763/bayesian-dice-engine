@@ -1,11 +1,13 @@
 # quick setup for importing game
 import sys
 from collections import Counter
+from collections.abc import Iterable
 from itertools import product
 from pathlib import Path
 from statistics import mean, pvariance, variance
 
 from analysis_by_dice_config import _weighted_mean
+from pandas import DataFrame
 from scipy.stats import entropy
 from state_analysis import GameState, GraphAnalysis, analyze_state_graph
 from state_graph import build_state_graph, create_initial_state
@@ -115,7 +117,6 @@ def build_history_metrics(num_dice: int, num_sides: int) -> list[dict]:
     state_graph, _ = build_state_graph(initial_state)
     analysis: GraphAnalysis = analyze_state_graph(initial_state, state_graph)
 
-    print(analysis.states_by_history)
     possible_guesses = tuple(range(num_dice, num_dice * num_sides + 1))
 
     rows = []
@@ -174,7 +175,10 @@ def build_history_metrics(num_dice: int, num_sides: int) -> list[dict]:
 
         row = {
             "history": history,
+            "num_dice": num_dice,
+            "num_sides": num_sides,
             "depth": depth,
+            "probability_in_depth": analysis.history_probabilities[depth][history],
             "states": states,
             # State uncertainty
             "num_states": len(states),
@@ -207,11 +211,26 @@ def build_history_metrics(num_dice: int, num_sides: int) -> list[dict]:
             "ev_distribution": guess_evs,
             "ev_variance": ev_variance,
             "ev_margin": ev_margin,
+            "normalized_ev_margin": ev_margin / (sorted_evs[0] - sorted_evs[-1]),
+            "best_guess_payout_variance": variance(
+                [
+                    calc_payout(best_guess, roll)
+                    * (next_rolls_probability[roll] - best_ev) ** 2
+                    for roll in _get_next_roll_counts(states)
+                ]
+            ),
         }
-
         rows.append(row)
-
     return rows
 
 
-build_history_metrics(2, 6)
+def build_all_history_metrics(
+    num_dice_range: Iterable, num_sides_range: Iterable
+) -> DataFrame:
+    """Builds a full list of all possible histories for all provided sides and number of dice configurations.
+    Note that large values for number of dice and number of sides can result in the program hanging"""
+    rows = []
+    for num_dice, num_sides in product(num_dice_range, num_sides_range):
+        rows.append(build_history_metrics(num_dice, num_sides))
+
+    return DataFrame(rows)
