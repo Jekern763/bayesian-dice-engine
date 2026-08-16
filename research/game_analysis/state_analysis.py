@@ -4,15 +4,11 @@ from dataclasses import dataclass
 from analysis_config import Histories, History, StateGraph
 from state_graph import GameState
 
-# ============================================================
-# Build analysis structures
-# ============================================================
-
 
 @dataclass
 class GraphAnalysis:
     states_by_history: dict[int, dict[History, Counter[GameState]]]
-    histories: set[tuple[int, ...]]
+    histories: set[History]
     histories_by_depth: Histories
     history_probabilities: dict[int, dict[History, float]]
     histories_by_state: dict[int, dict[GameState, Counter[History]]]
@@ -24,6 +20,7 @@ def analyze_state_graph(
     state_graph: StateGraph,
 ) -> GraphAnalysis:
     num_steps = len(initial_state.dice[0])
+
     # depth -> history -> possible states and path counts
     states_by_history: dict[int, dict[History, Counter[GameState]]] = defaultdict(
         lambda: defaultdict(Counter)
@@ -32,7 +29,7 @@ def analyze_state_graph(
     # depth -> set of possible histories
     histories_by_depth: Histories = defaultdict(set)
 
-    # history -> probability of observing that history
+    # depth -> history -> probability
     history_probabilities: dict[int, dict[History, float]] = defaultdict(
         lambda: defaultdict(float)
     )
@@ -42,12 +39,24 @@ def analyze_state_graph(
         lambda: defaultdict(Counter)
     )
 
+    # All histories at every depth.
+    all_histories: set[History] = set()
+
     # ============================================================
-    # Build histories_by_state, states_by_history
+    # Initial state
     # ============================================================
 
-    histories_by_state[0][initial_state][()] = 1
-    states_by_history[0][()][initial_state] = 1
+    initial_history: History = ()
+
+    histories_by_state[0][initial_state][initial_history] = 1
+    states_by_history[0][initial_history][initial_state] = 1
+
+    histories_by_depth[0].add(initial_history)
+    all_histories.add(initial_history)
+
+    # ============================================================
+    # Build histories_by_state and states_by_history
+    # ============================================================
 
     for depth in range(num_steps):
         current_states = histories_by_state[depth]
@@ -59,11 +68,24 @@ def analyze_state_graph(
                 roll = transition.roll
 
                 for history, path_count in histories.items():
-                    next_states[next_state][history + (roll,)] += path_count
+                    next_history = history + (roll,)
 
+                    next_states[next_state][next_history] += (
+                        path_count * transition.count
+                    )
+
+        # Convert the newly generated histories_by_state data into
+        # states_by_history for this depth.
         for state, histories in next_states.items():
             for history, path_count in histories.items():
                 states_by_history[depth + 1][history][state] += path_count
+
+                histories_by_depth[depth + 1].add(history)
+                all_histories.add(history)
+
+    # ============================================================
+    # Build history path counts
+    # ============================================================
 
     history_path_counts: dict[History, int] = {
         history: sum(states.values())
@@ -72,29 +94,24 @@ def analyze_state_graph(
     }
 
     # ============================================================
-    # Build histories_by_depth
-    # ============================================================
-
-    for depth, histories in states_by_history.items():
-        histories_by_depth[depth].update(histories.keys())
-
-    # ============================================================
     # Build history probabilities
     # ============================================================
-    history_probabilities[0][()] = 1.0
+
     for depth, histories in states_by_history.items():
-        total_paths = sum(
-            count for states in histories.values() for count in states.values()
-        )
+        total_paths = sum(sum(states.values()) for states in histories.values())
 
         for history, states in histories.items():
-            history_probabilities[depth][history] = sum(states.values()) / total_paths
+            history_path_counts_for_history = sum(states.values())
+
+            history_probabilities[depth][history] = (
+                history_path_counts_for_history / total_paths
+            )
 
     return GraphAnalysis(
-        states_by_history,
-        histories,
-        histories_by_depth,
-        history_probabilities,
-        histories_by_state,
-        history_path_counts,
+        states_by_history=states_by_history,
+        histories=all_histories,
+        histories_by_depth=histories_by_depth,
+        history_probabilities=history_probabilities,
+        histories_by_state=histories_by_state,
+        history_path_counts=history_path_counts,
     )
