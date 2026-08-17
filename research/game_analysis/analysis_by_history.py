@@ -211,14 +211,18 @@ def build_history_metrics(num_dice: int, num_sides: int) -> list[dict]:
             "ev_distribution": guess_evs,
             "ev_variance": ev_variance,
             "ev_margin": ev_margin,
-            "normalized_ev_margin": ev_margin / (sorted_evs[0] - sorted_evs[-1]),
+            "normalized_ev_margin": ev_margin / (sorted_evs[0] - sorted_evs[-1])
+            if sorted_evs[0] != sorted_evs[-1]
+            else 0.0,
             "best_guess_payout_variance": variance(
                 [
                     calc_payout(best_guess, roll)
                     * (next_rolls_probability[roll] - best_ev) ** 2
                     for roll in _get_next_roll_counts(states)
                 ]
-            ),
+            )
+            if len(_get_next_roll_counts(states)) > 2
+            else 0,
         }
         rows.append(row)
     return rows
@@ -229,8 +233,7 @@ def build_all_history_metrics(
 ) -> DataFrame:
     """Builds a full list of all possible histories for all provided sides and number of dice configurations.
     Note that large values for number of dice and number of sides can result in the program hanging"""
-    rows = []
-    for num_dice, num_sides in product(num_dice_range, num_sides_range):
-        rows.append(build_history_metrics(num_dice, num_sides))
-
-    return DataFrame(rows)
+    all_rows = []
+    for num_sides, num_dice in product(num_dice_range, num_sides_range):
+        all_rows.extend(build_history_metrics(num_sides, num_dice))
+    return DataFrame(all_rows)
