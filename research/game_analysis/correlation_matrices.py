@@ -2,24 +2,51 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from analysis_by_history import build_all_history_metrics
+from sklearn.metrics import normalized_mutual_info_score
 
 
 def plot_correlation_matrix(
     corr: pd.DataFrame,
     title: str = "Correlation Matrix",
+    scale: str = "signed",
 ):
+    """
+    Plot a correlation/dependence matrix.
+
+    scale:
+        "signed"   -> -1 to 1, for Pearson/Spearman
+        "unsigned" -> 0 to 1, for normalized mutual information
+    """
+
+    if scale == "unsigned":
+        zmin = 0
+        zmax = 1
+        colorbar_title = "Dependence"
+        value_label = "Normalized Mutual Information"
+    else:
+        zmin = -1
+        zmax = 1
+        colorbar_title = "Correlation"
+        value_label = "Correlation"
+
     fig = go.Figure(
         data=go.Heatmap(
             z=corr.values,
             x=corr.columns,
             y=corr.index,
-            zmin=-1,
-            zmax=1,
+            zmin=zmin,
+            zmax=zmax,
             text=corr.round(2).values,
             texttemplate="%{text}",
             hovertemplate=(
-                "<b>%{y}</b><br><b>%{x}</b><br>Correlation: %{z:.4f}<extra></extra>"
+                "<b>%{y}</b><br>"
+                "<b>%{x}</b><br>"
+                f"{value_label}: %{{z:.4f}}"
+                "<extra></extra>"
             ),
+            colorbar={
+                "title": colorbar_title,
+            },
         )
     )
 
@@ -39,20 +66,189 @@ def plot_correlation_matrix(
     return fig
 
 
-def calculate_correlation_matrix(
+def discretize_numeric_metrics(
     df: pd.DataFrame,
-    method: str = "pearson",
+    n_bins: int = 50,
 ) -> pd.DataFrame:
-    """Calculate correlations between all numeric metrics."""
+    """
+    Convert numeric metrics into quantile-based discrete bins.
+
+    Quantile bins attempt to put approximately the same number
+    of observations into each bin.
+
+    This makes the NMI calculation much more robust to metrics
+    with very different scales.
+    """
 
     numeric_df = df.select_dtypes(include="number")
 
-    return numeric_df.corr(method=method)
+    binned = pd.DataFrame(
+        index=numeric_df.index,
+        columns=numeric_df.columns,
+        dtype="int64",
+    )
+
+    for column in numeric_df.columns:
+        series = numeric_df[column]
+
+        # Remove infinities before binning.
+        series = series.replace(
+            [np.inf, -np.inf],
+            np.nan,
+        )
+
+        try:
+            binned[column] = pd.qcut(
+                series,
+                q=n_bins,
+                labels=False,
+                duplicates="drop",
+            )
+        except ValueError:
+            # A metric with too few unique values cannot be
+            # split into the requested number of bins.
+            binned[column] = pd.factorize(
+                series,
+                sort=True,
+            )[0]
+
+    return binned
+
+
+def calculate_nmi_matrix(
+    df: pd.DataFrame,
+    n_bins: int = 20,
+    sample_size: int | None = 50_000,
+    random_state: int = 42,
+) -> pd.DataFrame:
+    """
+    Calculate a normalized mutual-information matrix.
+
+    Values range from 0 to 1:
+
+        0 = independent / little detectable dependence
+        1 = identical information
+
+    The metrics are first discretized into quantile bins.
+
+    Parameters
+    ----------
+    df:
+        DataFrame containing numeric metrics.
+
+    n_bins:
+        Number of quantile bins used for each metric.
+
+    sample_size:
+        Maximum number of rows used. Set to None to use all rows.
+
+    random_state:
+        Random seed used when sampling.
+    """
+
+    numeric_df = df.select_dtypes(include="number").copy()
+
+    # Remove infinities.
+    numeric_df = numeric_df.replace(
+        [np.inf, -np.inf],
+        np.nan,
+    )
+
+    # Sampling is useful for very large datasets.
+    # NMI doesn't need millions of observations to identify
+    # broad nonlinear relationships.
+    if sample_size is not None and len(numeric_df) > sample_size:
+        numeric_df = numeric_df.sample(
+            n=sample_size,
+            random_state=random_state,
+        )
+
+    # Discretize all metrics once.
+    binned = discretize_numeric_metrics(
+        numeric_df,
+        n_bins=n_bins,
+    )
+
+    columns = binned.columns
+
+    result = pd.DataFrame(
+        np.eye(len(columns)),
+        index=columns,
+        columns=columns,
+        dtype=float,
+    )
+
+    # Calculate pairwise NMI.
+    for i, col1 in enumerate(columns):
+        for j in range(i + 1, len(columns)):
+            col2 = columns[j]
+
+            pair = binned[[col1, col2]].dropna()
+
+            if len(pair) < 2:
+                value = np.nan
+            else:
+                value = normalized_mutual_info_score(
+                    pair[col1].to_numpy(),
+                    pair[col2].to_numpy(),
+                    average_method="arithmetic",
+                )
+
+            result.loc[col1, col2] = value
+            result.loc[col2, col1] = value
+
+    return result
+
+
+def calculate_correlation_matrix(
+    df: pd.DataFrame,
+    method: str = "pearson",
+    n_bins: int = 50,
+    mi_sample_size: int | None = 50_000,
+    random_state: int = 42,
+) -> pd.DataFrame:
+    """
+    Calculate relationships between all numeric metrics.
+
+    Methods:
+
+        pearson
+            Linear correlation.
+            Range: -1 to 1.
+
+        spearman
+            Monotonic correlation.
+            Range: -1 to 1.
+
+        nmi
+            Normalized mutual information.
+            Detects arbitrary dependence, including
+            non-monotonic relationships.
+            Range: 0 to 1.
+    """
+
+    numeric_df = df.select_dtypes(include="number")
+
+    if method in ("pearson", "spearman"):
+        return numeric_df.corr(method=method)
+
+    if method == "nmi":
+        return calculate_nmi_matrix(
+            numeric_df,
+            n_bins=n_bins,
+            sample_size=mi_sample_size,
+            random_state=random_state,
+        )
+
+    raise ValueError(
+        f"Unknown correlation method: {method}. Use 'pearson', 'spearman', or 'nmi'."
+    )
 
 
 def rank_correlations(
     corr: pd.DataFrame,
     min_strength: float = 0.60,
+    unsigned: bool = False,
 ) -> pd.DataFrame:
     rows, cols = np.triu_indices_from(corr, k=1)
 
@@ -64,7 +260,10 @@ def rank_correlations(
         }
     )
 
-    ranked["strength"] = ranked["correlation"].abs()
+    if unsigned:
+        ranked["strength"] = ranked["correlation"]
+    else:
+        ranked["strength"] = ranked["correlation"].abs()
 
     return (
         ranked[ranked["strength"] >= min_strength]
@@ -79,8 +278,8 @@ def plot_correlation_ranking(
 ):
     display_df = ranked.copy()
 
-    # Format for display
     display_df["correlation"] = display_df["correlation"].map(lambda x: f"{x:.3f}")
+
     display_df["strength"] = display_df["strength"].map(lambda x: f"{x:.3f}")
 
     fig = go.Figure(
@@ -122,35 +321,126 @@ def plot_correlation_ranking(
     return fig
 
 
+# ============================================================================
+# Build metrics
+# ============================================================================
+
 metrics = build_all_history_metrics((2,), (6,))
 
-pearson_corr = metrics.select_dtypes(include="number").corr(method="pearson")
 
-spearman_corr = metrics.select_dtypes(include="number").corr(method="spearman")
+# ============================================================================
+# Calculate correlations
+# ============================================================================
+
+pearson_corr = calculate_correlation_matrix(
+    metrics,
+    method="pearson",
+)
+
+spearman_corr = calculate_correlation_matrix(
+    metrics,
+    method="spearman",
+)
+
+nmi_corr = calculate_correlation_matrix(
+    metrics,
+    method="nmi",
+    n_bins=50,
+    mi_sample_size=50_000,
+)
+
+
+# ============================================================================
+# Create correlation matrix figures
+# ============================================================================
+
+pearson_fig = plot_correlation_matrix(
+    pearson_corr,
+    "2d6 Metric Correlations — Pearson",
+)
 
 spearman_fig = plot_correlation_matrix(
     spearman_corr,
     "2d6 Metric Correlations — Spearman",
 )
-pearson_fig = plot_correlation_matrix(pearson_corr, "2d6 Metric Correlations - Pearson")
 
-spearman_ranked = rank_correlations(spearman_corr)
+nmi_fig = plot_correlation_matrix(
+    nmi_corr,
+    "2d6 Metric Dependencies — Normalized Mutual Information",
+    scale="unsigned",
+)
 
-pearson_ranked = rank_correlations(pearson_corr)
+
+# ============================================================================
+# Rank correlations
+# ============================================================================
+
+pearson_ranked = rank_correlations(
+    pearson_corr,
+)
+
+spearman_ranked = rank_correlations(
+    spearman_corr,
+)
+
+nmi_ranked = rank_correlations(
+    nmi_corr,
+    unsigned=True,
+)
+
+
+# ============================================================================
+# Create ranking figures
+# ============================================================================
+
+pearson_ranking_fig = plot_correlation_ranking(
+    pearson_ranked,
+    "Pearson Correlation Rankings",
+)
+
+spearman_ranking_fig = plot_correlation_ranking(
+    spearman_ranked,
+    "Spearman Correlation Rankings",
+)
+
+nmi_ranking_fig = plot_correlation_ranking(
+    nmi_ranked,
+    "Normalized Mutual Information Rankings",
+)
+
+
+# ============================================================================
+# Save figures
+# ============================================================================
 
 fig_path = "/Users/jamesekern/pythonProjects/gamblint/research/figures/game_analysis"
 
-spearman_ranking_fig = plot_correlation_ranking(
-    spearman_ranked, "Spearman Corelation Rankings"
+pearson_fig.write_image(
+    f"{fig_path}/pearson_correlation_matrix.png",
+    scale=2,
 )
 
-pearson_ranking_fig = plot_correlation_ranking(
-    pearson_ranked, "Pearson Corelation Rankings"
+spearman_fig.write_image(
+    f"{fig_path}/spearman_correlation_matrix.png",
+    scale=2,
 )
 
-pearson_fig.write_image(f"{fig_path}/pearson_correlation_matrix.png", scale=2)
-spearman_fig.write_image(f"{fig_path}/spearman_correlation_matrix.png", scale=2)
-pearson_ranking_fig.write_image(f"{fig_path}/pearson_ranked_correlations.png", scale=2)
+nmi_fig.write_image(
+    f"{fig_path}/nmi_matrix.png",
+    scale=2,
+)
+
+pearson_ranking_fig.write_image(
+    f"{fig_path}/pearson_ranked_correlations.png",
+    scale=2,
+)
+
 spearman_ranking_fig.write_image(
-    f"{fig_path}/spearman_ranked_correlations.png", scale=2
+    f"{fig_path}/spearman_ranked_correlations.png",
+    scale=2,
+)
+
+nmi_ranking_fig.write_image(
+    f"{fig_path}/nmi_ranked_correlations.png",
+    scale=2,
 )

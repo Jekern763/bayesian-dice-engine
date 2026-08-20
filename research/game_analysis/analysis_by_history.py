@@ -232,6 +232,7 @@ def build_all_history_metrics(
     num_dice_range: Iterable,
     num_sides_range: Iterable,
     return_as_list: bool = False,
+    log: bool = False,
     exclude: Iterable[tuple] = (),
 ) -> DataFrame | list[DataFrame]:
     """Builds a full list of all possible histories for all provided sides and number of dice configurations.
@@ -239,16 +240,18 @@ def build_all_history_metrics(
     all_rows = []
     for num_dice, num_sides in product(num_dice_range, num_sides_range):
         if (num_dice, num_sides) not in exclude:
-            print(
-                f"START building history metrics for {num_sides} sides and {num_dice} dice."
-            )
+            if log:
+                print(
+                    f"START building history metrics for {num_sides} sides and {num_dice} dice."
+                )
             if return_as_list:
                 all_rows.append(DataFrame(build_history_metrics(num_dice, num_sides)))
             else:
                 all_rows.extend(build_history_metrics(num_dice, num_sides))
-            print(
-                f"FINISH Building history metrics for {num_sides} sides and {num_dice} dice."
-            )
+            if log:
+                print(
+                    f"FINISH Building history metrics for {num_sides} sides and {num_dice} dice."
+                )
     if return_as_list:
         return all_rows
     else:

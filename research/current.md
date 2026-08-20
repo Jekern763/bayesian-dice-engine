@@ -1,433 +1,190 @@
-# Bayesian Dice Engine Analysis Roadmap
-
-## 1. State Space Analysis (Hidden Game Mechanics)
-
-### Total State Space
-
-- [√] Count total possible hidden states
-  - Number of unique GameStates at each depth
-  - Total reachable states across all depths
-  - Compare against theoretical maximum
-
-- [] State space growth curve
-  - Plot:
-    - x = number of peeks
-    - y = number of possible hidden states
-
-### States By Depth
-
-- [√] Number of unique states after each peek
-- [√] Minimum states possible after each depth
-- [√] Maximum states possible after each depth
-- [√] Mean states possible after each depth
-- [√] Median states possible after each depth
-- [√] Variance / standard deviation of states by depth
-
-### State Distribution
-
-- [ ] Histogram of number of possible states per history
-- [ ] Box plot of states remaining by depth
-- [ ] Identify histories with:
-  - Highest ambiguity
-  - Lowest ambiguity
-  - Average ambiguity
-
-### State Structure
-
-- [ ] Analyze symmetry
-  - How often do different histories lead to identical state sets?
-  - How often are states distinguishable?
-
----
-
-## 2. History Space Analysis (Observed Information)
-
-## Total Histories
-
-- [√] Count possible histories at each depth
-- [√] Compare:
-  - Number of histories
-  - Number of hidden states
-
-- [ ] History growth curve
-
-## History Frequency
-
-- [√] Probability of each history occurring
-- [√] Most common histories
-- [√] Least common histories
-
-## History Information Content
-
-- [ ] Rank histories by informativeness
-- [ ] Find:
-  - Most informative histories
-  - Least informative histories
-  - Graph mad of peeks with information gain for history
-
-Compare:
-
-- [ ] History frequency vs information gained
-
-Questions:
-
-- Are rare histories more informative?
-- Are common histories less useful?
-
----
-
-## 3. Bayesian State Inference Analysis
-
-## Posterior Distribution
-
-For each history:
-
-Analyze:
-
-P(State | History)
-
-- [√] Most likely hidden state
-- [√] Probability of most likely state
-- [ ] Number of states above:
-  - 1%
-  - 5%
-  - 10% probability
-
-## Confidence
-
-Measure:
-
-- [√] Probability that the true state is the most likely state
-- [√] Probability contained in top N states
-
-Examples:
-
-- [ ] Top 1 state contains X% probability
-- [ ] Top 5 states contain X% probability
-
----
-
-## 4. Information Theory Analysis
-
-## Hidden State Entropy
-
-Calculate:
-
-H(State | History)
-
-Analyze:
-
-- [√] Average entropy by depth
-- [√] Median entropy by depth
-- [√] Maximum entropy by depth
-- [√] Minimum entropy by depth
-
----
-
-## Information Gained From Peeks
-
-Calculate:
-
-Information gain:
-
-I = Prior entropy - Posterior entropy
-
-Analyze:
-
-- [ ] Information gained from first peek
-- [ ] Information gained from second peek
-- [ ] Information gained from each peek
-
-Plots:
-
-- [ ] Information gained per peek
-- [ ] Cumulative information gained
-
-Questions:
-
-- Which peek is most valuable?
-- Does information gain decrease over time?
-
----
-
-## 5. Next Roll Prediction Analysis
-
-## Probability Distribution of Next Roll
-
-For every history:
-
-Calculate:
-
-P(next roll | history)
-
-Analyze:
-
-- [ ] Probability distribution of next roll
-- [ ] Expected next roll
-- [ ] Variance of next roll
-
-Plots:
-
-- [ ] Heatmap:
-  - history depth vs next roll probability
-
-- [ ] Roll probability distributions by depth
-
----
-
-## Next Roll Entropy
-
-Calculate:
-
-H(Next Roll | History)
-
-Analyze:
-
-- [ ] Average next-roll uncertainty by depth
-- [ ] Median next-roll uncertainty
-- [ ] Maximum uncertainty histories
-- [ ] Minimum uncertainty histories
-
-Compare:
-
-- [ ] State entropy vs roll entropy
-
-Questions:
-
-- Can the player know the next roll without knowing the state?
-
----
-
-## 6. Peek Value Analysis
-
-Using your peek probability formula:
-
-Analyze:
-
-## Probability of Next Peek
-
-- [ ] P(next peek | current history)
-- [ ] Distribution of possible next peeks
-
-## Peek Information Value
-
-For each possible peek:
-
-Measure:
-
-- [ ] Expected entropy reduction
-- [ ] Expected state reduction
-- [ ] Expected next-roll uncertainty reduction
-
-Questions:
-
-- Which peeks are most valuable?
-- Which peeks reveal almost nothing?
-
----
-
-## 7. History Comparison Analysis
-
-Compare histories with equal length.
-
-## Same Length, Different Information
-
-Find examples:
-
-- [ ] Two histories with very different state counts
-- [ ] Two histories with very different entropy
-
-Examples:
-
-History A:
-
-- many possible states
-- low uncertainty
-
-History B:
-
-- few possible states
-- high uncertainty
-
----
-
-## Roll Value Analysis
-
-Determine:
-
-How informative is observing each roll?
-
-Analyze:
-
-- [ ] Information gain from observing:
-  - 2
-  - 3
-  - ...
-  - 12
-
-Plots:
-
-- [ ] Roll value vs entropy reduction
-
-Questions:
-
-- Are rare rolls more informative?
-- Are common rolls less informative?
-
----
-
-## 8. Game Difficulty Analysis
-
-## Player Knowledge Curve
-
-Measure:
-
-"What does a player know after each peek?"
-
-Metrics:
-
-- [ ] Possible states remaining
-- [ ] State entropy
-- [ ] Next-roll entropy
-- [ ] Confidence in best prediction
-
-Plot:
-
-- [ ] Knowledge gained over time
-
----
-
-## Hardest Possible Situations
-
-Find histories with:
-
-- [ ] Maximum hidden states
-- [ ] Maximum entropy
-- [ ] Highest next-roll uncertainty
-
-Analyze:
-
-- What rolls caused these situations?
-
----
-
-## Easiest Possible Situations
-
-Find histories with:
-
-- [ ] One possible state
-- [ ] Zero entropy
-- [ ] Certain next roll
-
-Analyze:
-
-- What observations caused certainty?
-
----
-
-## 9. Prediction and Guessing Analysis
-
-## Optimal Guessing
-
-For every history:
-
-Calculate:
-
-- [ ] Best next-roll guess
-- [ ] Probability of correct guess
-- [ ] Expected payout
-
-Analyze:
-
-- [ ] Average optimal accuracy by depth
-- [ ] Best/worst histories
-
----
-
-## Human vs Bayesian Agent
-
-Compare:
-
-- [ ] Optimal Bayesian strategy
-- [ ] Human heuristics
-- [ ] Existing agents
-
-Metrics:
-
-- [ ] Expected payout
-- [ ] Guess accuracy
-- [ ] Confidence
-
----
-
-## 10. Strategy Analysis
-
-## Information vs Reward Tradeoff
-
-Analyze:
-
-- [ ] Is more information always valuable?
-- [ ] When should a player stop peeking?
-- [ ] Value of one additional peek
-
----
-
-## Optimal Stopping
-
-Determine:
-
-- [ ] Value of another peek
-- [ ] Value of guessing now
-
-Compare:
-
-Expected value:
-
-Guess now:
-
-vs
-
-Peek then guess:
-
----
-
-## 11. Visualization Ideas
-
-## State Space
-
-- [ ] State count by depth
-- [ ] State entropy by depth
-- [ ] State ambiguity distribution
-
-## Histories
-
-- [ ] History frequency distribution
-- [ ] History information ranking
-
-## Probability
-
-- [ ] Next-roll probability heatmap
-- [ ] Roll prediction confidence
-
-## Information
-
-- [ ] Information gained per peek
-- [ ] Cumulative information curve
-
-## Strategy
-
-- [ ] Expected payout vs information
-- [ ] Guess confidence vs depth
-
----
-
-## 12. Major Research Questions
-
-- [ ] How quickly does the player learn the hidden state?
-- [ ] How much information does each peek provide?
-- [ ] Which observations are most valuable?
-- [ ] Are some histories fundamentally ambiguous?
-- [ ] Can the next roll be predicted without knowing the state?
-- [ ] How close can a human strategy get to the Bayesian optimum?
-- [ ] How does changing payout affect optimal behavior?
-- [ ] How much computation is required for perfect play?
+# 2d6 Analysis
+
+## Basic Progression
+
+* [ ] Number of states vs. depth
+* [ ] State entropy vs. depth
+* [ ] Effective state count vs. depth
+* [ ] Top state probability vs. depth
+* [ ] State probability variance vs. depth
+* [ ] Mean remaining-faces variance vs. depth
+* [ ] Weighted remaining-faces variance vs. depth
+* [ ] Next-roll entropy vs. depth
+* [ ] Effective next-roll count vs. depth
+* [ ] Maximum next-roll probability vs. depth
+* [ ] Expected value vs. depth
+* [ ] EV variance vs. depth
+* [ ] EV margin vs. depth
+* [ ] Normalized EV margin vs. depth
+* [ ] Best-guess payout variance vs. depth
+
+## Distribution of Histories at Each Depth
+
+* [ ] Distribution of number of states by depth
+* [ ] Distribution of state entropy by depth
+* [ ] Distribution of effective state count by depth
+* [ ] Distribution of next-roll entropy by depth
+* [ ] Distribution of next-roll maximum probability by depth
+* [ ] Distribution of expected value by depth
+* [ ] Distribution of EV variance by depth
+* [ ] Distribution of EV margin by depth
+* [ ] Distribution of normalized EV margin by depth
+* [ ] Distribution of best-guess payout variance by depth
+
+## State Uncertainty Relationships
+
+* [ ] Number of states vs. entropy
+* [ ] Number of states vs. effective state count
+* [ ] Entropy vs. effective state count
+* [ ] Entropy vs. top-state probability
+* [ ] Entropy vs. state probability variance
+* [ ] Number of states vs. top-state probability
+* [ ] State probability variance vs. entropy
+* [ ] Remaining-faces variance vs. entropy
+
+## State Uncertainty → Next-Roll Uncertainty
+
+* [ ] State entropy vs. next-roll entropy
+* [ ] Effective state count vs. next-roll entropy
+* [ ] Number of states vs. next-roll entropy
+* [ ] Top-state probability vs. next-roll maximum probability
+* [ ] State probability variance vs. next-roll entropy
+* [ ] Remaining-faces variance vs. next-roll entropy
+
+## Prediction → Decision Value
+
+* [ ] Next-roll entropy vs. expected value
+* [ ] Next-roll maximum probability vs. expected value
+* [ ] Effective next-roll count vs. expected value
+* [ ] State entropy vs. expected value
+* [ ] State count vs. expected value
+* [ ] Remaining-faces variance vs. expected value
+
+## Decision Structure
+
+* [ ] EV variance vs. expected value
+* [ ] EV margin vs. expected value
+* [ ] Normalized EV margin vs. expected value
+* [ ] Best-guess payout variance vs. expected value
+* [ ] EV variance vs. EV margin
+* [ ] EV variance vs. normalized EV margin
+* [ ] Best-guess payout variance vs. EV margin
+* [ ] Expected value vs. best-guess payout variance
+
+## Nonlinear Relationships
+
+* [ ] Investigate U-shaped relationships
+* [ ] Investigate inverted-U relationships
+* [ ] Investigate threshold effects
+* [ ] Investigate plateaus
+* [ ] Investigate clusters
+* [ ] Investigate outliers
+* [ ] Investigate relationships that change by depth
+
+## 2d6 Aggregated Analysis
+
+## Core Information Progression
+
+* [ ] Mean entropy vs. depth
+* [ ] Weighted mean entropy vs. depth
+* [ ] Effective state count vs. depth
+* [ ] Mean information gain vs. depth
+* [ ] Weighted information gain vs. depth
+* [ ] Mean next-roll entropy vs. depth
+* [ ] Effective next-roll count vs. depth
+* [ ] Maximum next-roll probability vs. depth
+* [ ] Mean top-state probability vs. depth
+
+## Core Decision Progression
+
+* [ ] Mean expected value vs. depth
+* [ ] Weighted expected value vs. depth
+* [ ] EV variance vs. depth
+* [ ] EV margin vs. depth
+* [ ] Normalized EV margin vs. depth
+* [ ] Best-guess payout variance vs. depth
+
+## Aggregated Relationships
+
+* [ ] Mean entropy vs. mean expected value
+* [ ] Weighted entropy vs. weighted expected value
+* [ ] Mean next-roll entropy vs. mean expected value
+* [ ] Mean next-roll maximum probability vs. mean expected value
+* [ ] Mean EV variance vs. mean expected value
+* [ ] Mean EV margin vs. mean expected value
+* [ ] Mean state count vs. mean entropy
+* [ ] Mean state count vs. mean next-roll entropy
+* [ ] Mean effective state count vs. mean expected value
+* [ ] Mean remaining-faces variance vs. mean expected value
+
+## Information Gain
+
+* [ ] Information gain vs. depth
+* [ ] Weighted information gain vs. depth
+* [ ] Information gain vs. expected value
+* [ ] Information gain vs. EV margin
+* [ ] Information gain vs. next-roll entropy
+* [ ] Information gain vs. state entropy
+* [ ] Information gain vs. number of states
+* [ ] Information gain vs. effective state count
+* [ ] Information gain vs. change in expected value
+* [ ] Information gain vs. change in EV margin
+
+## Dice Configuration Analysis
+
+## Basic Complexity
+
+* [ ] Number of states vs. number of dice
+* [ ] Number of states vs. number of sides
+* [ ] Effective state count vs. number of dice
+* [ ] Effective state count vs. number of sides
+* [ ] Entropy vs. number of dice
+* [ ] Entropy vs. number of sides
+* [ ] Next-roll entropy vs. number of dice
+* [ ] Next-roll entropy vs. number of sides
+
+## Decision Quality
+
+* [ ] Expected value vs. number of dice
+* [ ] Expected value vs. number of sides
+* [ ] EV margin vs. number of dice
+* [ ] EV margin vs. number of sides
+* [ ] EV variance vs. number of dice
+* [ ] EV variance vs. number of sides
+* [ ] Best-guess payout variance vs. number of dice
+* [ ] Best-guess payout variance vs. number of sides
+
+## Dice × Sides Heatmaps
+
+* [ ] Dice × sides — mean entropy
+* [ ] Dice × sides — effective state count
+* [ ] Dice × sides — mean next-roll entropy
+* [ ] Dice × sides — mean expected value
+* [ ] Dice × sides — mean EV margin
+* [ ] Dice × sides — mean information gain
+* [ ] Dice × sides — number of states
+* [ ] Dice × sides — next-roll maximum probability
+* [ ] Dice × sides — EV variance
+* [ ] Dice × sides — normalized EV margin
+* [ ] Dice × sides — best-guess payout variance
+
+## Configuration Scaling
+
+* [ ] Number of states vs. total initial faces
+* [ ] Effective states vs. total initial faces
+* [ ] Entropy vs. total initial faces
+* [ ] Next-roll entropy vs. total initial faces
+* [ ] Expected value vs. total initial faces
+* [ ] EV margin vs. total initial faces
+* [ ] Information gain vs. total initial faces
+* [ ] Log(number of states) vs. dice/sides
+* [ ] Log(effective states) vs. dice/sides
+
+## Configuration × Depth
+
+* [ ] Entropy vs. depth, one line per dice configuration
+* [ ] Effective states vs. depth, one line per dice configuration
+* [ ] Next-roll entropy vs. depth, one line per dice configuration
+* [ ] Expected value vs. depth, one line per dice configuration
+* [ ] EV margin vs. depth, one line per dice configuration
+* [ ] Information gain vs. depth, one line per dice configuration
