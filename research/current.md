@@ -2,54 +2,39 @@
 
 ## Basic Progression
 
-* [ ] Number of states vs. depth
-* [ ] State entropy vs. depth
-* [ ] Effective state count vs. depth
-* [ ] Top state probability vs. depth
-* [ ] State probability variance vs. depth
-* [ ] Mean remaining-faces variance vs. depth
-* [ ] Weighted remaining-faces variance vs. depth
-* [ ] Next-roll entropy vs. depth
-* [ ] Effective next-roll count vs. depth
-* [ ] Maximum next-roll probability vs. depth
-* [ ] Expected value vs. depth
-* [ ] EV variance vs. depth
-* [ ] EV margin vs. depth
-* [ ] Normalized EV margin vs. depth
-* [ ] Best-guess payout variance vs. depth
+* [√] Number of states vs. depth
+* [√] State entropy vs. depth
+* [√] Effective state count vs. depth
+* [√] Top state probability vs. depth
+* [√] State probability variance vs. depth
+* [√] Next-roll entropy vs. depth
+* [√] Maximum next-roll probability vs. depth
+* [√] Expected value vs. depth
+* [√] EV variance vs. depth
+* [√] EV margin vs. depth
+* [√] Normalized EV margin vs. depth
+* [√] Best-guess payout variance vs. depth
 
 ## Distribution of Histories at Each Depth
 
-* [ ] Distribution of number of states by depth
-* [ ] Distribution of state entropy by depth
-* [ ] Distribution of effective state count by depth
-* [ ] Distribution of next-roll entropy by depth
-* [ ] Distribution of next-roll maximum probability by depth
-* [ ] Distribution of expected value by depth
-* [ ] Distribution of EV variance by depth
-* [ ] Distribution of EV margin by depth
-* [ ] Distribution of normalized EV margin by depth
-* [ ] Distribution of best-guess payout variance by depth
+* [√] Distribution of number of states by depth
+* [√] Distribution of state entropy by depth
+* [√] Distribution of effective state count by depth
+* [√] Distribution of next-roll entropy by depth
+* [√] Distribution of next-roll maximum probability by depth
+* [√] Distribution of expected value by depth
+* [√] Distribution of EV variance by depth
+* [√] Distribution of EV margin by depth
+* [√] Distribution of normalized EV margin by depth
+* [√] Distribution of best-guess payout variance by depth
 
 ## State Uncertainty Relationships
 
-* [ ] Number of states vs. entropy
-* [ ] Number of states vs. effective state count
-* [ ] Entropy vs. effective state count
-* [ ] Entropy vs. top-state probability
-* [ ] Entropy vs. state probability variance
-* [ ] Number of states vs. top-state probability
-* [ ] State probability variance vs. entropy
-* [ ] Remaining-faces variance vs. entropy
-
-## State Uncertainty → Next-Roll Uncertainty
-
-* [ ] State entropy vs. next-roll entropy
-* [ ] Effective state count vs. next-roll entropy
-* [ ] Number of states vs. next-roll entropy
-* [ ] Top-state probability vs. next-roll maximum probability
-* [ ] State probability variance vs. next-roll entropy
-* [ ] Remaining-faces variance vs. next-roll entropy
+* [√] Number of states vs. entropy
+* [√] Number of states vs. effective state count
+* [√] Entropy vs. top-state probability
+* [√] Entropy vs. state probability variance
+* [√] Remaining-faces variance vs. entropy
 
 ## Prediction → Decision Value
 
