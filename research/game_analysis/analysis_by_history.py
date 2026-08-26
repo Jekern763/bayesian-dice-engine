@@ -214,15 +214,10 @@ def build_history_metrics(num_dice: int, num_sides: int) -> list[dict]:
             "normalized_ev_margin": ev_margin / (sorted_evs[0] - sorted_evs[-1])
             if sorted_evs[0] != sorted_evs[-1]
             else 0.0,
-            "best_guess_payout_variance": variance(
-                [
-                    calc_payout(best_guess, roll)
-                    * (next_rolls_probability[roll] - best_ev) ** 2
-                    for roll in _get_next_roll_counts(states)
-                ]
-            )
-            if len(_get_next_roll_counts(states)) > 2
-            else 0,
+            "best_guess_payout_variance": sum(
+                probability * (calc_payout(best_guess, roll) - best_ev) ** 2
+                for roll, probability in next_rolls_probability.items()
+            ),
         }
         rows.append(row)
     return rows

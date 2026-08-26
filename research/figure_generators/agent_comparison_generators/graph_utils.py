@@ -161,7 +161,7 @@ def save_scatter(
 
 
 def save_multi_line(
-    dfs,
+    dfs: dict,
     x,
     y,
     title,
