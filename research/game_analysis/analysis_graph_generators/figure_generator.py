@@ -71,6 +71,8 @@ metrics_to_graph = [
     "most_likely_roll",
     "state_probability_variance",
     "best_guess",
+    "next_roll_entropy",
+    "weighted_state_remaining_faces_variance",
 ]
 
 for metric in metrics_to_graph:
@@ -83,4 +85,44 @@ for metric in metrics_to_graph:
         x_label="Entropy",
         y_label=metric,
         output_path=f"{OUTPUT_DIR}/{metric}_vs_entropy.png",
+    )
+
+# ========== Basic Metrics by Dice Config ==========
+
+metrics_to_graph = [
+    "num_states",
+    "weighted_median_states",
+    "weighted_mean_entropy",
+    "weighted_mean_effective_states",
+    "weighted_mean_norm_entropy",
+    "weighted_mean_next_roll_entropy",
+    "weighted_mean_next_roll_max_probability",
+    "weighted_mean_expected_value",
+    "weighted_mean_ev_variance",
+]
+graph_df = (
+    config_df.assign(
+        target_depth=lambda df: (
+            df.groupby(["num_dice", "num_sides"])["depth"].transform("max") * 2 / 3
+        ),
+    )
+    .assign(depth_distance=lambda df: (df["depth"] - df["target_depth"]).abs())
+    .sort_values("depth_distance")
+    .groupby(["num_dice", "num_sides"])
+    .first()
+    .reset_index()
+)
+# graph a multi line with one line for every number of dice at depth 2/3
+for metric in metrics_to_graph:
+    line_dfs = {}
+    for num_dice, line_df in graph_df.groupby("num_dice"):
+        line_dfs[f"{num_dice} dice"] = line_df
+    graph_utils.save_multi_line(
+        line_dfs,
+        "num_sides",
+        metric,
+        f"{metric} vs Dice Config at 2/3 max depth",
+        "Number of Sides",
+        metric,
+        f"{OUTPUT_DIR}/{metric}_vs_dice_config.png",
     )

@@ -23,5 +23,6 @@ Find EV formulas using payout formula and probability of next peek
   - Distribution of next-peek probabilities.
 - Asymptotic Analysis
 - Human Performance
+- Minimize EV (for invariant algorithm), tweak formula
 - Paper
 - Publication/Outside connections
