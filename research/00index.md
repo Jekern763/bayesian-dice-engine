@@ -26,3 +26,6 @@ Find EV formulas using payout formula and probability of next peek
 - Minimize EV (for invariant algorithm), tweak formula
 - Paper
 - Publication/Outside connections
+  - OEIS
+  - Small Journal
+  - Update webiste to contain findings/paper
