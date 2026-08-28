@@ -1,3 +1,6 @@
+# ============= Jupyter Notebook ===========
+*.ipynb
+*.ipynb_checkpoints/
 # ==========================================
 # JavaScript / TypeScript / Node.js Additions
 # ==========================================
