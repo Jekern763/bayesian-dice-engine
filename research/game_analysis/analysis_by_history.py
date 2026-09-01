@@ -92,7 +92,7 @@ def get_guess_evs(
     """
     return {
         guess: sum(
-            calc_payout(roll, guess) * probability
+            calc_payout(guess, roll) * probability
             for roll, probability in possible_rolls.items()
         )
         for guess in allowed_guesses
