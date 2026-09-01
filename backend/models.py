@@ -50,7 +50,7 @@ class GameTemporaryRow(BaseModel):
     game: str = Field(
         ..., description="The complete current game state in a dictionary state"
     )
-    ttl: str = Field(
+    ttl: int = Field(
         ...,
         description="The unix epch timestamp in seconds when this row will be deleted",
     )
@@ -63,6 +63,8 @@ class GamePermanentDataRow(BaseModel):
     game: str = Field(
         ..., description="The complete current game state in a dictionary state"
     )
+
+    guess: int = Field(..., description="The actual guess by the player")
 
     payout: Decimal = Field(
         ..., description="Total payout for the session in decimal form (not float)"

@@ -181,7 +181,7 @@ async function handleGuess() {
 
     ui.setText("payout-amount", result.payout);
 
-    state.netScore += result.payout;
+    state.netScore += Number(result.payout);
     state.totalRounds++;
 
     storage.save();

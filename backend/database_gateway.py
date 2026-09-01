@@ -42,7 +42,7 @@ class DatabaseGateway:
         ten_days_in_seconds = 10 * 24 * 60 * 60
         ttl_timestamp = int(time()) + ten_days_in_seconds
         row = GameTemporaryRow(
-            session_id=session_id, game=game_state, ttl=str(ttl_timestamp)
+            session_id=session_id, game=game_state, ttl=ttl_timestamp
         )
         self.table.put_item(
             Item=row.model_dump(mode="python"),
@@ -57,11 +57,15 @@ class DatabaseGateway:
         return response.get("Item")
 
     def commit_guess_transaction(
-        self, session_id: str, game_state: str, payout: Decimal, other_data
+        self, session_id: str, game_state: str, guess, payout: Decimal, other_data
     ) -> None:
         # excutes an atomic  write and delete operation.
         row = GamePermanentDataRow(
-            session_id=session_id, game=game_state, payout=payout, other_data=other_data
+            session_id=session_id,
+            game=game_state,
+            guess=guess,
+            payout=payout,
+            other_data=other_data,
         )
         self.client.transact_write_items(
             TransactItems=[

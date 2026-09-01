@@ -31,9 +31,12 @@ class Game:
         self.state.past_rolls.append(roll)
         return roll
 
-    def calc_payout(self, guess: int, roll: int) -> float:
+    def calc_payout(
+        self, guess: int, roll: int, num_dice: int = 2, num_sides: int = 6
+    ) -> float:
 
-        base_stake = self.riskiness_multiplier * abs(guess - 7)
+        center = num_dice * ((num_sides + 1) / 2)
+        base_stake = self.riskiness_multiplier * abs(guess - center)
 
         distance = abs(roll - guess)
 
