@@ -113,7 +113,7 @@ def guess():
         validated_data.other_data,
     )
 
-    agent = ExpectimaxAgent()
+    agent = ExpectimaxAgent(1, 1)
     best_guess = agent.get_action(
         hydrated_game.state.past_rolls[:-1]
     )  # gets the previous peeks, just not including the 5th roll
