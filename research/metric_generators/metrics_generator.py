@@ -29,7 +29,7 @@ def write_csv(path: str, data: list):
     # Collect all unique keys from all dictionaries in the list
     all_keys = []
     for item in data:
-        for key in item.keys():
+        for key in item:
             if key not in all_keys:
                 all_keys.append(key)
 
