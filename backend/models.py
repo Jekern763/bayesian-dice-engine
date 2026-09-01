@@ -64,6 +64,8 @@ class GamePermanentDataRow(BaseModel):
         ..., description="The complete current game state in a dictionary state"
     )
 
+    guess: int = Field(..., description="The actual guess by the player")
+
     payout: Decimal = Field(
         ..., description="Total payout for the session in decimal form (not float)"
     )

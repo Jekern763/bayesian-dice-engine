@@ -108,6 +108,7 @@ def guess():
     database_gateway.commit_guess_transaction(
         str(validated_data.session_id),
         hydrated_game.to_json(),
+        validated_data.guess,
         payout_decimal,
         validated_data.other_data,
     )
