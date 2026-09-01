@@ -18,6 +18,8 @@ game_engine_dir = Path(
 
 module_dir = game_engine_dir.parent
 
+sys.path.append(game_engine_dir)
+
 if str(game_engine_dir) not in sys.path:
     sys.path.append(str(game_engine_dir))
 
