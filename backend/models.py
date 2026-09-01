@@ -50,7 +50,7 @@ class GameTemporaryRow(BaseModel):
     game: str = Field(
         ..., description="The complete current game state in a dictionary state"
     )
-    ttl: str = Field(
+    ttl: int = Field(
         ...,
         description="The unix epch timestamp in seconds when this row will be deleted",
     )

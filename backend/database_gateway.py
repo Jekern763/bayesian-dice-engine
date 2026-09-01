@@ -42,7 +42,7 @@ class DatabaseGateway:
         ten_days_in_seconds = 10 * 24 * 60 * 60
         ttl_timestamp = int(time()) + ten_days_in_seconds
         row = GameTemporaryRow(
-            session_id=session_id, game=game_state, ttl=str(ttl_timestamp)
+            session_id=session_id, game=game_state, ttl=ttl_timestamp
         )
         self.table.put_item(
             Item=row.model_dump(mode="python"),
