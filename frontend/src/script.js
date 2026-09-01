@@ -12,7 +12,7 @@ const state = {
   think_end_time: null,
 };
 
-const STORAGE_VERSION = "1.2";
+const STORAGE_VERSION = "1.3";
 
 const currentVersion = localStorage.getItem("storage_version");
 
