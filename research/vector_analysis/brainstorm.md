@@ -39,3 +39,5 @@ $$
 $$
 
 What does this mean for operations like magnitude, dot product, direction cosines, etc
+**Leaving open for later research**
+
